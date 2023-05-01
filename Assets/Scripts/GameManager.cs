@@ -2,16 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public TalkManager talkManager;
-    public QuestManager questManager;
+    [Header("Player")]
+    public GameObject Player;
+
+    [Header("UI")]
     public GameObject talkPanel;
     public Text talkText;
     public GameObject scanObject;
     public GameObject inventoryPanel;
+    public GameObject LoadWoodsUIPannel;
 
+    [Header("Manager")]
+    public TalkManager talkManager;
+    public QuestManager questManager;
+
+    [Header("Camera")]
+    public GameObject CampCamera;
+    public GameObject WoodsCamera;
+
+    [Header("SpawnArea")]
+    public Transform CampSpawnArea;
+    public Transform WestSpawnArea;
+    public Transform EastSpawnArea;
+    public Transform NorthSpawnArea;
+
+    [Header("Talk")]
     public int talkIndex;
 
     public bool isAction;
@@ -61,5 +80,39 @@ public class GameManager : MonoBehaviour
         }
     }
 
-   
+    public void LoadCame()
+    {
+        SceneManager.LoadScene("Camp");
+    }
+
+    public void LocatePlayerAtCamp()      // 집회소로 이동
+    {
+        CampCamera.GetComponent<CameraController>().center = new Vector2(0, 0);
+        CampCamera.GetComponent<CameraController>().size = new Vector2(18, 10);
+        Player.transform.position = CampSpawnArea.position;
+        Player.GetComponent<PlayerController>().isPlayerInWoods = false;
+    }
+
+    public void LocatePlayerAtWoods()     // 숲으로 이동, 이후에 북쪽, 동쪽 스폰 랜덤하게 구현하기
+    {
+        Player.transform.position = WestSpawnArea.position;
+        CampCamera.GetComponent<CameraController>().center = new Vector2(43, 9);
+        CampCamera.GetComponent<CameraController>().size = new Vector2(54, 28);
+        LoadWoodsUIPannel.SetActive(false);
+        Player.GetComponent<PlayerController>().isPlayerInWoods = true;
+        Time.timeScale = 1f;
+    }
+
+    public void CloseLoadWoodsUIPannelandResume()
+    {
+        LoadWoodsUIPannel.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    public void ResumeGame()        // 게임 일시정지 해제
+    {
+        Time.timeScale = 1f;
+    }
+
+
 }

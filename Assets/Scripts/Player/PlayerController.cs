@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float dodgeCooltime;        // dodge 쿨타임
 
+    public bool isPlayerInWoods;
+   
     private bool isWalk;
     private bool isHurt;
     private bool isDashButtonDown;
@@ -132,7 +134,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (gameManager.isAction || gameManager.activeInventory == true)    // 인벤토리 활성화, 대화 중일 때 공격 불가능
+        if (gameManager.isAction || gameManager.activeInventory || !isPlayerInWoods)    // 인벤토리 활성화, 대화 중, 캠프에서 공격 불가능
             shootObject.SetActive(false);
         else
             shootObject.SetActive(true);
