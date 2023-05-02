@@ -723,14 +723,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28727311d41343942a686aed2c6354a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  talkManager: {fileID: 0}
-  questManager: {fileID: 0}
+  Player: {fileID: 0}
   talkPanel: {fileID: 0}
   talkText: {fileID: 0}
   scanObject: {fileID: 0}
   inventoryPanel: {fileID: 0}
-  LoadWoodsUIPannel: {fileID: 0}
+  moveWoodsUIPanel: {fileID: 0}
+  moveCampUIPanel: {fileID: 0}
+  talkManager: {fileID: 0}
+  questManager: {fileID: 0}
+  MainCamera: {fileID: 0}
+  CampSpawnArea: {fileID: 0}
+  WestSpawnArea: {fileID: 0}
+  EastSpawnArea: {fileID: 0}
+  NorthSpawnArea: {fileID: 0}
   talkIndex: 0
+  unlitMaterial: {fileID: 0}
+  litMaterial: {fileID: 0}
   isAction: 0
   activeInventory: 0
 --- !u!1 &1788441242
@@ -816,7 +825,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1788441245}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1460767558}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: TurnOffGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1788441245
 MonoBehaviour:
   m_ObjectHideFlags: 0

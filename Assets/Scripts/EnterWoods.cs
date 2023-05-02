@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class EnterWoods : MonoBehaviour
 {
-    public GameObject EnterUIPannel;
+    public GameObject EnterUIPanel;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.gameObject.CompareTag("Player"))
         {
-            EnterUIPannel.SetActive(true);
+            EnterUIPanel.SetActive(true);
             Time.timeScale = 0f;
         }
     }
