@@ -46,7 +46,7 @@ public class TalkManager : MonoBehaviour
             if (!talkData.ContainsKey(id - id % 10))
                 return GetTalk(id - id % 100, talkIndex);
             else
-                return GetTalk(id - id % 10, talkIndex);
+                return GetTalk(id - id % 10 + 1, talkIndex);
         }
 
         if (talkIndex == talkData[id].Length)

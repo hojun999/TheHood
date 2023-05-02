@@ -14,7 +14,11 @@ public class QuestManager : MonoBehaviour
 
     public GameObject[] questObject;
 
-    public bool isCheckQuestArea;
+    [HideInInspector] public bool isCheckQuestArea;
+    [HideInInspector] public bool isGetMalfuncionedGun;
+    [HideInInspector] public bool isGetInjector;
+    [HideInInspector] public bool isGetClothesWithBlood;
+    [HideInInspector] public int eliminateEnemyNum = 8;
 
     Dictionary<int, QuestData> questList;
 
@@ -38,22 +42,22 @@ public class QuestManager : MonoBehaviour
 
     public string checkQuest(int id)      // 정해진 npc와 대화를 할 때만 index++
     {
-        // 퀘스트 대화가 끝나면 다음 대화로 순서 변경(가이드 영상에서는 1번npc > 2번npc 이므로 이 함수와 밑의 if문은 서로 다른 npc의 대화를 호출함. 나는 같은 npc에서 대화를 호출하므로 이에 대해서 다시 작성해야됨.
-
+        // 퀘스트 대화가 끝나면 그 퀘스트의 다음 대화 출력
         if (id == questList[questId].npcId[0])
             questActionIndex++;
-        else if (id == questList[questId].npcId[1])
-        {
 
-        }
+        // 대화 계속해서 다음 퀘스트로 넘어가지 않게 조절
+        if (questActionIndex == 5)      
+            questActionIndex = 1;
 
         // 퀘스트에 따라 보여야 할 object 관리.
         ControlObject();
 
-        //if (questActionIndex == questList[questId].npcId.Length)
-        //    NextQuest();
-
         if (isCheckQuestArea && questId == 10)
+            NextQuest();
+        if (isGetClothesWithBlood && isGetInjector && isGetMalfuncionedGun && questId == 20)
+            NextQuest();
+        if (eliminateEnemyNum == 0 && questId == 30)
             NextQuest();
 
         return questList[questId].questName;
@@ -76,15 +80,7 @@ public class QuestManager : MonoBehaviour
     //    return questList[questId].questName;
     //}
 
-    private void OnCollisionEnter2D(Collision2D collision)      // 1번 퀘스트 클리어 조건
-    {
-        if (collision.gameObject.CompareTag("Quest1Area"))
-        {
-            isCheckQuestArea = true;
-            //ongoingQuestImage_Quest1.SetActive(false);
-            //ongoingQuestImage_Clear_Quest1.SetActive(true);
-        }
-    }
+    
 
     void ControlObject()
     {

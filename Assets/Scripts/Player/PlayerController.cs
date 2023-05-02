@@ -5,14 +5,21 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Stats")]
     public float hp;
     public float energy;
+    public float moveSpeed;
+    public float dodgeCooltime;        // dodge ÄðÅ¸ÀÓ
 
+    [Header("Manager")]
     public GameManager gameManager;
     public InventoryManager inventoryManager;
+    public QuestManager questManager;
 
+    [Header("Attack")]
     public GameObject shootObject;
 
+    [Header("CanGetItemList")]
     public Item[] fieldItems;
 
     Rigidbody2D rb;
@@ -22,14 +29,9 @@ public class PlayerController : MonoBehaviour
     Color fullA = new Color(1, 1, 1, 1);
 
     private float h, v;
-
-    public float moveSpeed;
-
     private float timer;
-    [SerializeField]
-    private float dodgeCooltime;        // dodge ÄðÅ¸ÀÓ
 
-    public bool isPlayerInWoods;
+    [HideInInspector] public bool isPlayerInWoods;
    
     private bool isWalk;
     private bool isHurt;
@@ -184,6 +186,13 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("EnemyAtk"))
         {
             Hurt(collision.GetComponentInParent<Enemy>().damage);
+        }
+
+        if (collision.gameObject.CompareTag("QuestArea"))
+        {
+            questManager.GetComponent<QuestManager>().isCheckQuestArea = true;
+            //ongoingQuestImage_Quest1.SetActive(false);
+            //ongoingQuestImage_Clear_Quest1.SetActive(true);
         }
     }
 

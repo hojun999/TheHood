@@ -66,7 +66,8 @@ public class GameManager : MonoBehaviour
             return;         // -void 함수에서 return은 함수의 종료를 의미-
         }
 
-        if (isNpc)          // 대화 분기점(npc, 아이템 마다 설정 가능)
+        // 대화 분기점(npc, 아이템 마다 설정 가능)
+        if (isNpc)          
         {
             talkText.text = talkData;
         }

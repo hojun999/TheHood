@@ -10,6 +10,7 @@ TagManager:
   - Item
   - NPC
   - EnemyAtk
+  - QuestArea
   layers:
   - Default
   - TransparentFX
