@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         // dash
-        if (Input.GetKeyDown(KeyCode.Space) && !gameManager.isAction)
+        if (Input.GetKeyDown(KeyCode.Space) && !gameManager.isAction && isReadyDash)
             isDashButtonDown = true;
 
 
@@ -174,6 +174,7 @@ public class PlayerController : MonoBehaviour
         if (isDashButtonDown && isReadyDash)
         {
             StartCoroutine(Dash());
+            isDashButtonDown = false;
         }
         #endregion
     }
@@ -211,7 +212,7 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(new Vector2(h, v).normalized * dodgePower, ForceMode2D.Impulse);     // 움직임 값에 따른 addforce 방향 설정
         isReadyDash = false;
         yield return new WaitForSeconds(2f);        // 대쉬 쿨타임
-        isDashButtonDown = false;
+        //isDashButtonDown = false;
     }
 
     public void GetItem(int id)
