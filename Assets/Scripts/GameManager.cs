@@ -53,13 +53,16 @@ public class GameManager : MonoBehaviour
 
     void Talk(int id, bool isNpc)
     {
+        // 대화 데이터 세팅
         int questTalkIndex = questManager.GetQuestTalkIndex(id);
         string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex);
 
-        if(talkData == null)        // 각 캐릭터의 대화가 끝났을 때
+        // 캐릭터의 각 대화가 끝났을 때
+        if (talkData == null)
         {
             isAction = false;
             talkIndex = 0;
+            questManager.checkQuest(2000);
             return;         // -void 함수에서 return은 함수의 종료를 의미-
         }
 
@@ -71,6 +74,8 @@ public class GameManager : MonoBehaviour
         {
             talkText.text = talkData;
         }
+
+        
 
         isAction = true;
         talkIndex++;
@@ -86,7 +91,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void LocatePlayerAtCamp()      // 집회소로 이동
+    public void LocatePlayerAtCamp()      // 캠프로 이동
     {
         Player.transform.position = CampSpawnArea.transform.position;
         MainCamera.GetComponent<CameraController>().center = new Vector2(0, 0);
