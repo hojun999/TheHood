@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d6e82b7c14e48cd4fa7a4bcf51f1e4aa
+guid: db3df000427ec5f43a321c88e21075bc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 128
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -105,7 +105,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Plazma_SpriteSheet_0
+      name: BloodExplosion_0
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +119,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52cb41a436019154783131307571b23a
-      internalID: 1339889966
+      spriteID: bb25875e20f9fc84ea6b76284daced66
+      internalID: -1083048993
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Plazma_SpriteSheet_1
+      name: BloodExplosion_1
       rect:
         serializedVersion: 2
         x: 64
@@ -140,14 +140,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: acef1cb1a62795c4da406e159262279d
-      internalID: 1594540232
+      spriteID: 40f44ec6c4cb3bb4c9d07fa42f8f1720
+      internalID: 1025540678
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Plazma_SpriteSheet_2
+      name: BloodExplosion_2
       rect:
         serializedVersion: 2
         x: 128
@@ -161,14 +161,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 870cada74ac98c54195da24f59198746
-      internalID: 125170028
+      spriteID: 01811de188320f441837cbb616d53d1d
+      internalID: -2137276
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Plazma_SpriteSheet_3
+      name: BloodExplosion_3
       rect:
         serializedVersion: 2
         x: 192
@@ -182,14 +182,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 25b1a65134d427c4497b9654b0b5dfed
-      internalID: -756391482
+      spriteID: c305f8a95c9b87649905d779b9de6874
+      internalID: 508075687
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Plazma_SpriteSheet_4
+      name: BloodExplosion_4
       rect:
         serializedVersion: 2
         x: 0
@@ -203,14 +203,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f8161c54aac30954ea44060fe3e64890
-      internalID: 572865665
+      spriteID: 607cf1cedc9abf3489c8459540f6497d
+      internalID: 210448183
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Plazma_SpriteSheet_5
+      name: BloodExplosion_5
       rect:
         serializedVersion: 2
         x: 64
@@ -224,14 +224,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fef092055eabdda49a41546655584a7f
-      internalID: -988234194
+      spriteID: 4d9c2e6cb55ef4846b21c764323da8ab
+      internalID: -762407358
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Plazma_SpriteSheet_6
+      name: BloodExplosion_6
       rect:
         serializedVersion: 2
         x: 128
@@ -245,14 +245,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: abade3751fcceba478fc3fbfaadc711f
-      internalID: -826961014
+      spriteID: ae3b8c3e7d8e85b429a2bcbdc0ade755
+      internalID: 2097184715
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Plazma_SpriteSheet_7
+      name: BloodExplosion_7
       rect:
         serializedVersion: 2
         x: 192
@@ -266,14 +266,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1c41b3484b307b489a0439aa62400d9
-      internalID: 689891403
+      spriteID: b11942558fdf03244a60128f1aec40f8
+      internalID: -1678050190
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Plazma_SpriteSheet_8
+      name: BloodExplosion_8
       rect:
         serializedVersion: 2
         x: 0
@@ -287,14 +287,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 649d6713163b2a34cac2e9b683e8ff82
-      internalID: -867436165
+      spriteID: d6edb292394a28645969b56bfc995b24
+      internalID: -1725496108
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Plazma_SpriteSheet_9
+      name: BloodExplosion_9
       rect:
         serializedVersion: 2
         x: 64
@@ -308,8 +308,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a0b29a4ec1aa1cc40ab0b9e628cef283
-      internalID: -62281748
+      spriteID: 59ac7847dd27a7f4c96237f3c82a0412
+      internalID: 1130209356
       vertices: []
       indices: 
       edges: []
@@ -325,16 +325,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Plazma_SpriteSheet_0: 1339889966
-      Plazma_SpriteSheet_1: 1594540232
-      Plazma_SpriteSheet_2: 125170028
-      Plazma_SpriteSheet_3: -756391482
-      Plazma_SpriteSheet_4: 572865665
-      Plazma_SpriteSheet_5: -988234194
-      Plazma_SpriteSheet_6: -826961014
-      Plazma_SpriteSheet_7: 689891403
-      Plazma_SpriteSheet_8: -867436165
-      Plazma_SpriteSheet_9: -62281748
+      BloodExplosion_0: -1083048993
+      BloodExplosion_1: 1025540678
+      BloodExplosion_2: -2137276
+      BloodExplosion_3: 508075687
+      BloodExplosion_4: 210448183
+      BloodExplosion_5: -762407358
+      BloodExplosion_6: 2097184715
+      BloodExplosion_7: -1678050190
+      BloodExplosion_8: -1725496108
+      BloodExplosion_9: 1130209356
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

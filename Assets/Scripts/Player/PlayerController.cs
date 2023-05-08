@@ -183,14 +183,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // 플레이어 피격
         if (collision.CompareTag("EnemyAtk"))
         {
             Hurt(collision.GetComponentInParent<Enemy>().damage);
         }
 
+        // 1번 퀘스트 
         if (collision.gameObject.CompareTag("QuestArea"))
         {
-            questManager.GetComponent<QuestManager>().isCheckQuestArea = true;
+            questManager.GetComponent<QuestManager>().NextQuest();
             //ongoingQuestImage_Quest1.SetActive(false);
             //ongoingQuestImage_Clear_Quest1.SetActive(true);
         }

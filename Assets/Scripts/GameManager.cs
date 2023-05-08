@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour
     public Material litMaterial;
 
 
-    public bool isAction;
-    public bool activeInventory = false;
+    [HideInInspector]public bool isAction;
+    [HideInInspector]public bool activeInventory = false;
     
 
     public void talkAction(GameObject scanObj)
@@ -47,6 +47,11 @@ public class GameManager : MonoBehaviour
         scanObject = scanObj;
         ObjData objData = scanObject.GetComponent<ObjData>();
         Talk(objData.id, objData.isNpc);
+
+        if (scanObj.GetComponent<ObjData>().isQuestNpc)
+        {
+            Talk(objData.id + questManager)
+        }
 
         talkPanel.SetActive(isAction);
     }
@@ -60,9 +65,10 @@ public class GameManager : MonoBehaviour
         // 캐릭터의 각 대화가 끝났을 때
         if (talkData == null)
         {
+            Debug.Log(id);
             isAction = false;
             talkIndex = 0;
-            questManager.checkQuest(2000);
+            questManager.checkQuest(id);
             return;         // -void 함수에서 return은 함수의 종료를 의미-
         }
 

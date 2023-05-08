@@ -42,7 +42,7 @@ public class QuestManager : MonoBehaviour
 
     public string checkQuest(int id)      // 정해진 npc와 대화를 할 때만 index++
     {
-        // 퀘스트 대화가 끝나면 그 퀘스트의 다음 대화 출력
+        // 퀘스트 대화가 끝나면  그 퀘스트의 다음 대화 출력
         if (id == questList[questId].npcId[0])
             questActionIndex++;
 
@@ -53,34 +53,26 @@ public class QuestManager : MonoBehaviour
         // 퀘스트에 따라 보여야 할 object 관리.
         ControlObject();
 
-        if (isCheckQuestArea && questId == 10)
-            NextQuest();
-        if (isGetClothesWithBlood && isGetInjector && isGetMalfuncionedGun && questId == 20)
-            NextQuest();
-        if (eliminateEnemyNum == 0 && questId == 30)
-            NextQuest();
+        //if (isCheckQuestArea && questId == 10)
+        //    NextQuest();
+        //if (isGetClothesWithBlood && isGetInjector && isGetMalfuncionedGun && questId == 20)
+        //    NextQuest();
+        //if (eliminateEnemyNum == 0 && questId == 30)
+        //    NextQuest();
 
         return questList[questId].questName;
     }
 
-    public int GetQuestTalkIndex(int id)    // 한 퀘스트 내에서의 다음 대화 출력 (수락 x > 수락 o)
+    public int GetQuestTalkIndex(int id)    // 한 퀘스트 내에서의 다음 대화 출력 (수락 x 상태 대화 > 수락 o 상태 대화)
     {
         return questId + questActionIndex;      // 퀘스트 번호 + 퀘스트 대화 순서
     }
 
-    void NextQuest()
+    public void NextQuest()
     {
         questId += 10;
         questActionIndex = 0;
     }
-
-    // 퀘스트 이름 반환
-    //public string checkQuest()
-    //{
-    //    return questList[questId].questName;
-    //}
-
-    
 
     void ControlObject()
     {
