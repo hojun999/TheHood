@@ -5010,14 +5010,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questId: 10
   questActionIndex: 0
-  required_Area_Quest1: {fileID: 0}
-  ongoingQuestImage_Quest1: {fileID: 0}
-  ongoingQuestImage_Clear_Quest1: {fileID: 0}
-  questObject: []
-  isCheckQuestArea: 0
-  isGetMalfuncionedGun: 0
-  isGetInjector: 0
-  isGetClothesWithBlood: 0
+  required_Area_Quest1: {fileID: 2057901824}
+  inProgressQuestImage_Quest1: {fileID: 0}
+  inProgressImage_Clear_Quest1: {fileID: 0}
+  required_ItemGroup_Quest2: {fileID: 603774732}
+  inProgressQuestImage_Quest2: {fileID: 0}
+  inProgressImage_Clear_Quest2: {fileID: 0}
+  enemyGroup_Quest3: {fileID: 1017535537}
+  inProgressQuestImage_Quest3: {fileID: 0}
+  inProgressImage_Clear_Quest3: {fileID: 0}
+  isCheckArea_Quest1: 0
+  getItemNum_Quest2: 0
   eliminateEnemyNum: 8
 --- !u!4 &215248206
 Transform:
@@ -10982,6 +10985,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 600018439}
   m_CullTransparentMesh: 1
+--- !u!1 &603774732
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 603774733}
+  m_Layer: 0
+  m_Name: required_ItemGroup_Quest2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &603774733
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603774732}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.05, y: 6.78, z: -0.052763764}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 24
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &605816968 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -8318442290281087133, guid: a4a7e8e730d3f6c4f87b51795a57e55e, type: 3}
@@ -11506,13 +11540,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 637522622}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22, y: 7, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 9.771608, y: 3.3405914, z: 0.052847687}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_Father: {fileID: 2057901825}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &642985026
 GameObject:
@@ -11717,6 +11751,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1000
   isNpc: 1
+  isQuestNpc: 0
 --- !u!50 &650797375
 Rigidbody2D:
   serializedVersion: 4
@@ -18686,6 +18721,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1017535537
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1017535538}
+  m_Layer: 0
+  m_Name: enemyGroup_Quest3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1017535538
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1017535537}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.228392, y: 3.6594086, z: -0.052847687}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 25
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1022953271
 GameObject:
   m_ObjectHideFlags: 0
@@ -38778,7 +38844,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1270640064
 GameObject:
@@ -41215,6 +41281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2000
   isNpc: 1
+  isQuestNpc: 1
 --- !u!1 &1393076212
 GameObject:
   m_ObjectHideFlags: 0
@@ -44918,6 +44985,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3000
   isNpc: 1
+  isQuestNpc: 0
 --- !u!50 &1604117902
 Rigidbody2D:
   serializedVersion: 4
@@ -52165,6 +52233,38 @@ Transform:
   - {fileID: 2094089970}
   m_Father: {fileID: 955237289}
   m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2057901824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2057901825}
+  m_Layer: 0
+  m_Name: required_Area_Quest1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2057901825
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057901824}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.228392, y: 3.6594086, z: -0.052847687}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 637522625}
+  m_Father: {fileID: 0}
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2064400120
 GameObject:

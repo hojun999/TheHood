@@ -112,6 +112,7 @@ public class PlayerController : MonoBehaviour
             if (scanObject.name == "Clothes_With_Blood")
             {
                 GetItem(0);
+                questManager.getItemNum_Quest2--;
                 scanObject.SetActive(false);
             }
             else if(scanObject.name == "HpPosion")
@@ -122,11 +123,13 @@ public class PlayerController : MonoBehaviour
             else if (scanObject.name == "Injector")
             {
                 GetItem(2);
+                questManager.getItemNum_Quest2--;
                 scanObject.SetActive(false);
             }
             else if (scanObject.name == "MalfunctionedGun")
             {
                 GetItem(3);
+                questManager.getItemNum_Quest2--;
                 scanObject.SetActive(false);
             }
             else if (scanObject.name == "SpeedUpPosion")
@@ -193,6 +196,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("QuestArea"))
         {
             questManager.GetComponent<QuestManager>().NextQuest();
+            questManager.required_Area_Quest1.SetActive(false);
             //ongoingQuestImage_Quest1.SetActive(false);
             //ongoingQuestImage_Clear_Quest1.SetActive(true);
         }

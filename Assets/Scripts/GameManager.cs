@@ -47,17 +47,28 @@ public class GameManager : MonoBehaviour
         scanObject = scanObj;
         ObjData objData = scanObject.GetComponent<ObjData>();
         Talk(objData.id, objData.isNpc);
-
-        if (scanObj.GetComponent<ObjData>().isQuestNpc)
-        {
-            Talk(objData.id + questManager)
-        }
-
         talkPanel.SetActive(isAction);
+
+        //if (scanObj.GetComponent<ObjData>().isQuestNpc)
+        //{
+        //    Talk(objData.id + questManager.questId + questManager.questActionIndex - 10, objData.isNpc);
+        //    talkPanel.SetActive(isAction);
+        //}
+        //else
+        //{
+            
+        //}
+
     }
 
     void Talk(int id, bool isNpc)
     {
+        Debug.Log("넘어온 id : " + id);
+        Debug.Log("questManager.questId : " + questManager.questId);
+        Debug.Log("questManager.questActionIndex : " + questManager.questActionIndex);
+        Debug.Log("questTalkIndex : " +  questManager.GetQuestTalkIndex(id));
+        Debug.Log("talkindex : " + talkIndex);
+
         // 대화 데이터 세팅
         int questTalkIndex = questManager.GetQuestTalkIndex(id);
         string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex);
@@ -65,7 +76,6 @@ public class GameManager : MonoBehaviour
         // 캐릭터의 각 대화가 끝났을 때
         if (talkData == null)
         {
-            Debug.Log(id);
             isAction = false;
             talkIndex = 0;
             questManager.checkQuest(id);
@@ -82,10 +92,11 @@ public class GameManager : MonoBehaviour
             talkText.text = talkData;
         }
 
-        
-
         isAction = true;
         talkIndex++;
+
+        Debug.Log("talkindex : " + talkIndex);
+
     }
 
     private void Update()
