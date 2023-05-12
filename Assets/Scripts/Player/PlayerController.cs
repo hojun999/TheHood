@@ -22,6 +22,20 @@ public class PlayerController : MonoBehaviour
     [Header("CanGetItemList")]
     public Item[] fieldItems;
 
+    [Header("BeforeGetItemTextUI")]
+    public GameObject BeforeGetText_QuestArea;
+    public GameObject BeforeGetText_Clothes_With_Blood;
+    public GameObject BeforeGetText_Injector;
+    public GameObject BeforeGetText_RustyGun;
+
+    [Header("AfterGetItemTextUI")]
+    public GameObject AfterGetText_QuestArea;
+    public GameObject AfterGetText_Clothes_With_Blood;
+    public GameObject AfterGetText_Injector;
+    public GameObject AfterGetText_RustyGun;
+    
+
+
     Rigidbody2D rb;
     Animator anim;
     SpriteRenderer sr;
@@ -113,6 +127,8 @@ public class PlayerController : MonoBehaviour
             {
                 GetItem(0);
                 questManager.getItemNum_Quest2--;
+                BeforeGetText_Clothes_With_Blood.SetActive(false);
+                AfterGetText_Clothes_With_Blood.SetActive(true);
                 scanObject.SetActive(false);
             }
             else if(scanObject.name == "HpPosion")
@@ -124,12 +140,16 @@ public class PlayerController : MonoBehaviour
             {
                 GetItem(2);
                 questManager.getItemNum_Quest2--;
+                BeforeGetText_Injector.SetActive(false);
+                AfterGetText_Injector.SetActive(true);
                 scanObject.SetActive(false);
             }
-            else if (scanObject.name == "MalfunctionedGun")
+            else if (scanObject.name == "RustyGun")
             {
                 GetItem(3);
                 questManager.getItemNum_Quest2--;
+                BeforeGetText_RustyGun.SetActive(false);
+                AfterGetText_RustyGun.SetActive(true);
                 scanObject.SetActive(false);
             }
             else if (scanObject.name == "SpeedUpPosion")
@@ -197,8 +217,8 @@ public class PlayerController : MonoBehaviour
         {
             questManager.GetComponent<QuestManager>().NextQuest();
             questManager.required_Area_Quest1.SetActive(false);
-            //ongoingQuestImage_Quest1.SetActive(false);
-            //ongoingQuestImage_Clear_Quest1.SetActive(true);
+            BeforeGetText_QuestArea.SetActive(false);
+            AfterGetText_QuestArea.SetActive(true);
         }
     }
 

@@ -10,30 +10,26 @@ public class QuestManager : MonoBehaviour
 
     [Header("Quest1")]
     public GameObject required_Area_Quest1;     // 퀘스트 1의 숲 맵 특정 지역 탐색, 빈 오브젝트 boxcollider2d 넣어서 oncollisionenter2d로 관리
-    public GameObject inProgressQuestImage_Quest1;      // 퀘스트 1의 진행 상황 UI
-    public GameObject inProgressImage_Clear_Quest1;      // 퀘스트 1의 진행 상황 UI
+    public GameObject inProgressQuestImage_Quest1;
 
     [Header("Quest2")]
     public GameObject required_ItemGroup_Quest2;
-    public GameObject inProgressQuestImage_Quest2;      
-    public GameObject inProgressImage_Clear_Quest2;      
+    public GameObject inProgressQuestImage_Quest2;
+    public int getItemNum_Quest2;
 
 
     [Header("Quest3")]
     public GameObject enemyGroup_Quest3;
     public GameObject inProgressQuestImage_Quest3;      
-    public GameObject inProgressImage_Clear_Quest3;      
 
     [Header("Quest4")]
     //public GameObject enemyGruop_Quest4;
     //public GameObject inProgressQuestImage_Quest4;
-    //public GameObject inProgressImage_Clear_Quest4;
 
 
     [HideInInspector] public bool isCheckArea_Quest1;
-
-    [HideInInspector] public int getItemNum_Quest2 = 3;
     [HideInInspector] public int eliminateEnemyNum = 8;
+
 
     Dictionary<int, QuestData> questList;
 
@@ -41,12 +37,8 @@ public class QuestManager : MonoBehaviour
     {
         questList = new Dictionary<int, QuestData>();
         GenerateData();
-    }
 
-    private void Update()
-    {
-        
-
+        getItemNum_Quest2 = 3;
     }
 
     private void GenerateData()     // 퀘스트 목록 생성
@@ -57,7 +49,7 @@ public class QuestManager : MonoBehaviour
 
         questList.Add(30, new QuestData("부하 사살", new int[] { 2000, 2000 }));
 
-        questList.Add(40, new QuestData("말머리 패거리 처단", new int[] { 2000, 2000 }));
+        questList.Add(40, new QuestData("말머리 패거리 정리", new int[] { 2000, 2000 }));
 
     }
 
@@ -71,18 +63,27 @@ public class QuestManager : MonoBehaviour
         if (questActionIndex == 5)      
             questActionIndex = 1;
 
-        if (questId == 10)
+        if (questId == 10)      // 다음 퀘스트로 넘기는 부분은 PlayerController의 oncollisionenter에서 처리
         {
+            inProgressQuestImage_Quest1.SetActive(true);        // checkQuest 함수가 대화(spacebar) '직후' 호출되므로 퀘스트UI오브젝트를 여기에 배치함
             required_Area_Quest1.SetActive(true);
         }
-        else if (questId == 20)
+        else if (questId == 20)     // 다음 퀘스트로 넘기는 부분은 GameManager Talk()에서 처리
         {
+            inProgressQuestImage_Quest1.SetActive(false);
+            inProgressQuestImage_Quest2.SetActive(true);
             required_ItemGroup_Quest2.SetActive(true);
-            if (getItemNum_Quest2 == 0)
-                required_ItemGroup_Quest2.SetActive(false);
+            //if (getItemNum_Quest2 == 0)
+            //{
+            //    required_ItemGroup_Quest2.SetActive(false);
+            //    NextQuest();
+            //    getItemNum_Quest2 += 100;
+            //}
         }
-        else if (questId == 30)
-        {
+        else if (questId == 30)     // 다음 퀘스트로 넘기는 부분 GameManager Talk()에서 처리할 '예정'
+        {            
+            inProgressQuestImage_Quest2.SetActive(false);
+            inProgressQuestImage_Quest3.SetActive(true);
             enemyGroup_Quest3.SetActive(true);
             if (eliminateEnemyNum == 0)
                 enemyGroup_Quest3.SetActive(false);

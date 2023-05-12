@@ -63,15 +63,23 @@ public class GameManager : MonoBehaviour
 
     void Talk(int id, bool isNpc)
     {
-        Debug.Log("넘어온 id : " + id);
-        Debug.Log("questManager.questId : " + questManager.questId);
-        Debug.Log("questManager.questActionIndex : " + questManager.questActionIndex);
-        Debug.Log("questTalkIndex : " +  questManager.GetQuestTalkIndex(id));
-        Debug.Log("talkindex : " + talkIndex);
+        //Debug.Log("넘어온 id : " + id);
+        //Debug.Log("questManager.questId : " + questManager.questId);
+        //Debug.Log("questManager.questActionIndex : " + questManager.questActionIndex);
+        //Debug.Log("questTalkIndex : " +  questManager.GetQuestTalkIndex(id));
+        //Debug.Log("talkindex : " + talkIndex);
+        Debug.Log(questManager.getItemNum_Quest2);
 
         // 대화 데이터 세팅
         int questTalkIndex = questManager.GetQuestTalkIndex(id);
         string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex);
+
+        if (questManager.getItemNum_Quest2 == 0)
+        {
+            questManager.required_ItemGroup_Quest2.SetActive(false);
+            questManager.NextQuest();
+            questManager.getItemNum_Quest2 += 100;
+        }
 
         // 캐릭터의 각 대화가 끝났을 때
         if (talkData == null)
