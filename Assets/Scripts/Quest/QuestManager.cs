@@ -20,11 +20,17 @@ public class QuestManager : MonoBehaviour
 
     [Header("Quest3")]
     public GameObject enemyGroup_Quest3;
-    public GameObject inProgressQuestImage_Quest3;      
+    public GameObject inProgressQuestImage_Quest3;
 
     [Header("Quest4")]
     //public GameObject enemyGruop_Quest4;
     //public GameObject inProgressQuestImage_Quest4;
+
+    [Header("QuestUI")]
+    public GameObject questionMark;
+    public GameObject exMark;
+    public GameObject Direction_Right;
+    public GameObject Direction_Up;
 
 
     [HideInInspector] public bool isCheckArea_Quest1;
@@ -67,26 +73,28 @@ public class QuestManager : MonoBehaviour
         {
             inProgressQuestImage_Quest1.SetActive(true);        // checkQuest 함수가 대화(spacebar) '직후' 호출되므로 퀘스트UI오브젝트를 여기에 배치함
             required_Area_Quest1.SetActive(true);
+            exMark.SetActive(false);
+            questionMark.SetActive(true);
+            Direction_Right.SetActive(true);
+            Direction_Up.SetActive(false);
         }
         else if (questId == 20)     // 다음 퀘스트로 넘기는 부분은 GameManager Talk()에서 처리
         {
             inProgressQuestImage_Quest1.SetActive(false);
             inProgressQuestImage_Quest2.SetActive(true);
             required_ItemGroup_Quest2.SetActive(true);
-            //if (getItemNum_Quest2 == 0)
-            //{
-            //    required_ItemGroup_Quest2.SetActive(false);
-            //    NextQuest();
-            //    getItemNum_Quest2 += 100;
-            //}
+            exMark.SetActive(false);
+            questionMark.SetActive(true);
         }
-        else if (questId == 30)     // 다음 퀘스트로 넘기는 부분 GameManager Talk()에서 처리할 '예정'
+        else if (questId == 30)     // 다음 퀘스트로 넘기는 부분 GameManager Update()에서 처리
         {            
             inProgressQuestImage_Quest2.SetActive(false);
             inProgressQuestImage_Quest3.SetActive(true);
             enemyGroup_Quest3.SetActive(true);
             if (eliminateEnemyNum == 0)
                 enemyGroup_Quest3.SetActive(false);
+            exMark.SetActive(false);
+            questionMark.SetActive(true);
         }
         //else if (questid == 40)
         //{

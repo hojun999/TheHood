@@ -33,6 +33,10 @@ public class PlayerController : MonoBehaviour
     public GameObject AfterGetText_Clothes_With_Blood;
     public GameObject AfterGetText_Injector;
     public GameObject AfterGetText_RustyGun;
+
+    [Header("QuestUI")]
+    public GameObject questionMark;
+    public GameObject exMark;
     
 
 
@@ -219,6 +223,8 @@ public class PlayerController : MonoBehaviour
             questManager.required_Area_Quest1.SetActive(false);
             BeforeGetText_QuestArea.SetActive(false);
             AfterGetText_QuestArea.SetActive(true);
+            questionMark.SetActive(false);
+            exMark.SetActive(true);
         }
     }
 

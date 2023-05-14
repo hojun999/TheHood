@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject inventoryPanel;
     public GameObject moveWoodsUIPanel;
     public GameObject moveCampUIPanel;
+    public GameObject subMenuUIPanel;
 
     [Header("Manager")]
     public TalkManager talkManager;
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]public bool isAction;
     [HideInInspector]public bool activeInventory = false;
+    private bool activeSubMenu;
     
 
     public void talkAction(GameObject scanObj)
@@ -48,16 +50,6 @@ public class GameManager : MonoBehaviour
         ObjData objData = scanObject.GetComponent<ObjData>();
         Talk(objData.id, objData.isNpc);
         talkPanel.SetActive(isAction);
-
-        //if (scanObj.GetComponent<ObjData>().isQuestNpc)
-        //{
-        //    Talk(objData.id + questManager.questId + questManager.questActionIndex - 10, objData.isNpc);
-        //    talkPanel.SetActive(isAction);
-        //}
-        //else
-        //{
-            
-        //}
 
     }
 
@@ -68,18 +60,18 @@ public class GameManager : MonoBehaviour
         //Debug.Log("questManager.questActionIndex : " + questManager.questActionIndex);
         //Debug.Log("questTalkIndex : " +  questManager.GetQuestTalkIndex(id));
         //Debug.Log("talkindex : " + talkIndex);
-        Debug.Log(questManager.getItemNum_Quest2);
+        //Debug.Log(questManager.getItemNum_Quest2);
 
         // 대화 데이터 세팅
         int questTalkIndex = questManager.GetQuestTalkIndex(id);
         string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex);
 
-        if (questManager.getItemNum_Quest2 == 0)
-        {
-            questManager.required_ItemGroup_Quest2.SetActive(false);
-            questManager.NextQuest();
-            questManager.getItemNum_Quest2 += 100;
-        }
+        //if (questManager.getItemNum_Quest2 == 0)
+        //{
+        //    questManager.required_ItemGroup_Quest2.SetActive(false);
+        //    questManager.NextQuest();
+        //    questManager.getItemNum_Quest2 += 100;
+        //}
 
         // 캐릭터의 각 대화가 끝났을 때
         if (talkData == null)
@@ -113,6 +105,24 @@ public class GameManager : MonoBehaviour
         {
             activeInventory = !activeInventory;
             inventoryPanel.SetActive(activeInventory);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            activeSubMenu = !activeSubMenu;
+            subMenuUIPanel.SetActive(activeSubMenu);
+        }
+
+        if (activeSubMenu)
+            Time.timeScale = 0f;
+        else
+            Time.timeScale = 1f;
+
+        if (questManager.getItemNum_Quest2 == 0)        // 퀘스트2 클리어 처리
+        {
+            questManager.NextQuest();
+            questManager.required_ItemGroup_Quest2.SetActive(false);
+            questManager.getItemNum_Quest2 += 100;      // 조건문 한 번만 호출
         }
     }
 
@@ -165,7 +175,8 @@ public class GameManager : MonoBehaviour
 
     public void ResumeGame()        // 게임 일시정지 해제
     {
-        Time.timeScale = 1f;
+        activeSubMenu = false;
+        subMenuUIPanel.SetActive(false);
     }
 
     public void LoadCamp()
@@ -176,6 +187,11 @@ public class GameManager : MonoBehaviour
     public void TurnOffGame()
     {
         Application.Quit();
+    }
+
+    public void ReturnMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
 
