@@ -115,8 +115,6 @@ public class GameManager : MonoBehaviour
 
         if (activeSubMenu)
             Time.timeScale = 0f;
-        else
-            Time.timeScale = 1f;
 
         if (questManager.getItemNum_Quest2 == 0)        // 퀘스트2 클리어 처리
         {
@@ -177,6 +175,7 @@ public class GameManager : MonoBehaviour
     {
         activeSubMenu = false;
         subMenuUIPanel.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     public void LoadCamp()
