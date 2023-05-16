@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
 
+    public AudioMixer mixer;
     public AudioSource bgSound;
-
     public AudioClip[] bglist;
 
     private void Awake()
@@ -35,9 +36,14 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void BGSoundVolume(float val)
+    {
+        mixer.SetFloat("BGSoundVolume", MathF.Log10(val) * 20);
+    }
 
     public void BgSoundPlay(AudioClip clip)
     {
+        bgSound.outputAudioMixerGroup = mixer.FindMatchingGroups("BGSound")[0];
         bgSound.clip = clip;
         bgSound.loop = true;
         bgSound.volume = 0.5f;

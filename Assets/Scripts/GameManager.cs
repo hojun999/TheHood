@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject moveWoodsUIPanel;
     public GameObject moveCampUIPanel;
     public GameObject subMenuUIPanel;
+    public GameObject QuestClearText;
 
     [Header("Manager")]
     public TalkManager talkManager;
@@ -118,12 +119,19 @@ public class GameManager : MonoBehaviour
 
         if (questManager.getItemNum_Quest2 == 0)        // 퀘스트2 클리어 처리
         {
+            Invoke("setActiveQuestClearText", 1f);
             questManager.NextQuest();
             questManager.required_ItemGroup_Quest2.SetActive(false);
             questManager.getItemNum_Quest2 += 100;      // 조건문 한 번만 호출
         }
     }
 
+
+    public void setActiveQuestClearText()
+    {
+        //  캔버스 안에 UI text 생성
+            Instantiate(QuestClearText, QuestClearText.transform.position, Quaternion.identity, GameObject.Find("UI").transform);
+    }
 
     public void LocatePlayerAtCamp()      // 캠프로 이동
     {

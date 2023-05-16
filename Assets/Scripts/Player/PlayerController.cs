@@ -34,10 +34,18 @@ public class PlayerController : MonoBehaviour
     public GameObject AfterGetText_Injector;
     public GameObject AfterGetText_RustyGun;
 
+    [Header("AfterGetItemText_useAlpha")]
+    public GameObject AfterGetItemText_Alpha_Clothes_With_Blood;
+    public GameObject AfterGetItemText_Alpha_Injector;
+    public GameObject AfterGetItemText_Alpha_RustyGun;
+
+
     [Header("QuestUI")]
     public GameObject questionMark;
     public GameObject exMark;
-    
+    public GameObject QuestClearText;
+
+
 
 
     Rigidbody2D rb;
@@ -133,6 +141,7 @@ public class PlayerController : MonoBehaviour
                 questManager.getItemNum_Quest2--;
                 BeforeGetText_Clothes_With_Blood.SetActive(false);
                 AfterGetText_Clothes_With_Blood.SetActive(true);
+                AfterGetItemText_Alpha_Clothes_With_Blood.SetActive(true);
                 scanObject.SetActive(false);
             }
             else if(scanObject.name == "HpPosion")
@@ -146,6 +155,7 @@ public class PlayerController : MonoBehaviour
                 questManager.getItemNum_Quest2--;
                 BeforeGetText_Injector.SetActive(false);
                 AfterGetText_Injector.SetActive(true);
+                AfterGetItemText_Alpha_Injector.SetActive(true);
                 scanObject.SetActive(false);
             }
             else if (scanObject.name == "RustyGun")
@@ -154,6 +164,7 @@ public class PlayerController : MonoBehaviour
                 questManager.getItemNum_Quest2--;
                 BeforeGetText_RustyGun.SetActive(false);
                 AfterGetText_RustyGun.SetActive(true);
+                AfterGetItemText_Alpha_RustyGun.SetActive(true);
                 scanObject.SetActive(false);
             }
             else if (scanObject.name == "SpeedUpPosion")
@@ -225,7 +236,14 @@ public class PlayerController : MonoBehaviour
             AfterGetText_QuestArea.SetActive(true);
             questionMark.SetActive(false);
             exMark.SetActive(true);
+            setActiveQuestClearText();
         }
+    }
+
+    public void setActiveQuestClearText()
+    {
+        //  캔버스 안에 UI text 생성
+        Instantiate(QuestClearText, QuestClearText.transform.position, Quaternion.identity, GameObject.Find("UI").transform);
     }
 
     public void Hurt(int damage)
