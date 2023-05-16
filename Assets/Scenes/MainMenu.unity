@@ -776,6 +776,7 @@ MonoBehaviour:
   bglist:
   - {fileID: 8300000, guid: 1d14bb3a9b1f1414ab87ecf81673cbe8, type: 3}
   - {fileID: 8300000, guid: e413c50046e7f1d4991cae5cedfc08e9, type: 3}
+  - {fileID: 8300000, guid: 4287842f1516b4ddf820dc918ed208ad, type: 3}
 --- !u!1 &1330585838
 GameObject:
   m_ObjectHideFlags: 0
