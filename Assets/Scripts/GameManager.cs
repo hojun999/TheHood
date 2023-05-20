@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject moveWoodsUIPanel;
     public GameObject moveCampUIPanel;
     public GameObject subMenuUIPanel;
+    public GameObject helpMenuPanel;
     public GameObject QuestClearText;
 
     [Header("Manager")]
@@ -43,7 +44,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector]public bool isAction;
     [HideInInspector]public bool activeInventory = false;
     private bool activeSubMenu;
-    
+    private bool activeHelpMenu;
+
+
 
     public void talkAction(GameObject scanObj)
     {
@@ -51,7 +54,6 @@ public class GameManager : MonoBehaviour
         ObjData objData = scanObject.GetComponent<ObjData>();
         Talk(objData.id, objData.isNpc);
         talkPanel.SetActive(isAction);
-
     }
 
     void Talk(int id, bool isNpc)
@@ -108,14 +110,15 @@ public class GameManager : MonoBehaviour
             inventoryPanel.SetActive(activeInventory);
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !activeHelpMenu)        // helpmenu 꺼져있을 때만(예외처리)
+            OnOffSubMenuPanel();
+
+        if (activeHelpMenu)     // 예외처리
         {
-            activeSubMenu = !activeSubMenu;
-            subMenuUIPanel.SetActive(activeSubMenu);
+            if(Input.GetKeyDown(KeyCode.Escape))
+                OnOffHelpMenuPanel();
         }
 
-        if (activeSubMenu)
-            Time.timeScale = 0f;
 
         if (questManager.getItemNum_Quest2 == 0)        // 퀘스트2 클리어 처리
         {
@@ -201,5 +204,18 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void OnOffSubMenuPanel()
+    {
+        activeSubMenu = !activeSubMenu;
+        subMenuUIPanel.SetActive(activeSubMenu);
+        Time.timeScale = activeSubMenu ? 0 : 1;
+    }
+
+    public void OnOffHelpMenuPanel()
+    {
+        activeHelpMenu = !activeHelpMenu;
+        helpMenuPanel.SetActive(activeHelpMenu);
+        Time.timeScale = activeHelpMenu ? 0 : 1;
+    }
 
 }

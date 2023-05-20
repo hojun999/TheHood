@@ -85,12 +85,12 @@ public class PlayerController : MonoBehaviour
 
         // 애니메이션
         #region
-        if (anim.GetInteger("hAxisRaw") != h)
+        if (anim.GetInteger("hAxisRaw") != h && Time.timeScale != 0)        // timescale은 ui 조작중일 때 플레이어 애니메이션 출력하지 않기 위함
         {
             anim.SetBool("isChange", true);
             anim.SetInteger("hAxisRaw", (int)h);
         }
-        else if (anim.GetInteger("vAxisRaw") != v)
+        else if (anim.GetInteger("vAxisRaw") != v && Time.timeScale != 0)
         {
             anim.SetBool("isChange", true);
             anim.SetInteger("vAxisRaw", (int)v);
