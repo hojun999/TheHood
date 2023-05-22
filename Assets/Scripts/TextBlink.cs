@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextTest : MonoBehaviour
+public class TextBlink : MonoBehaviour
 {
     Text text;
     float time = 2.5f;

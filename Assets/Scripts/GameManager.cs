@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
     private bool activeSubMenu;
     private bool activeHelpMenu;
 
+    private int spawnNum;
+
 
 
     public void talkAction(GameObject scanObj)
@@ -156,7 +158,21 @@ public class GameManager : MonoBehaviour
 
     public void LocatePlayerAtWoods()     // 숲으로 이동, 이후에 북쪽, 동쪽 스폰 랜덤하게 구현하기
     {
-        Player.transform.position = WestSpawnArea.transform.position;
+        GetRandomSpawnNum();
+
+        switch (spawnNum)
+        {
+            case 1:
+                Player.transform.position = WestSpawnArea.transform.position;
+                break;
+            case 2:
+                Player.transform.position = NorthSpawnArea.transform.position;
+                break;
+            case 3:
+                Player.transform.position = EastSpawnArea.transform.position;
+                break;
+
+        }
         MainCamera.GetComponent<CameraController>().center = new Vector2(43, 9);
         MainCamera.GetComponent<CameraController>().size = new Vector2(54, 28);
         moveWoodsUIPanel.SetActive(false);
@@ -168,6 +184,11 @@ public class GameManager : MonoBehaviour
         NorthSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", true);
 
         Time.timeScale = 1f;
+    }
+
+    private void GetRandomSpawnNum()
+    {
+        spawnNum = Random.Range(1, 4);
     }
 
     public void CloseMoveWoodsUIPanelandResume()
@@ -202,6 +223,7 @@ public class GameManager : MonoBehaviour
     public void ReturnMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1;
     }
 
     public void OnOffSubMenuPanel()

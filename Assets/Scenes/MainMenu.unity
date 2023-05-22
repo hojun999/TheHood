@@ -1257,6 +1257,7 @@ MonoBehaviour:
   moveWoodsUIPanel: {fileID: 0}
   moveCampUIPanel: {fileID: 0}
   subMenuUIPanel: {fileID: 0}
+  helpMenuPanel: {fileID: 0}
   QuestClearText: {fileID: 0}
   talkManager: {fileID: 0}
   questManager: {fileID: 0}
