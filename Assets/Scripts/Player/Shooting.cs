@@ -10,7 +10,7 @@ public class Shooting : MonoBehaviour
     public GameObject bullet;
     public Transform bulletTransform;
 
-    public SkillBloodLine sbl;
+    //public UseSkill useSkill;
 
     public bool canFire;
 
@@ -20,7 +20,7 @@ public class Shooting : MonoBehaviour
     void Start()
     {
         MainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        sbl = GetComponent<SkillBloodLine>();
+        //useSkill = GetComponent<UseSkill>();
     }
 
     void Update()
