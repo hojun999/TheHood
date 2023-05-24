@@ -11,6 +11,8 @@ TagManager:
   - NPC
   - EnemyAtk
   - QuestArea
+  - Boss
+  - Henchman
   layers:
   - Default
   - TransparentFX

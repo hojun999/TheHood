@@ -224,7 +224,7 @@ public class PlayerController : MonoBehaviour
         // 플레이어 피격
         if (collision.CompareTag("EnemyAtk"))
         {
-            Hurt(collision.GetComponentInParent<Enemy>().damage);
+            //Hurt(collision.GetComponentInParent<Enemy>().damage);
         }
 
         // 1번 퀘스트 
