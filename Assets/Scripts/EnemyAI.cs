@@ -84,55 +84,24 @@ public class EnemyAI : MonoBehaviour
         movePos = new Vector2(xMove, yMove) * moveSpeed;
     }
 
-    public void Attack()    // 캐릭터 x값의 +-1 사이 랜덤값 으로 총알 발사
+    public void Attack()
     {
         doAttack = true;
+    }
+
+    public void ShootBullet()    // 캐릭터 x값의 +-1 사이 랜덤값 으로 총알 발사
+    {
         attackAngle = Random.Range(playerPos.position.x - 1f, playerPos.position.x + 1f);
         attackAngleVector = new Vector3(attackAngle, playerPos.position.y, 0);
         Vector3 dir = (attackAngleVector - ShootPos).normalized;
         Instantiate(EnemyBullet, ShootPos, Quaternion.LookRotation(dir));
-
-
-        //if (gameObject.CompareTag("Henchman") && !isEnemyShoot)        // 부하는 가만히 서서 쏨 ,bulletnum은 조건문 무한반복을 막기 위함
-        //{
-        //    xMove = 0;
-        //    yMove = 0;
-        //    StartCoroutine(InstantiateHenchmanBullet());
-        //}
-        //else if (gameObject.CompareTag("Boss") && isEnemyShoot)       // 보스는 움직이면서 쏨
-        //{
-        //    StartCoroutine(InstantiateHenchmanBullet());
-        //}
-        //yield return new WaitForSeconds(0.1f);
     }
-
-    //IEnumerator InstantiateHenchmanBullet()     // 보스 공격은 애니메이션 이벤트로 처리할 생각하기
-    //{
-    //    isEnemyShoot = true;
-
-
-    //    if (xMove <= 0)
-    //    {
-    //        Vector3 dir = (attackAngleVector - LeftShootPos.position).normalized;
-    //        Instantiate(EnemyBullet, LeftShootPos.position, Quaternion.LookRotation(dir));
-    //        yield return new WaitForSeconds(0.1f);
-    //        isEnemyShoot = false;
-
-    //    }
-    //    else if (xMove > 0)
-    //    {
-    //        Vector3 dir = (attackAngleVector - RightShootPos.position).normalized;
-    //        Instantiate(EnemyBullet, RightShootPos.position, Quaternion.LookRotation(dir));
-    //        yield return new WaitForSeconds(0.1f);
-    //        isEnemyShoot = false;
-    //    }
-    //}
 
     void Action()
     {
         doAttack = false;
         MoveTime = Random.Range(0.8f, 1.5f);
-        ActionTime = MoveTime + AttackTime + 0.5f + 0.1f;
+        ActionTime = MoveTime + AttackTime + 0.15f;
         RandomMove();
         Invoke("Attack", MoveTime);
         Invoke("Action", ActionTime); 
