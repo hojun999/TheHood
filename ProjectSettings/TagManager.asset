@@ -13,6 +13,7 @@ TagManager:
   - QuestArea
   - Boss
   - Henchman
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - Weapon Area
   - Quest Area
   - Posion Area
-  - 
+  - Wall
   - 
   - 
   - 
