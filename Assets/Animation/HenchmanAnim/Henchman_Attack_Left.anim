@@ -96,7 +96,7 @@ AnimationClip:
   - time: 0.33333334
     functionName: ShootBullet
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 31df03a100d8d82408f5a13d5a63d3c4, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: 2d0a1dcf0dd7f9941bd955513e1e8f46, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public GameObject subMenuUIPanel;
     public GameObject helpMenuPanel;
     public GameObject QuestClearText;
+    public GameObject enterFightUIPanel;
 
     [Header("Manager")]
     public TalkManager talkManager;
@@ -200,6 +201,12 @@ public class GameManager : MonoBehaviour
     public void CloseMoveCampUIPanelandResume()
     {
         moveCampUIPanel.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    public void CloseEnterFightUIPanelAndResume()
+    {
+        enterFightUIPanel.SetActive(false);
         Time.timeScale = 1f;
     }
 

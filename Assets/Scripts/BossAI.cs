@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
+public class BossAI : MonoBehaviour
 {
     Rigidbody2D rb;
     Animator anim;
@@ -25,7 +25,7 @@ public class EnemyAI : MonoBehaviour
 
     private float ActionTime;
     private float MoveTime;
-    private float AttackTime;
+    private float AttackTime = 1.2f;
     private float rayLength = 1f;
 
     // 이후에 디폴트로 바꾸고 싸움 지역에 입장하면 true 호출하게 변경
@@ -38,46 +38,16 @@ public class EnemyAI : MonoBehaviour
 
     private void Awake()
     {
-        if (gameObject.CompareTag("Henchman"))
-            AttackTime = 1.5f;
-        else
-            AttackTime = 1.2f;
-
-
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         Action();
     }
 
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-
-    }
 
     private void FixedUpdate()
     {
         rb.velocity = movePos;
         movePos = new Vector2(xMove, yMove) * moveSpeed;
-
-        //RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, rayLength, LayerMask.GetMask("Wall"));
-        //RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, rayLength, LayerMask.GetMask("Wall"));
-        //RaycastHit2D hitUp = Physics2D.Raycast(transform.position, Vector2.up, rayLength, LayerMask.GetMask("Wall"));
-        //RaycastHit2D hitDown = Physics2D.Raycast(transform.position, Vector2.down, rayLength, LayerMask.GetMask("Wall"));
-
-        //if (hitRight.collider || hitLeft.collider)
-        //{
-        //    xMove = xMove * -1f;
-        //    Debug.Log(hitRight.collider.name);
-        //    Debug.Log(hitLeft.collider.name);
-        //}
-        //else if (hitUp.collider || hitDown.collider)
-        //{
-        //    yMove = yMove * -1f;
-        //    Debug.Log(hitUp.collider.name);
-        //    Debug.Log(hitDown.collider.name);
-        //}
-
-
     }
 
     private void Update()
@@ -85,31 +55,32 @@ public class EnemyAI : MonoBehaviour
         // 애니메이션        // enemyDir > 0 오른쪽보기 enemyDir < 0 왼쪽보기
         if (anim.GetFloat("enemyDir") != DistOfXPositionPlayerAndEnemy)
             anim.SetFloat("enemyDir", DistOfXPositionPlayerAndEnemy);
-        else if (anim.GetFloat("yMove") != yMove && gameObject.CompareTag("Boss"))
+
+        if (anim.GetFloat("yMove") != yMove)
             anim.SetFloat("yMove", yMove);
-        else if (doAttack)
+
+        if (doAttack)
             anim.SetBool("doAttack", true);
-        else if (!doAttack)
+        else
             anim.SetBool("doAttack", false);
 
+        DistOfXPositionPlayerAndEnemy = playerPos.position.x - gameObject.GetComponent<Transform>().position.x;
+
         // 총구 위치 결정
-        if (xMove <= 0)
+        if (DistOfXPositionPlayerAndEnemy <= 0)
             ShootPos = LeftShootPos.position;
-        else if (xMove > 0)
+        else if (DistOfXPositionPlayerAndEnemy > 0)
             ShootPos = RightShootPos.position;
 
-        DistOfXPositionPlayerAndEnemy = playerPos.position.x - gameObject.GetComponent<Transform>().position.x;
 
 
 
     }
 
-    public void RandomMove()        // 텐트 오브젝트에 가까이 갈 경우 무조건 그 반대 방향으로 이동하게 구현
+    public void RandomMove()
     {
-
         xMove = Random.Range(-1f, 1f);
         yMove = Random.Range(-1f, 1f);
-        // x값에 따른 방향 애니메이션 추가
     }
 
     public void Attack()
@@ -128,28 +99,15 @@ public class EnemyAI : MonoBehaviour
     void Action()
     {
         doAttack = false;
+        MoveTime = Random.Range(0.8f, 1.5f);
+        ActionTime = MoveTime + AttackTime + 0.12f;
 
-        if (gameObject.CompareTag("Henchman"))
-            MoveTime = Random.Range(1f, 1.8f);
-        else
-            MoveTime = Random.Range(0.8f, 1.5f);
-
-        if (gameObject.CompareTag("Henchman"))
-            ActionTime = MoveTime + AttackTime + 0.12f;
-        else
-            ActionTime = MoveTime + AttackTime + 0.15f;
         RandomMove();
+
         Invoke("Attack", MoveTime);
         Invoke("Action", ActionTime); 
     }
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Wall") && xMove < 0 || xMove > 0)
-    //        xMove = xMove * -1;
-    //    else if (collision.gameObject.CompareTag("Wall") && yMove > 0 || yMove < 0)
-    //        yMove = yMove * -1;
-    //}
 
 
 }

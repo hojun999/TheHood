@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         // dash
-        if (Input.GetKeyDown(KeyCode.Space) && !gameManager.isAction && isReadyDash)
+        if (Input.GetKeyDown(KeyCode.Space) && !gameManager.isAction && isReadyDash && !scanObject)
             isDashButtonDown = true;
 
 
