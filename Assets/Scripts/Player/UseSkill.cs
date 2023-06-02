@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UseSkill : MonoBehaviour
 {
     Camera MainCamera;
+
+    public GameObject gameManager;
+
+    public GameObject enterFightArea;
 
     [Header("LineAttackObject")]
     public GameObject LineAttackObject;
@@ -12,6 +17,10 @@ public class UseSkill : MonoBehaviour
     [Header("ExplosionObject")]
     public GameObject explosionAttackObj;
     public GameObject explosionOutline;
+
+    [Header("CooltimeImage")]
+    public Image LineAttackCoolTimeImage;
+    public Image explosionCoolTimeImage;
 
     Vector2 firstMousePosOfLineAttack, secondMousePosOfLineAttack, mousePosOfExplosion;
     public int mouseClickScoreOfLineAttack;
@@ -54,8 +63,12 @@ public class UseSkill : MonoBehaviour
 
 
         if (mouseClickScoreOfLineAttack == 2 && !isExistLineObject)    // 마우스 클릭 두 번째일 때 공격obj 생성
+        {
             StartCoroutine(createAndDestroyLineAttackObj());        // ★update문에서 함수 한 번만 발동시키고 싶을 때 메소드보다 bool값 이용하여 코루틴으로 작성
-        #endregion
+            LineAttackCoolTimeImage.fillAmount = 0;
+            StartCoroutine(LineAttackCoolTime(3f));
+        }
+            #endregion
 
         // Explosion
         #region
@@ -72,8 +85,17 @@ public class UseSkill : MonoBehaviour
         }
 
         if (mouseclickScoreOfExplosion == 1 && !isExistExplosionObject)
+        {
             StartCoroutine(createAndDestroyExplosionObj());
+            explosionCoolTimeImage.fillAmount = 0;
+            StartCoroutine(ExplosionCoolTime(5f));
+        }
         #endregion
+
+        if (gameManager.GetComponent<GameManager>().isEnterFight)
+            MainCamera = GameObject.FindGameObjectWithTag("FightCamera").GetComponent<Camera>();
+        else
+            MainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     // LineAttack Coroutine
@@ -108,6 +130,8 @@ public class UseSkill : MonoBehaviour
         yield return new WaitForSeconds(1.2f);        // WaitForSeconds(a) >> a시간은 스킬 오브젝트 생성 시간동안만 할당
 
         Destroy(attackObjectCopy);
+
+        yield return new WaitForSeconds(2f);        // 쿨타임 지정
         isExistLineObject = false;
     }
     #endregion
@@ -143,9 +167,35 @@ public class UseSkill : MonoBehaviour
 
         Destroy(attackObjectCopy);
         Destroy(outlineObjectCopy);
+
+        yield return new WaitForSeconds(4f);        // 쿨타임 지정
         isExistExplosionObject = false;
     }
     #endregion
+
+
+    IEnumerator LineAttackCoolTime(float coolTime)
+    {
+        while (LineAttackCoolTimeImage.fillAmount < 1)
+        {
+            LineAttackCoolTimeImage.fillAmount += 1 * Time.smoothDeltaTime / coolTime;
+            yield return null;
+        }
+        LineAttackCoolTimeImage.fillAmount = 1;
+        yield break;
+    }
+
+    IEnumerator ExplosionCoolTime(float coolTime)
+    {
+        while (explosionCoolTimeImage.fillAmount < 1)
+        {
+            explosionCoolTimeImage.fillAmount += 1 * Time.smoothDeltaTime / coolTime;
+            yield return null;
+        }
+        explosionCoolTimeImage.fillAmount = 1;
+        yield break;
+    }
+
 
 
 

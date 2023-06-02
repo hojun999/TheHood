@@ -14,6 +14,9 @@ TagManager:
   - Boss
   - Henchman
   - Wall
+  - FightCamera
+  - enterFightArea
+  - GameManager
   layers:
   - Default
   - TransparentFX

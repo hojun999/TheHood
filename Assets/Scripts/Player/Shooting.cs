@@ -8,9 +8,9 @@ public class Shooting : MonoBehaviour
     private Camera MainCamera;
     private Vector3 mousePos;
     public GameObject bullet;
-    public Transform bulletTransform;
+    public GameObject gameManager;
 
-    //public UseSkill useSkill;
+    public Transform bulletTransform;
 
     public bool canFire;
 
@@ -20,11 +20,15 @@ public class Shooting : MonoBehaviour
     void Start()
     {
         MainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        //useSkill = GetComponent<UseSkill>();
     }
 
     void Update()
     {
+        if (gameManager.GetComponent<GameManager>().isEnterFight)
+            MainCamera = GameObject.FindGameObjectWithTag("FightCamera").GetComponent<Camera>();
+        else
+            MainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
         mousePos = MainCamera.ScreenToWorldPoint(Input.mousePosition);
 
         Vector3 rotation = mousePos - transform.position;

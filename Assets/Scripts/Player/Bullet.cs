@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public GameObject GameManager;
+
     private Vector3 mousePos;
-    private Camera mainCamera;
+    private Camera MainCamera;
     private Rigidbody2D rb;
     public float fireForce;
 
     void Start()
     {
+        GameManager = GameObject.FindGameObjectWithTag("GameManager");
+
+        if (GameManager.GetComponent<GameManager>().isEnterFight)
+            MainCamera = GameObject.FindGameObjectWithTag("FightCamera").GetComponent<Camera>();
+        else
+            MainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
         // bullet ¼Óµµ
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        //MainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
-        mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mousePos = MainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 shootingDir = mousePos - transform.position;
         Vector3 shootingRot = transform.position - mousePos;
         rb.velocity = new Vector2(shootingDir.x, shootingDir.y).normalized * fireForce;
@@ -26,7 +35,8 @@ public class Bullet : MonoBehaviour
         transform.rotation = bulletRot;
         transform.localEulerAngles += new Vector3(0, 0, 180);
 
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 1.5f);
     }
+
 
 }

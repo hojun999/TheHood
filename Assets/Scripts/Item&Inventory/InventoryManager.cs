@@ -24,10 +24,10 @@ public class InventoryManager : MonoBehaviour
             UseItem(4);
         else if (Input.GetKeyDown(KeyCode.Alpha6))
             UseItem(5);
-        else if (Input.GetKeyDown(KeyCode.Alpha7))
-            UseItem(6);
-        else if (Input.GetKeyDown(KeyCode.Alpha8))
-            UseItem(7);
+        //else if (Input.GetKeyDown(KeyCode.Alpha7))
+        //    UseItem(6);
+        //else if (Input.GetKeyDown(KeyCode.Alpha8))
+        //    UseItem(7);
     }
 
     public bool AddItem(Item item)
@@ -93,7 +93,7 @@ public class InventoryManager : MonoBehaviour
                 // 사용 효과
                 if (item.actionType == ActionType.Healing)        // 체력 포션
                 {
-                    Player.GetComponent<PlayerController>().hp += 10;
+                    Player.GetComponent<PlayerController>().maxHp += 10;
                 }
                 else if (item.actionType == ActionType.speedUp)
                 {

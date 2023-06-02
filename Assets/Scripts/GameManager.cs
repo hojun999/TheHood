@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Camera")]
     public GameObject MainCamera;
+    public GameObject FightCamera;
+
 
     [Header("SpawnArea")]
     public GameObject CampSpawnArea;
@@ -40,6 +42,10 @@ public class GameManager : MonoBehaviour
     [Header("Material")]
     public Material unlitMaterial;
     public Material litMaterial;
+
+    [Header("EnterFight")]
+    public Transform enterFightPos;
+    [HideInInspector]public bool isEnterFight;
 
 
     [HideInInspector]public bool isAction;
@@ -174,7 +180,7 @@ public class GameManager : MonoBehaviour
                 break;
 
         }
-        MainCamera.GetComponent<CameraController>().center = new Vector2(43, 9);
+        MainCamera.GetComponent<CameraController>().center = new Vector2(62.5f, 9);
         MainCamera.GetComponent<CameraController>().size = new Vector2(54, 28);
         moveWoodsUIPanel.SetActive(false);
         Player.GetComponent<PlayerController>().isPlayerInWoods = true;
@@ -246,5 +252,26 @@ public class GameManager : MonoBehaviour
         helpMenuPanel.SetActive(activeHelpMenu);
         Time.timeScale = activeHelpMenu ? 0 : 1;
     }
+
+    #region
+    public void ConverCameraNormalToFight()
+    {
+        MainCamera.SetActive(false);
+        FightCamera.SetActive(true);
+    }
+
+    public void ConvertcameraFightToNormal()
+    {
+        MainCamera.SetActive(true);
+        FightCamera.SetActive(false);
+    }
+
+    public void EnterFightSetting()
+    {
+        Player.transform.position = enterFightPos.position;
+        isEnterFight = true;
+    }
+
+    #endregion
 
 }

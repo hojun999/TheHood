@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnterWoods : MonoBehaviour
 {
     public GameObject EnterUIPanel;
-    public GameObject soundManager;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -14,7 +13,5 @@ public class EnterWoods : MonoBehaviour
             EnterUIPanel.SetActive(true);
             Time.timeScale = 0f;
         }
-
-        soundManager.GetComponent<SoundManager>().EnterWoods();
     }
 }

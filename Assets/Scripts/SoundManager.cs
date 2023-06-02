@@ -72,6 +72,15 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void EnterFight()
+    {
+        for (int i = 0; i < bglist.Length; i++)
+        {
+            if (bglist[i].name == "FightSound")
+                BgSoundPlay(bglist[i]);
+        }
+    }
+
     public void BGSoundVolume(float val)
     {
         mixer.SetFloat("BGSoundVolume", MathF.Log10(val) * 20);

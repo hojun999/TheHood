@@ -23,8 +23,8 @@ public class QuestManager : MonoBehaviour
     public GameObject inProgressQuestImage_Quest3;
 
     [Header("Quest4")]
-    //public GameObject enemyGruop_Quest4;
-    //public GameObject inProgressQuestImage_Quest4;
+    public GameObject enemyGruop_Quest4;
+    public GameObject inProgressQuestImage_Quest4;
 
     [Header("QuestUI")]
     public GameObject questionMark;
@@ -56,7 +56,6 @@ public class QuestManager : MonoBehaviour
         questList.Add(30, new QuestData("부하 사살", new int[] { 2000, 2000 }));
 
         questList.Add(40, new QuestData("말머리 패거리 정리", new int[] { 2000, 2000 }));
-
     }
 
     public void checkQuest(int id)      // 정해진 npc와 대화를 할 때만 index++

@@ -1259,9 +1259,11 @@ MonoBehaviour:
   subMenuUIPanel: {fileID: 0}
   helpMenuPanel: {fileID: 0}
   QuestClearText: {fileID: 0}
+  enterFightUIPanel: {fileID: 0}
   talkManager: {fileID: 0}
   questManager: {fileID: 0}
   MainCamera: {fileID: 0}
+  FightCamera: {fileID: 0}
   CampSpawnArea: {fileID: 0}
   WestSpawnArea: {fileID: 0}
   EastSpawnArea: {fileID: 0}
@@ -1269,6 +1271,8 @@ MonoBehaviour:
   talkIndex: 0
   unlitMaterial: {fileID: 0}
   litMaterial: {fileID: 0}
+  enterFightPos: {fileID: 0}
+  isEnterFight: 0
   isAction: 0
   activeInventory: 0
 --- !u!1 &1591333299

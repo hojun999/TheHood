@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [Header("Stats")]
-    public float hp;
-    public float energy;
+    public int maxHp;
+    public int maxMp;
+    [HideInInspector]public int curHp;
+    [HideInInspector]public int curMp;
     public float moveSpeed;
     public float dodgeCooltime;        // dodge 쿨타임
 
@@ -45,7 +47,8 @@ public class PlayerController : MonoBehaviour
     public GameObject exMark;
     public GameObject QuestClearText;
 
-
+    public Slider hpBar;
+    public Slider mpBar;
 
 
     Rigidbody2D rb;
@@ -56,6 +59,9 @@ public class PlayerController : MonoBehaviour
 
     private float h, v;
     private float timer;
+
+    private float hpSliderValue;
+    private float mpSliderValue;
 
     [HideInInspector] public bool isPlayerInWoods;
    
@@ -75,6 +81,12 @@ public class PlayerController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
 
         isReadyDash = true;     // 시작부터 대쉬 가능
+
+        curHp = maxHp;
+        curMp = maxMp;
+
+        hpBar.value = 1;
+        hpBar.value = 1;
 
     }
 
@@ -128,12 +140,12 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         // dash
-        if (Input.GetKeyDown(KeyCode.Space) && !gameManager.isAction && isReadyDash && !scanObject)
+        if (Input.GetKeyDown(KeyCode.Space) && !gameManager.isAction && isReadyDash) //&& !scanObject)
             isDashButtonDown = true;
 
 
         // 아이템을 인식하고 E를 눌러 획득하면, 필드 아이템을 인벤토리 아이템으로 전환
-        if (Input.GetKeyDown(KeyCode.E) && scanObject.gameObject.CompareTag("Item"))
+        if (Input.GetKeyDown(KeyCode.E) && scanObject.CompareTag("Item"))
         {
             if (scanObject.name == "Clothes_With_Blood")
             {
@@ -179,7 +191,11 @@ public class PlayerController : MonoBehaviour
         else
             shootObject.SetActive(true);
 
-            
+        // hp, mp 컨트롤
+        if (hpBar != null)
+            hpBar.value = Utils.Percent(curHp, maxHp);
+        if (mpBar != null)
+            mpBar.value = Utils.Percent(curMp, curMp);
     }
 
     private void FixedUpdate()
@@ -251,14 +267,15 @@ public class PlayerController : MonoBehaviour
         if (!isHurt)
         {
             isHurt = true;
-            hp = hp - damage;
-            if (hp <= 0)
+            curHp -= damage;
+            //HandleHp();
+            if (curHp <= 0)
             {
                 //dead
             }
             else
             {
-                Debug.Log("hp : " + hp);
+                Debug.Log("hp : " + curHp);
                 StartCoroutine(HurtRoutine());
                 StartCoroutine(alphablink());
             }
@@ -280,7 +297,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator HurtRoutine()   // 무적 상태 조정
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(2f);
         isHurt = false;
     }
 
