@@ -284,7 +284,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Dash()
     {
-        float dodgePower = 90f;
+        float dodgePower = 70f;
         rb.AddForce(new Vector2(h, v).normalized * dodgePower, ForceMode2D.Impulse);     // 움직임 값에 따른 addforce 방향 설정
         isReadyDash = false;
         yield return new WaitForSeconds(2f);        // 대쉬 쿨타임

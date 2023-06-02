@@ -43,7 +43,7 @@ public class UseSkill : MonoBehaviour
     {
         // LineAttack
         #region
-        if (Input.GetKeyDown(KeyCode.Q) && !isLineAttackUsing)      // 코루틴을 시작하여 스킬 사용을 위한 마우스 클릭 두 번을 입력 받을 상태를 만듬
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !isLineAttackUsing)      // 코루틴을 시작하여 스킬 사용을 위한 마우스 클릭 두 번을 입력 받을 상태를 만듬
         {
             StartCoroutine(usingTimeOfLineAttack(2.5f));
         }
@@ -72,7 +72,7 @@ public class UseSkill : MonoBehaviour
 
         // Explosion
         #region
-        if (Input.GetKeyDown(KeyCode.Z) && !isExplosionUsing)
+        if (Input.GetMouseButtonDown(2) && !isExplosionUsing)
         {
             StartCoroutine(usingTimeOfExplosion(2.5f));
         }
