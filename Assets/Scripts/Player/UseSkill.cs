@@ -8,30 +8,32 @@ public class UseSkill : MonoBehaviour
     Camera MainCamera;
 
     public GameObject gameManager;
-
+    public PlayerController playerController;
     public GameObject enterFightArea;
 
     [Header("LineAttackObject")]
     public GameObject LineAttackObject;
+    public int requiredLineAttackMp;
 
     [Header("ExplosionObject")]
     public GameObject explosionAttackObj;
     public GameObject explosionOutline;
+    public int requiredExplosionMp;
 
     [Header("CooltimeImage")]
     public Image LineAttackCoolTimeImage;
     public Image explosionCoolTimeImage;
 
     Vector2 firstMousePosOfLineAttack, secondMousePosOfLineAttack, mousePosOfExplosion;
-    public int mouseClickScoreOfLineAttack;
-    public int mouseclickScoreOfExplosion;
+    [HideInInspector] public int mouseClickScoreOfLineAttack;
+    [HideInInspector] public int mouseclickScoreOfExplosion;
 
-    public float axis;
+    [HideInInspector] public float axis;
 
-    public bool isLineAttackUsing;    // 스킬 시전이 가능한 시간 동안 true
-    public bool isExplosionUsing;
-    public bool isExistLineObject;      // 스킬이 사용중인지
-    public bool isExistExplosionObject;
+    [HideInInspector] public bool isLineAttackUsing;    // 스킬 시전이 가능한 시간 동안 true
+    [HideInInspector] public bool isExplosionUsing;
+    [HideInInspector] public bool isExistLineObject;      // 스킬이 사용중인지
+    [HideInInspector] public bool isExistExplosionObject;
 
 
     private void Start()
@@ -41,9 +43,14 @@ public class UseSkill : MonoBehaviour
 
     private void Update()
     {
+        if (gameManager.GetComponent<GameManager>().isEnterFight)
+            MainCamera = GameObject.FindGameObjectWithTag("FightCamera").GetComponent<Camera>();
+        else
+            MainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
         // LineAttack
         #region
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !isLineAttackUsing)      // 코루틴을 시작하여 스킬 사용을 위한 마우스 클릭 두 번을 입력 받을 상태를 만듬
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !isLineAttackUsing && playerController.isCanUseLineAttack)      // 코루틴을 시작하여 스킬 사용을 위한 마우스 클릭 두 번을 입력 받을 상태를 만듬
         {
             StartCoroutine(usingTimeOfLineAttack(2.5f));
         }
@@ -72,7 +79,7 @@ public class UseSkill : MonoBehaviour
 
         // Explosion
         #region
-        if (Input.GetMouseButtonDown(2) && !isExplosionUsing)
+        if (Input.GetMouseButtonDown(2) && !isExplosionUsing && playerController.isCanUseExplosion)
         {
             StartCoroutine(usingTimeOfExplosion(2.5f));
         }
@@ -92,10 +99,6 @@ public class UseSkill : MonoBehaviour
         }
         #endregion
 
-        if (gameManager.GetComponent<GameManager>().isEnterFight)
-            MainCamera = GameObject.FindGameObjectWithTag("FightCamera").GetComponent<Camera>();
-        else
-            MainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     // LineAttack Coroutine
@@ -127,6 +130,7 @@ public class UseSkill : MonoBehaviour
         Vector3 quaternionToTarget = Quaternion.Euler(0, 0, 90) * attackDir;        // 스킬 오브젝트를 secondMousePos 방향쪽으로 조정하는 코드
 
         var attackObjectCopy = Instantiate(LineAttackObject, firstMousePosOfLineAttack, Quaternion.LookRotation(forward: Vector3.forward, upwards: quaternionToTarget));
+        playerController.UseSkill(requiredLineAttackMp);
         yield return new WaitForSeconds(1.2f);        // WaitForSeconds(a) >> a시간은 스킬 오브젝트 생성 시간동안만 할당
 
         Destroy(attackObjectCopy);
@@ -162,6 +166,7 @@ public class UseSkill : MonoBehaviour
 
         var attackObjectCopy = Instantiate(explosionAttackObj, mousePosOfExplosion, Quaternion.LookRotation(forward: Vector3.forward));
         var outlineObjectCopy = Instantiate(explosionOutline, mousePosOfExplosion, Quaternion.LookRotation(forward: Vector3.forward));
+        playerController.UseSkill(requiredExplosionMp);
 
         yield return new WaitForSeconds(1.2f);
 
@@ -181,6 +186,8 @@ public class UseSkill : MonoBehaviour
             LineAttackCoolTimeImage.fillAmount += 1 * Time.smoothDeltaTime / coolTime;
             yield return null;
         }
+
+        LineAttackObject.GetComponent<LineAttack>().isCanHitLineAttack = true;
         LineAttackCoolTimeImage.fillAmount = 1;
         yield break;
     }
@@ -192,6 +199,8 @@ public class UseSkill : MonoBehaviour
             explosionCoolTimeImage.fillAmount += 1 * Time.smoothDeltaTime / coolTime;
             yield return null;
         }
+
+        explosionOutline.GetComponent<ExplosionAttack>().isCanHitExplosion = true;
         explosionCoolTimeImage.fillAmount = 1;
         yield break;
     }

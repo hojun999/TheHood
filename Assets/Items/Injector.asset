@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af81b51226628948b50533ab149b823, type: 3}
   m_Name: Injector
   m_EditorClassIdentifier: 
-  type: 0
-  actionType: 2
+  itemType: 0
+  actionType: 3
   stackable: 0
+  consumable: 0
   image: {fileID: 21300000, guid: b6f3e7cd6dceb3d4f949e1e031937d43, type: 3}

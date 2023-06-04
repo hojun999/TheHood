@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Player")]
     public GameObject Player;
+    public Light2D playerLight;
+
 
     [Header("UI")]
     public GameObject talkPanel;
@@ -24,10 +27,11 @@ public class GameManager : MonoBehaviour
     [Header("Manager")]
     public TalkManager talkManager;
     public QuestManager questManager;
+    public InventoryManager inventoryManager;
 
     [Header("Camera")]
-    public GameObject MainCamera;
-    public GameObject FightCamera;
+    public Camera MainCamera;
+    public Camera FightCamera;
 
 
     [Header("SpawnArea")]
@@ -47,15 +51,27 @@ public class GameManager : MonoBehaviour
     public Transform enterFightPos;
     [HideInInspector]public bool isEnterFight;
 
+    [Header("Quest3")]
+    public GameObject fightWall_Quest3;
+    public GameObject enemyGroup_Quest3;
+
+    [Header("Quest4")]
+    public GameObject fightWall_Quest4;
+    public GameObject enemyGroup_Quest4;
+
+    [Header("ScreenFadeOutAndLoadEnding")]
+    public Image fadeOutImage;
+    public float fadeOutMaxTime;
+
 
     [HideInInspector]public bool isAction;
     [HideInInspector]public bool activeInventory = false;
     private bool activeSubMenu;
     private bool activeHelpMenu;
+    private bool isEnding;
 
     private int spawnNum;
-
-
+    private float fadeOutCurTime;
 
     public void talkAction(GameObject scanObj)
     {
@@ -67,32 +83,38 @@ public class GameManager : MonoBehaviour
 
     void Talk(int id, bool isNpc)
     {
-        //Debug.Log("넘어온 id : " + id);
-        //Debug.Log("questManager.questId : " + questManager.questId);
-        //Debug.Log("questManager.questActionIndex : " + questManager.questActionIndex);
-        //Debug.Log("questTalkIndex : " +  questManager.GetQuestTalkIndex(id));
-        //Debug.Log("talkindex : " + talkIndex);
-        //Debug.Log(questManager.getItemNum_Quest2);
+        if (questManager.eliminateHenchmanNum_Quest3 == 6)
+            enemyGroup_Quest3.SetActive(false);
+
+        if (questManager.eliminateBossNum_Quest4 == 2 && questManager.eliminateHenchmanNum_Quest4 == 6)
+            enemyGroup_Quest4.SetActive(false);
+
+        inventoryManager.DestroyQuestItemAndTradeEtcItem();
 
         // 대화 데이터 세팅
         int questTalkIndex = questManager.GetQuestTalkIndex(id);
         string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex);
 
-        //if (questManager.getItemNum_Quest2 == 0)
-        //{
-        //    questManager.required_ItemGroup_Quest2.SetActive(false);
-        //    questManager.NextQuest();
-        //    questManager.getItemNum_Quest2 += 100;
-        //}
+        if (talkData == null && questManager.questId == 50)
+        {
+            isEnding = true;
+        }
 
-        // 캐릭터의 각 대화가 끝났을 때
-        if (talkData == null)
+            // 캐릭터의 각 대화가 끝났을 때
+        if (talkData == null && id == 2000)
         {
             isAction = false;
             talkIndex = 0;
             questManager.checkQuest(id);
             return;         // -void 함수에서 return은 함수의 종료를 의미-
         }
+        else if(talkData == null)
+        {
+            isAction = false;
+            talkIndex = 0;
+            return;
+        }
+
 
         // 대화 분기점(npc, 아이템 마다 설정 가능)
         if (isNpc)          
@@ -103,6 +125,7 @@ public class GameManager : MonoBehaviour
         {
             talkText.text = talkData;
         }
+
 
         isAction = true;
         talkIndex++;
@@ -129,12 +152,79 @@ public class GameManager : MonoBehaviour
         }
 
 
-        if (questManager.getItemNum_Quest2 == 0)        // 퀘스트2 클리어 처리
+        if(questManager.locateAtQuestAreaNum_Quest1 == 2)   // 퀘스트 1 처리
+        {
+            Invoke("setActiveQuestClearText", 1f);
+            questManager.NextQuest();
+            questManager.required_Area_Quest1.SetActive(false);
+            questManager.locateAtQuestAreaNum_Quest1++;
+            Player.GetComponent<PlayerController>().questionMark.SetActive(false);
+            Player.GetComponent<PlayerController>().exMark.SetActive(true);
+            questManager.Direction_Up.SetActive(true);
+            questManager.Direction_Right.SetActive(false);
+        }
+
+        if (questManager.getItemNum_Quest2 == 0)        // 퀘스트2 처리
         {
             Invoke("setActiveQuestClearText", 1f);
             questManager.NextQuest();
             questManager.required_ItemGroup_Quest2.SetActive(false);
+            questManager.Direction_Up.SetActive(true);
+            questManager.Direction_Right.SetActive(false);
+
             questManager.getItemNum_Quest2 += 100;      // 조건문 한 번만 호출
+        }
+
+        if(questManager.eliminateHenchmanNum_Quest3 == 5)      // 퀘스트3 처리
+        {
+            ConvertcameraFightToNormal();
+            Invoke("setActiveQuestClearText", 1f);
+            questManager.NextQuest();
+            isEnterFight = false;
+            fightWall_Quest3.SetActive(false);
+            Player.GetComponent<PlayerController>().BeforeText_eliminateHenchman_Quest3.SetActive(false);
+            Player.GetComponent<PlayerController>().AfterText_eliminateHenchman_Quest3.SetActive(true);
+            questManager.Direction_Up.SetActive(true);
+            questManager.Direction_Right.SetActive(false);
+
+            questManager.eliminateHenchmanNum_Quest3++;        // 조건문 한 번만 호출하기 위함
+        }
+
+        // 퀘스트 4 처리
+        if (questManager.eliminateBossNum_Quest4 == 1)
+        {
+            Player.GetComponent<PlayerController>().BeforeText_eliminateBoss.SetActive(false);
+            Player.GetComponent<PlayerController>().AfterText_eliminateBoss.SetActive(true);
+        }
+
+        if(questManager.eliminateHenchmanNum_Quest4 == 6)
+        {
+            Player.GetComponent<PlayerController>().BeforeText_eliminateHenchman_Quest4.SetActive(false);
+            Player.GetComponent<PlayerController>().AfterText_eliminateHenchman_Quest4.SetActive(true);
+        }
+
+        if (questManager.eliminateHenchmanNum_Quest4 == 6 && questManager.eliminateBossNum_Quest4 == 1)      // 퀘스트 4 처리
+        {
+            ConvertcameraFightToNormal();
+            Invoke("setActiveQuestClearText", 1f);
+            questManager.NextQuest();
+            isEnterFight = false;
+            fightWall_Quest4.SetActive(false);
+            questManager.Direction_Up.SetActive(true);
+            questManager.Direction_Right.SetActive(false);
+
+            questManager.eliminateBossNum_Quest4++;        // 조건문 한 번만 호출하기 위함
+        }
+
+        if (isEnding)
+        {
+            if (fadeOutCurTime < fadeOutMaxTime)
+            {
+                fadeOutCurTime += Time.deltaTime;
+                PlayFadeOut();
+            }
+            if (fadeOutCurTime > fadeOutMaxTime)
+                SceneManager.LoadScene("Ending");
         }
     }
 
@@ -148,6 +238,8 @@ public class GameManager : MonoBehaviour
     public void LocatePlayerAtCamp()      // 캠프로 이동
     {
         Player.transform.position = CampSpawnArea.transform.position;
+        playerLight.falloffIntensity = 0.6f;
+        
         MainCamera.GetComponent<CameraController>().center = new Vector2(0, 0);
         MainCamera.GetComponent<CameraController>().size = new Vector2(18, 10);
         Player.transform.position = CampSpawnArea.transform.position;
@@ -166,6 +258,7 @@ public class GameManager : MonoBehaviour
     public void LocatePlayerAtWoods()     // 숲으로 이동, 이후에 북쪽, 동쪽 스폰 랜덤하게 구현하기
     {
         GetRandomSpawnNum();
+        playerLight.falloffIntensity = 0.9f;
 
         switch (spawnNum)
         {
@@ -228,6 +321,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Camp");
     }
 
+    public void LoadIntro()
+    {
+        SceneManager.LoadScene("Intro");
+    }
+
     public void TurnOffGame()
     {
         Application.Quit();
@@ -253,17 +351,18 @@ public class GameManager : MonoBehaviour
         Time.timeScale = activeHelpMenu ? 0 : 1;
     }
 
+    //enterfight
     #region
     public void ConverCameraNormalToFight()
     {
-        MainCamera.SetActive(false);
-        FightCamera.SetActive(true);
+        MainCamera.depth = 0;
+        FightCamera.depth = 1;
     }
 
     public void ConvertcameraFightToNormal()
     {
-        MainCamera.SetActive(true);
-        FightCamera.SetActive(false);
+        MainCamera.depth = 1;
+        FightCamera.depth = 0;
     }
 
     public void EnterFightSetting()
@@ -273,5 +372,14 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+
+    void PlayFadeOut()
+    {
+        Color color = fadeOutImage.color;
+        color.a = Mathf.Lerp(0f, 1f, fadeOutCurTime / 3.5f);  //FadeIn과는 달리 start, end가 반대다.
+        fadeOutImage.color = color;
+    }
+
 
 }

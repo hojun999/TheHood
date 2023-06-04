@@ -32,9 +32,15 @@ public class QuestManager : MonoBehaviour
     public GameObject Direction_Right;
     public GameObject Direction_Up;
 
+    [Header("Direction")]
+    public GameObject Direction_BigArea;
+    public GameObject Direction_SmallArea;
 
-    [HideInInspector] public bool isCheckArea_Quest1;
-    [HideInInspector] public int eliminateEnemyNum = 8;
+
+    [SerializeField] public int locateAtQuestAreaNum_Quest1;
+    [SerializeField] public int eliminateHenchmanNum_Quest3;
+    [SerializeField] public int eliminateBossNum_Quest4;
+    [SerializeField] public int eliminateHenchmanNum_Quest4;
 
 
     Dictionary<int, QuestData> questList;
@@ -56,6 +62,8 @@ public class QuestManager : MonoBehaviour
         questList.Add(30, new QuestData("부하 사살", new int[] { 2000, 2000 }));
 
         questList.Add(40, new QuestData("말머리 패거리 정리", new int[] { 2000, 2000 }));
+
+        questList.Add(50, new QuestData("엔딩", new int[] { 2000 }));
     }
 
     public void checkQuest(int id)      // 정해진 npc와 대화를 할 때만 index++
@@ -76,31 +84,48 @@ public class QuestManager : MonoBehaviour
             questionMark.SetActive(true);
             Direction_Right.SetActive(true);
             Direction_Up.SetActive(false);
+            Direction_BigArea.SetActive(true);
+            Direction_SmallArea.SetActive(true);
         }
-        else if (questId == 20)     // 다음 퀘스트로 넘기는 부분은 GameManager Talk()에서 처리
+        else if (questId == 20)
         {
             inProgressQuestImage_Quest1.SetActive(false);
             inProgressQuestImage_Quest2.SetActive(true);
             required_ItemGroup_Quest2.SetActive(true);
             exMark.SetActive(false);
             questionMark.SetActive(true);
+            Direction_Right.SetActive(true);
+            Direction_Up.SetActive(false);
         }
         else if (questId == 30)     // 다음 퀘스트로 넘기는 부분 GameManager Update()에서 처리
         {            
             inProgressQuestImage_Quest2.SetActive(false);
             inProgressQuestImage_Quest3.SetActive(true);
             enemyGroup_Quest3.SetActive(true);
-            if (eliminateEnemyNum == 0)
-                enemyGroup_Quest3.SetActive(false);
             exMark.SetActive(false);
             questionMark.SetActive(true);
+            Direction_BigArea.SetActive(true);
+            Direction_Right.SetActive(true);
+            Direction_Up.SetActive(false);
         }
-        //else if (questid == 40)
-        //{
-        //    enemyGroup_Quest4.SetActive(true);
-        //    if (보스와 부하들 제거 num == 0)
-        //        enemyGroup_Quest4.SetActive(false);
-        //}
+        else if (questId == 40)
+        {
+            inProgressQuestImage_Quest3.SetActive(false);
+            inProgressQuestImage_Quest4.SetActive(true);
+            exMark.SetActive(false);
+            questionMark.SetActive(true);
+            enemyGruop_Quest4.SetActive(true);
+            Direction_BigArea.SetActive(true);
+            Direction_Right.SetActive(true);
+            Direction_Up.SetActive(false);
+        }
+        else if(questId == 50)
+        {
+            inProgressQuestImage_Quest4.SetActive(false);
+            questionMark.SetActive(false);
+            Direction_Right.SetActive(false);
+            Direction_Up.SetActive(false);
+        }
     }
 
     public int GetQuestTalkIndex(int id)    // 한 퀘스트 내에서의 다음 대화 출력 (수락 x 상태 대화 > 수락 o 상태 대화)

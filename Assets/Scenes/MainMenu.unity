@@ -1250,6 +1250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
+  playerLight: {fileID: 0}
   talkPanel: {fileID: 0}
   talkText: {fileID: 0}
   scanObject: {fileID: 0}
@@ -1262,6 +1263,7 @@ MonoBehaviour:
   enterFightUIPanel: {fileID: 0}
   talkManager: {fileID: 0}
   questManager: {fileID: 0}
+  inventoryManager: {fileID: 0}
   MainCamera: {fileID: 0}
   FightCamera: {fileID: 0}
   CampSpawnArea: {fileID: 0}
@@ -1273,6 +1275,12 @@ MonoBehaviour:
   litMaterial: {fileID: 0}
   enterFightPos: {fileID: 0}
   isEnterFight: 0
+  fightWall_Quest3: {fileID: 0}
+  enemyGroup_Quest3: {fileID: 0}
+  fightWall_Quest4: {fileID: 0}
+  enemyGroup_Quest4: {fileID: 0}
+  fadeOutImage: {fileID: 0}
+  fadeOutMaxTime: 0
   isAction: 0
   activeInventory: 0
 --- !u!1 &1591333299
@@ -1569,7 +1577,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1460767558}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: LoadCamp
+        m_MethodName: LoadIntro
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

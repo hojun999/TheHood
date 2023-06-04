@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af81b51226628948b50533ab149b823, type: 3}
   m_Name: Speed Up Posion
   m_EditorClassIdentifier: 
-  type: 1
-  actionType: 1
+  itemType: 1
+  actionType: 2
   stackable: 1
   consumable: 1
   image: {fileID: 0}

@@ -9,6 +9,7 @@ public class Shooting : MonoBehaviour
     private Vector3 mousePos;
     public GameObject bullet;
     public GameObject gameManager;
+    public UseSkill useSkill;
 
     public Transform bulletTransform;
 
@@ -48,7 +49,7 @@ public class Shooting : MonoBehaviour
         }
 
 
-        if (Input.GetMouseButtonDown(0) && canFire)
+        if (Input.GetMouseButtonDown(0) && canFire && !useSkill.isLineAttackUsing && !useSkill.isExplosionUsing)
         {
             canFire = false;
             Vector3 dir = (Input.mousePosition - gameObject.transform.position).normalized;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public int damage;
+
     public GameObject GameManager;
 
     private Vector3 mousePos;
@@ -14,6 +16,8 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         GameManager = GameObject.FindGameObjectWithTag("GameManager");
+
+        // 사운드 추가
 
         if (GameManager.GetComponent<GameManager>().isEnterFight)
             MainCamera = GameObject.FindGameObjectWithTag("FightCamera").GetComponent<Camera>();
@@ -38,5 +42,22 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, 1.5f);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Boss"))
+        {
+            collision.gameObject.GetComponent<BossAI>().Hurt(damage);
+            // 피격 사운드
+            Destroy(gameObject);
 
+        }
+
+        if (collision.CompareTag("Henchman"))
+        {
+            collision.gameObject.GetComponent<HenchmanAI>().Hurt(damage);
+            // 피격 사운드
+
+            Destroy(gameObject);
+        }
+    }
 }

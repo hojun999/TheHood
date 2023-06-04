@@ -7,7 +7,7 @@ public class Item : ScriptableObject
 {
 
     [Header("Only gameplay")]
-    public ItemType type;
+    public ItemType itemType;
     public ActionType actionType;
 
     [Header("Only UI")]
@@ -23,10 +23,12 @@ public enum ItemType
 {
     Quest,
     posion,
+    etc
 }
 public enum ActionType
 {
     Healing,
+    enegyUp,
     speedUp,
     required_in_Quest2
 }

@@ -22,22 +22,20 @@ AnimationClip:
     - time: 0
       value: {fileID: 21300000, guid: f4eceb2d5e01d2a438e22e3256d554d6, type: 3}
     - time: 0.16666667
-      value: {fileID: 21300000, guid: 499bfca534a6e3f4c8a5cc5fd6937d71, type: 3}
-    - time: 0.33333334
       value: {fileID: 21300000, guid: 73921e3d0376ba5408f6a8b9c8d02457, type: 3}
+    - time: 0.33333334
+      value: {fileID: 21300000, guid: 499bfca534a6e3f4c8a5cc5fd6937d71, type: 3}
     - time: 0.5
-      value: {fileID: 21300000, guid: 33136a431ea8f3841bb094c5b8ade57c, type: 3}
-    - time: 0.5833333
       value: {fileID: 21300000, guid: 71c8feb0ed7361447ad8e8e3d848b03c, type: 3}
     - time: 0.6666667
       value: {fileID: 21300000, guid: d44a72ae0e853534096cd94141012b10, type: 3}
-    - time: 0.75
-      value: {fileID: 21300000, guid: cabc03ebfeaacbd478b6c56dbb36b1a4, type: 3}
     - time: 0.8333333
-      value: {fileID: 21300000, guid: 6ff5aaf9fa5d00541b0efce16483348e, type: 3}
-    - time: 0.9166667
-      value: {fileID: 21300000, guid: 09cc9c2dfcec0a64c879f912d5179313, type: 3}
+      value: {fileID: 21300000, guid: cabc03ebfeaacbd478b6c56dbb36b1a4, type: 3}
     - time: 1
+      value: {fileID: 21300000, guid: 6ff5aaf9fa5d00541b0efce16483348e, type: 3}
+    - time: 1.1666666
+      value: {fileID: 21300000, guid: 09cc9c2dfcec0a64c879f912d5179313, type: 3}
+    - time: 1.3333334
       value: {fileID: 21300000, guid: 71a9944ed5d704241a48cd87bbb992ca, type: 3}
     attribute: m_Sprite
     path: 
@@ -59,9 +57,8 @@ AnimationClip:
       isPPtrCurve: 1
     pptrCurveMapping:
     - {fileID: 21300000, guid: f4eceb2d5e01d2a438e22e3256d554d6, type: 3}
-    - {fileID: 21300000, guid: 499bfca534a6e3f4c8a5cc5fd6937d71, type: 3}
     - {fileID: 21300000, guid: 73921e3d0376ba5408f6a8b9c8d02457, type: 3}
-    - {fileID: 21300000, guid: 33136a431ea8f3841bb094c5b8ade57c, type: 3}
+    - {fileID: 21300000, guid: 499bfca534a6e3f4c8a5cc5fd6937d71, type: 3}
     - {fileID: 21300000, guid: 71c8feb0ed7361447ad8e8e3d848b03c, type: 3}
     - {fileID: 21300000, guid: d44a72ae0e853534096cd94141012b10, type: 3}
     - {fileID: 21300000, guid: cabc03ebfeaacbd478b6c56dbb36b1a4, type: 3}
@@ -73,7 +70,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.0833334
+    m_StopTime: 1.4166666
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -93,7 +90,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.33333334
+  - time: 0.16666667
     functionName: ShootBullet
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: 2d0a1dcf0dd7f9941bd955513e1e8f46, type: 3}

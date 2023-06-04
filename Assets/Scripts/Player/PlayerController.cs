@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +8,13 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Stats")]
     public int maxHp;
+    public int curHp;
     public int maxMp;
-    [HideInInspector]public int curHp;
-    [HideInInspector]public int curMp;
+    public int curMp;
     public float moveSpeed;
     public float dodgeCooltime;        // dodge 쿨타임
+    public float natureHealingCoolTime;
+    float natureHealingTime;
 
     [Header("Manager")]
     public GameManager gameManager;
@@ -25,31 +28,43 @@ public class PlayerController : MonoBehaviour
     public Item[] fieldItems;
 
     [Header("BeforeGetItemTextUI")]
-    public GameObject BeforeGetText_QuestArea;
+    public GameObject BeforeGetText_BigQuestArea;
+    public GameObject BeforeGetText_SmallQuestArea;
     public GameObject BeforeGetText_Clothes_With_Blood;
     public GameObject BeforeGetText_Injector;
     public GameObject BeforeGetText_RustyGun;
+    public GameObject BeforeText_eliminateBoss;
+    public GameObject BeforeText_eliminateHenchman_Quest3;
+    public GameObject BeforeText_eliminateHenchman_Quest4;
 
     [Header("AfterGetItemTextUI")]
-    public GameObject AfterGetText_QuestArea;
+    public GameObject AfterGetText_BigQuestArea;
+    public GameObject AfterGetText_SmallQuestArea;
     public GameObject AfterGetText_Clothes_With_Blood;
     public GameObject AfterGetText_Injector;
     public GameObject AfterGetText_RustyGun;
+    public GameObject AfterText_eliminateBoss;
+    public GameObject AfterText_eliminateHenchman_Quest3;
+    public GameObject AfterText_eliminateHenchman_Quest4;
 
     [Header("AfterGetItemText_useAlpha")]
     public GameObject AfterGetItemText_Alpha_Clothes_With_Blood;
     public GameObject AfterGetItemText_Alpha_Injector;
     public GameObject AfterGetItemText_Alpha_RustyGun;
-
+    public GameObject AfterLocateAtBigArea_Alpha;
+    public GameObject AfterLocateAtSmallArea_Alpha;
 
     [Header("QuestUI")]
     public GameObject questionMark;
     public GameObject exMark;
     public GameObject QuestClearText;
+    public GameObject Direction_BigArea;
+    public GameObject Direction_SmallArea;
 
     public Slider hpBar;
     public Slider mpBar;
 
+    public GameObject diePanel;
 
     Rigidbody2D rb;
     Animator anim;
@@ -69,6 +84,9 @@ public class PlayerController : MonoBehaviour
     private bool isHurt;
     private bool isDashButtonDown;
     private bool isReadyDash;
+    private bool isDie;
+    [HideInInspector] public bool isCanUseLineAttack;
+    [HideInInspector] public bool isCanUseExplosion;
 
     [HideInInspector]public Vector3 moveDir;
     GameObject scanObject;
@@ -82,8 +100,8 @@ public class PlayerController : MonoBehaviour
 
         isReadyDash = true;     // 시작부터 대쉬 가능
 
-        curHp = maxHp;
-        curMp = maxMp;
+        curHp = Math.Clamp(maxHp, 0, maxHp);
+        curMp = Math.Clamp(maxMp, 0, maxMp);
 
         hpBar.value = 1;
         hpBar.value = 1;
@@ -94,6 +112,30 @@ public class PlayerController : MonoBehaviour
     {
         h = gameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         v = gameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
+
+        curHp = Math.Clamp(curHp, 0, maxHp);
+        curMp = Math.Clamp(curMp, 0, maxMp);
+
+        if (curMp < 8)
+            isCanUseLineAttack = false;
+        else
+            isCanUseLineAttack = true;
+
+        if (curMp < 15)
+            isCanUseExplosion = false;
+        else
+            isCanUseExplosion = true;
+
+        // 자동회복
+        if (natureHealingTime < natureHealingCoolTime)
+            natureHealingTime += Time.deltaTime;
+
+        if (natureHealingTime > natureHealingCoolTime)
+        {
+            curHp += 2;
+            curMp += 4;
+            natureHealingTime = 0;
+        }
 
         // 애니메이션
         #region
@@ -194,8 +236,9 @@ public class PlayerController : MonoBehaviour
         // hp, mp 컨트롤
         if (hpBar != null)
             hpBar.value = Utils.Percent(curHp, maxHp);
+
         if (mpBar != null)
-            mpBar.value = Utils.Percent(curMp, curMp);
+            mpBar.value = Utils.Percent(curMp, maxMp);
     }
 
     private void FixedUpdate()
@@ -237,22 +280,25 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // 플레이어 피격
-        if (collision.CompareTag("EnemyAtk"))
+        // 1번 퀘스트 
+        if (collision.gameObject.CompareTag("BigQuestArea"))
         {
-            //Hurt(collision.GetComponentInParent<Enemy>().damage);
+            questManager.locateAtQuestAreaNum_Quest1++;
+            collision.gameObject.SetActive(false);
+            BeforeGetText_BigQuestArea.SetActive(false);
+            AfterGetText_BigQuestArea.SetActive(true);
+            AfterLocateAtBigArea_Alpha.SetActive(true);
+            Direction_BigArea.SetActive(false);
         }
 
-        // 1번 퀘스트 
-        if (collision.gameObject.CompareTag("QuestArea"))
+        if (collision.gameObject.CompareTag("SmallQuestArea"))
         {
-            questManager.GetComponent<QuestManager>().NextQuest();
-            questManager.required_Area_Quest1.SetActive(false);
-            BeforeGetText_QuestArea.SetActive(false);
-            AfterGetText_QuestArea.SetActive(true);
-            questionMark.SetActive(false);
-            exMark.SetActive(true);
-            setActiveQuestClearText();
+            questManager.locateAtQuestAreaNum_Quest1++;
+            collision.gameObject.SetActive(false);
+            BeforeGetText_SmallQuestArea.SetActive(false);
+            AfterGetText_SmallQuestArea.SetActive(true);
+            AfterLocateAtSmallArea_Alpha.SetActive(true);
+            Direction_SmallArea.SetActive(false);
         }
     }
 
@@ -268,10 +314,14 @@ public class PlayerController : MonoBehaviour
         {
             isHurt = true;
             curHp -= damage;
-            //HandleHp();
+
             if (curHp <= 0)
             {
-                //dead
+                gameManager.isAction = true;
+                GetComponent<BoxCollider2D>().enabled = false;
+                anim.SetTrigger("isDie");
+                Invoke("OpenDiePanel", 2f);
+
             }
             else
             {
@@ -280,6 +330,11 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(alphablink());
             }
         }
+    }
+
+    public void UseSkill(int Mp)
+    {
+        curMp -= Mp;
     }
 
     IEnumerator Dash()
@@ -310,6 +365,12 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             sr.color = fullA;
         }
+    }
+
+    void OpenDiePanel()
+    {
+        diePanel.SetActive(true);
+        Time.timeScale = 0;
     }
 }
 

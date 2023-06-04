@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
+    public QuestManager questManager;
+
     public int maxStackedItems = 4;
     public Inventory_Slot[] inventory_slots;
     public GameObject inventoryItemPrefab;
@@ -78,7 +80,7 @@ public class InventoryManager : MonoBehaviour
         if(itemInSlot != null)
         {
             Item item = itemInSlot.item;
-            if(item.consumable == true)
+            if(item.consumable)
             {
                 itemInSlot.count--;
                 if(itemInSlot.count <= 0)
@@ -93,7 +95,11 @@ public class InventoryManager : MonoBehaviour
                 // 사용 효과
                 if (item.actionType == ActionType.Healing)        // 체력 포션
                 {
-                    Player.GetComponent<PlayerController>().maxHp += 10;
+                    Player.GetComponent<PlayerController>().curHp += 10;
+                }
+                else if (item.actionType == ActionType.enegyUp)
+                {
+                    Player.GetComponent<PlayerController>().curMp += 15;
                 }
                 else if (item.actionType == ActionType.speedUp)
                 {
@@ -116,9 +122,31 @@ public class InventoryManager : MonoBehaviour
             }       
             
         }
+    }
 
-        
+    public void DestroyQuestItemAndTradeEtcItem()
+    {
+        for (int i = 0; i < inventory_slots.Length; i++)
+        {
+            Inventory_Slot slot = inventory_slots[i];
+            Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
 
+            if(itemInSlot != null)
+            {
+                Item item = itemInSlot.item;
+                if(item.itemType == ItemType.Quest && questManager.getItemNum_Quest2 == 100)
+                {
+                    Destroy(itemInSlot.gameObject);
+                }
+
+                if(item.itemType == ItemType.etc)
+                {
+
+                }
+            }
+
+
+        }
     }
 
 }

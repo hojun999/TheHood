@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class IntroTextManager : MonoBehaviour
 {
@@ -13,11 +14,16 @@ public class IntroTextManager : MonoBehaviour
 
     public List<GameObject> introTextList = new List<GameObject>();
 
+    private void Awake()
+    {
+        Invoke("LoadCamp", time * introTextList.Count);
+    }
 
     void Start()
     {
         introText = introTextList[0];
         introText.SetActive(true);
+
     }
 
     private void Update()
@@ -29,7 +35,7 @@ public class IntroTextManager : MonoBehaviour
             introTextList[introTextIndex].gameObject.SetActive(false);
             introTextIndex++;
             GetNextText();
-            cooltime = 0;
+            cooltime = 0;      
         }
     }
 
@@ -37,6 +43,11 @@ public class IntroTextManager : MonoBehaviour
     {
         introText = introTextList[introTextIndex];
         introText.gameObject.SetActive(true);
+    }
+
+    public void LoadCamp()
+    {
+        SceneManager.LoadScene("Camp");
     }
 
 }

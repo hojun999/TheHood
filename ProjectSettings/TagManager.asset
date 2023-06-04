@@ -10,13 +10,15 @@ TagManager:
   - Item
   - NPC
   - EnemyAtk
-  - QuestArea
   - Boss
   - Henchman
   - Wall
   - FightCamera
   - enterFightArea
   - GameManager
+  - BigQuestArea
+  - SmallQuestArea
+  - PlayerAttack
   layers:
   - Default
   - TransparentFX
