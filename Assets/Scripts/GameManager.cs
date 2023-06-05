@@ -115,7 +115,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-
         // 대화 분기점(npc, 아이템 마다 설정 가능)
         if (isNpc)          
         {

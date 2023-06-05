@@ -85,4 +85,6 @@ public class TalkManager : MonoBehaviour
             return talkData[id][talkIndex];
     }
 
+     
+
 }

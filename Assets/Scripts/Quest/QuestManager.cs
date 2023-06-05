@@ -73,7 +73,7 @@ public class QuestManager : MonoBehaviour
             questActionIndex++;
 
         // 대화 계속해서 다음 퀘스트로 넘어가지 않게 조절
-        if (questActionIndex == 5)      
+        if (questActionIndex == 5)
             questActionIndex = 1;
 
         if (questId == 10)      // 다음 퀘스트로 넘기는 부분은 PlayerController의 oncollisionenter에서 처리

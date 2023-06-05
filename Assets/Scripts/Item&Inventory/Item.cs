@@ -29,6 +29,5 @@ public enum ActionType
 {
     Healing,
     enegyUp,
-    speedUp,
     required_in_Quest2
 }

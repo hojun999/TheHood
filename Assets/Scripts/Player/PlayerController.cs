@@ -221,9 +221,14 @@ public class PlayerController : MonoBehaviour
                 AfterGetItemText_Alpha_RustyGun.SetActive(true);
                 scanObject.SetActive(false);
             }
-            else if (scanObject.name == "SpeedUpPosion")
+            else if (scanObject.name == "RedFlower")
             {
                 GetItem(4);
+                scanObject.SetActive(false);
+            }
+            else if (scanObject.name == "BlueFlower")
+            {
+                GetItem(5);
                 scanObject.SetActive(false);
             }
         }

@@ -101,24 +101,24 @@ public class InventoryManager : MonoBehaviour
                 {
                     Player.GetComponent<PlayerController>().curMp += 15;
                 }
-                else if (item.actionType == ActionType.speedUp)
-                {
-                    float useTime = 0;
-                    float endTime = 10f;
-                    bool beingBuffed = true;
+                //else if (item.actionType == ActionType.speedUp)
+                //{
+                //    float useTime = 0;
+                //    float endTime = 10f;
+                //    bool beingBuffed = true;
 
-                    useTime += Time.deltaTime;
-                    if(useTime >= endTime)
-                    {
-                        useTime = 0;
-                        beingBuffed = false;
-                    }
+                //    useTime += Time.deltaTime;
+                //    if(useTime >= endTime)
+                //    {
+                //        useTime = 0;
+                //        beingBuffed = false;
+                //    }
 
-                    if (beingBuffed)
-                        Player.GetComponent<PlayerController>().moveSpeed = 4.5f;
-                    else
-                        Player.GetComponent<PlayerController>().moveSpeed = 3f;     // 10초 뒤 원래 이동속도로. (movespeed는 인스펙터창에서 조정하므로 잘 확인)
-                }
+                //    if (beingBuffed)
+                //        Player.GetComponent<PlayerController>().moveSpeed = 4.5f;
+                //    else
+                //        Player.GetComponent<PlayerController>().moveSpeed = 3f;     // 10초 뒤 원래 이동속도로. (movespeed는 인스펙터창에서 조정하므로 잘 확인)
+                //}
             }       
             
         }
@@ -138,15 +138,34 @@ public class InventoryManager : MonoBehaviour
                 {
                     Destroy(itemInSlot.gameObject);
                 }
-
-                if(item.itemType == ItemType.etc)
-                {
-
-                }
             }
-
-
         }
     }
+
+    public void TradeHpPosion()
+    {
+        for (int i = 0; i < inventory_slots.Length; i++)
+        {
+            Inventory_Slot slot = inventory_slots[i];
+            Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
+
+            if(itemInSlot != null)
+            {
+                Item item = itemInSlot.item;
+                if(item.itemType == ItemType.etc && itemInSlot.count >= 2)
+                {
+                    itemInSlot.count -= 2;
+                    if (itemInSlot.count == 0)
+                        Destroy(itemInSlot.gameObject);
+                }
+            }
+        }
+    }
+
+    public void TradeEnergyPosion()
+    {
+
+    }
+
 
 }
