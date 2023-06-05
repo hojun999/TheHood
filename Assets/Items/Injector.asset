@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Injector
   m_EditorClassIdentifier: 
   itemType: 0
-  actionType: 3
+  actionType: 2
   stackable: 0
   consumable: 0
   image: {fileID: 21300000, guid: b6f3e7cd6dceb3d4f949e1e031937d43, type: 3}

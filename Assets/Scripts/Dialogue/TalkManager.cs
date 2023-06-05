@@ -61,11 +61,15 @@ public class TalkManager : MonoBehaviour
             "3개만 가져오면 방어구를 강화해주지.",
             "너의 체력이 올라갈지도?"});
 
+        talkData.Add(1 + 1000, new string[] { "강화됐으니 확인해봐." });
+
         //posion
         talkData.Add(3000, new string[] { "이번 임무는 숲인가요, 후드?",
             "숲에서 약초를 주워오면 포션을 만들어줄게요.",
-            "체력 포션은 빨간약초 2개, 에너지 포션은 파란 약초 2개에요."});
+            "체력 포션은 빨간약초 2개, 에너지 포션은 파란 약초 2개에요.",});
 
+
+        talkData.Add(1 + 3000, new string[] { "여기 포션이에요." });
     }
 
     public string GetTalk(int id, int talkIndex)

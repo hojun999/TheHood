@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Clothes With Blood
   m_EditorClassIdentifier: 
   itemType: 0
-  actionType: 3
+  actionType: 2
   stackable: 1
   consumable: 0
   image: {fileID: 21300000, guid: e3a8513953531a14caffc107d81212d9, type: 3}

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class InventoryManager : MonoBehaviour
 {
     public QuestManager questManager;
+    public PlayerController playerController;
+    public GameManager gameManager;
 
     public int maxStackedItems = 4;
     public Inventory_Slot[] inventory_slots;
@@ -138,34 +140,64 @@ public class InventoryManager : MonoBehaviour
                 {
                     Destroy(itemInSlot.gameObject);
                 }
+
+                //if (item.itemType == ItemType.etc_HpPosion && itemInSlot.count >= 2)
+                //{
+                //    gameManager.getPosionTradeTalkIndex = 1;
+                //    playerController.GetItem(1);
+                //    itemInSlot.count -= 2;
+                //    if (itemInSlot.count == 0)
+                //        Destroy(itemInSlot.gameObject);
+                //}
+                //else if (item.itemType == ItemType.etc_EnergyPosion && itemInSlot.count >= 2)
+                //{
+                //    gameManager.getPosionTradeTalkIndex = 1;
+                //    playerController.GetItem(6);
+                //    itemInSlot.count -= 2;
+                //    if (itemInSlot.count == 0)
+                //        Destroy(itemInSlot.gameObject);
+                //}
+                //else
+                //    gameManager.getPosionTradeTalkIndex = 0;
+
+                //if (item.itemType == ItemType.etc_Stone && itemInSlot.count >= 3)
+                //{
+                //    gameManager.getWeaponTradeTalkIndex = 1;
+                //    playerController.maxHp += 15;
+                //}
             }
         }
     }
 
-    public void TradeHpPosion()
-    {
-        for (int i = 0; i < inventory_slots.Length; i++)
-        {
-            Inventory_Slot slot = inventory_slots[i];
-            Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
+    //public void TradePosion()
+    //{
+    //    for (int i = 0; i < inventory_slots.Length; i++)
+    //    {
+    //        Inventory_Slot slot = inventory_slots[i];
+    //        Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
 
-            if(itemInSlot != null)
-            {
-                Item item = itemInSlot.item;
-                if(item.itemType == ItemType.etc && itemInSlot.count >= 2)
-                {
-                    itemInSlot.count -= 2;
-                    if (itemInSlot.count == 0)
-                        Destroy(itemInSlot.gameObject);
-                }
-            }
-        }
-    }
+    //        if(itemInSlot != null)
+    //        {
+    //            Item item = itemInSlot.item;
+               
+    //        }
+    //    }
+    //}
 
-    public void TradeEnergyPosion()
-    {
+    //public void TradeStone()
+    //{
+    //    for (int i = 0; i < inventory_slots.Length; i++)
+    //    {
+    //        Inventory_Slot slot = inventory_slots[i];
+    //        Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
 
-    }
+    //        if(itemInSlot != null)
+    //        {
+    //            Item item = itemInSlot.item;
+                
+    //        }
+    //    }
+    //}
 
 
 }

@@ -198,11 +198,6 @@ public class PlayerController : MonoBehaviour
                 AfterGetItemText_Alpha_Clothes_With_Blood.SetActive(true);
                 scanObject.SetActive(false);
             }
-            else if(scanObject.name == "HpPosion")
-            {
-                GetItem(1);
-                scanObject.SetActive(false);
-            }
             else if (scanObject.name == "Injector")
             {
                 GetItem(2);
@@ -229,6 +224,11 @@ public class PlayerController : MonoBehaviour
             else if (scanObject.name == "BlueFlower")
             {
                 GetItem(5);
+                scanObject.SetActive(false);
+            }
+            else if (scanObject.name == "Crystal")
+            {
+                GetItem(7);
                 scanObject.SetActive(false);
             }
         }

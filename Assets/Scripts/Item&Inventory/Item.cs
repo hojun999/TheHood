@@ -23,7 +23,9 @@ public enum ItemType
 {
     Quest,
     posion,
-    etc
+    etc_HpPosion,
+    etc_EnergyPosion,
+    etc_Stone
 }
 public enum ActionType
 {

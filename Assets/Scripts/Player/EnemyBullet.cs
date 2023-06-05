@@ -15,9 +15,12 @@ public class EnemyBullet : MonoBehaviour
 
     public int damage;
 
+    public AudioClip clip;
+
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
+
 
         // bullet ¼Óµµ
         rb = GetComponent<Rigidbody2D>();

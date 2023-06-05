@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public TalkManager talkManager;
     public QuestManager questManager;
     public InventoryManager inventoryManager;
+    public SoundManager soundManager;
 
     [Header("Camera")]
     public Camera MainCamera;
@@ -73,15 +74,18 @@ public class GameManager : MonoBehaviour
     private int spawnNum;
     private float fadeOutCurTime;
 
+    public int getWeaponTradeTalkIndex;
+    public int getPosionTradeTalkIndex;
+
     public void talkAction(GameObject scanObj)
     {
         scanObject = scanObj;
         ObjData objData = scanObject.GetComponent<ObjData>();
-        Talk(objData.id, objData.isNpc);
+        Talk(objData.id, objData.isQuestNpc);
         talkPanel.SetActive(isAction);
     }
 
-    void Talk(int id, bool isNpc)
+    void Talk(int id, bool isQuestNpc)
     {
         if (questManager.eliminateHenchmanNum_Quest3 == 6)
             enemyGroup_Quest3.SetActive(false);
@@ -94,6 +98,13 @@ public class GameManager : MonoBehaviour
         // 대화 데이터 세팅
         int questTalkIndex = questManager.GetQuestTalkIndex(id);
         string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex);
+
+        //int weaponTradeTalkIndex = getWeaponTradeTalkIndex;
+        //string weaponTradeTalkData = talkManager.GetTalk(id + weaponTradeTalkIndex, talkIndex);
+
+        //int posionTradeTalkIndex = getPosionTradeTalkIndex;
+        //string posionTradeTalkData = talkManager.GetTalk(id + posionTradeTalkIndex, talkIndex);
+
 
         if (talkData == null && questManager.questId == 50)
         {
@@ -116,10 +127,18 @@ public class GameManager : MonoBehaviour
         }
 
         // 대화 분기점(npc, 아이템 마다 설정 가능)
-        if (isNpc)          
+        if (isQuestNpc)          
         {
             talkText.text = talkData;
         }
+        //else if (isWeaponTradeNpc)
+        //{
+        //    talkText.text = weaponTradeTalkData;
+        //}
+        //else if (isPosionTradeNpc)
+        //{
+        //    talkText.text = posionTradeTalkData;
+        //}
         else
         {
             talkText.text = talkData;
@@ -129,7 +148,6 @@ public class GameManager : MonoBehaviour
         isAction = true;
         talkIndex++;
 
-        Debug.Log("talkindex : " + talkIndex);
 
     }
 
@@ -178,6 +196,7 @@ public class GameManager : MonoBehaviour
         {
             ConvertcameraFightToNormal();
             Invoke("setActiveQuestClearText", 1f);
+            soundManager.EnterWoods();
             questManager.NextQuest();
             isEnterFight = false;
             fightWall_Quest3.SetActive(false);
@@ -205,12 +224,14 @@ public class GameManager : MonoBehaviour
         if (questManager.eliminateHenchmanNum_Quest4 == 6 && questManager.eliminateBossNum_Quest4 == 1)      // 퀘스트 4 처리
         {
             ConvertcameraFightToNormal();
+            soundManager.EnterWoods();
             Invoke("setActiveQuestClearText", 1f);
             questManager.NextQuest();
             isEnterFight = false;
             fightWall_Quest4.SetActive(false);
             questManager.Direction_Up.SetActive(true);
             questManager.Direction_Right.SetActive(false);
+
 
             questManager.eliminateBossNum_Quest4++;        // 조건문 한 번만 호출하기 위함
         }
