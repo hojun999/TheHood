@@ -103,6 +103,7 @@ MonoBehaviour:
   playerPos: {fileID: 0}
   fireForce: 8
   damage: 10
+  clip: {fileID: 8300000, guid: e8688c48ff5f835419919229ab9c13ce, type: 3}
 --- !u!50 &-6328902421598747160
 Rigidbody2D:
   serializedVersion: 4

@@ -12,6 +12,7 @@ public class Shooting : MonoBehaviour
     public UseSkill useSkill;
 
     public Transform bulletTransform;
+    public AudioClip clip;
 
     public bool canFire;
 
@@ -52,6 +53,7 @@ public class Shooting : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && canFire && !useSkill.isLineAttackUsing && !useSkill.isExplosionUsing)
         {
             canFire = false;
+            SoundManager.instance.SFXPlayer("Shoot", clip);
             Vector3 dir = (Input.mousePosition - gameObject.transform.position).normalized;
             Instantiate(bullet, bulletTransform.position, Quaternion.LookRotation(dir));
         }

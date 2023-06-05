@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
     public TalkManager talkManager;
     public QuestManager questManager;
     public InventoryManager inventoryManager;
-    public SoundManager soundManager;
 
     [Header("Camera")]
     public Camera MainCamera;
@@ -81,11 +80,12 @@ public class GameManager : MonoBehaviour
     {
         scanObject = scanObj;
         ObjData objData = scanObject.GetComponent<ObjData>();
-        Talk(objData.id, objData.isQuestNpc);
+        Talk(objData.id, objData.isQuestNpc, objData.isWeaponTraderNpc, objData.isPosionTraderNpc);
+        Debug.Log(objData.id + "" + objData.isQuestNpc + "" + objData.isWeaponTraderNpc + "" + objData.isPosionTraderNpc);
         talkPanel.SetActive(isAction);
     }
 
-    void Talk(int id, bool isQuestNpc)
+    void Talk(int id, bool isQuestNpc, bool isWeaponTradeNpc, bool isPosionTradeNpc)
     {
         if (questManager.eliminateHenchmanNum_Quest3 == 6)
             enemyGroup_Quest3.SetActive(false);
@@ -95,54 +95,79 @@ public class GameManager : MonoBehaviour
 
         inventoryManager.DestroyQuestItemAndTradeEtcItem();
 
-        // 대화 데이터 세팅
-        int questTalkIndex = questManager.GetQuestTalkIndex(id);
-        string talkData = talkManager.GetTalk(id + questTalkIndex, talkIndex);
-
-        //int weaponTradeTalkIndex = getWeaponTradeTalkIndex;
-        //string weaponTradeTalkData = talkManager.GetTalk(id + weaponTradeTalkIndex, talkIndex);
-
-        //int posionTradeTalkIndex = getPosionTradeTalkIndex;
-        //string posionTradeTalkData = talkManager.GetTalk(id + posionTradeTalkIndex, talkIndex);
-
-
-        if (talkData == null && questManager.questId == 50)
+        // 대화 데이터 세팅, 각 npc id마다 작성 ★
+        if(id == 2000)
         {
-            isEnding = true;
+            int questTalkIndex = questManager.GetQuestTalkIndex(id);
+            string questTalkData = talkManager.GetTalk(id + questTalkIndex, talkIndex);
+
+            if (questTalkData == null && questManager.questId == 50)
+            {
+                isEnding = true;
+            }
+            if (questTalkData == null && id == 2000 && !isWeaponTradeNpc && !isPosionTradeNpc)
+            {
+                isAction = false;
+                talkIndex = 0;
+                questManager.checkQuest(id);
+                return;         // -void 함수에서 return은 함수의 종료를 의미-
+            }
+
+
+            if (isQuestNpc && id == 2000)
+            {
+                talkText.text = questTalkData;
+            }
+
+        }
+        else if(id == 1000)
+        {
+            int weaponTradeTalkIndex = getWeaponTradeTalkIndex;
+            string weaponTradeTalkData = talkManager.GetTalk(id + weaponTradeTalkIndex, talkIndex);
+
+             if (isWeaponTradeNpc && id == 1000)
+            {
+                talkText.text = weaponTradeTalkData;
+            }
+
+
+            if (weaponTradeTalkData == null && id == 1000)
+            {
+                isAction = false;
+                talkIndex = 0;
+                return;
+            }
+
+        }
+        else if(id == 3000)
+        {
+            int posionTradeTalkIndex = getPosionTradeTalkIndex;
+            string posionTradeTalkData = talkManager.GetTalk(id + posionTradeTalkIndex, talkIndex);
+
+
+            if (posionTradeTalkData == null && id == 3000)
+            {
+                isAction = false;
+                talkIndex = 0;
+                return;
+            }
+
+            else if (isPosionTradeNpc && id == 3000)
+            {
+                talkText.text = posionTradeTalkData;
+            }
+
+
         }
 
-            // 캐릭터의 각 대화가 끝났을 때
-        if (talkData == null && id == 2000)
-        {
-            isAction = false;
-            talkIndex = 0;
-            questManager.checkQuest(id);
-            return;         // -void 함수에서 return은 함수의 종료를 의미-
-        }
-        else if(talkData == null)
-        {
-            isAction = false;
-            talkIndex = 0;
-            return;
-        }
+
+        // 캐릭터의 각 대화가 끝났을 때
 
         // 대화 분기점(npc, 아이템 마다 설정 가능)
-        if (isQuestNpc)          
-        {
-            talkText.text = talkData;
-        }
-        //else if (isWeaponTradeNpc)
+        //else
         //{
-        //    talkText.text = weaponTradeTalkData;
+        //    talkText.text = questTalkData;
         //}
-        //else if (isPosionTradeNpc)
-        //{
-        //    talkText.text = posionTradeTalkData;
-        //}
-        else
-        {
-            talkText.text = talkData;
-        }
 
 
         isAction = true;
@@ -196,7 +221,7 @@ public class GameManager : MonoBehaviour
         {
             ConvertcameraFightToNormal();
             Invoke("setActiveQuestClearText", 1f);
-            soundManager.EnterWoods();
+            SoundManager.instance.EnterWoods();
             questManager.NextQuest();
             isEnterFight = false;
             fightWall_Quest3.SetActive(false);
@@ -224,7 +249,7 @@ public class GameManager : MonoBehaviour
         if (questManager.eliminateHenchmanNum_Quest4 == 6 && questManager.eliminateBossNum_Quest4 == 1)      // 퀘스트 4 처리
         {
             ConvertcameraFightToNormal();
-            soundManager.EnterWoods();
+            SoundManager.instance.EnterWoods();
             Invoke("setActiveQuestClearText", 1f);
             questManager.NextQuest();
             isEnterFight = false;
@@ -259,12 +284,12 @@ public class GameManager : MonoBehaviour
     {
         Player.transform.position = CampSpawnArea.transform.position;
         playerLight.falloffIntensity = 0.6f;
+        SoundManager.instance.EnterCamp();
         
         MainCamera.GetComponent<CameraController>().center = new Vector2(0, 0);
         MainCamera.GetComponent<CameraController>().size = new Vector2(18, 10);
-        Player.transform.position = CampSpawnArea.transform.position;
         Player.GetComponent<PlayerController>().isPlayerInWoods = false;
-        Player.GetComponent<SpriteRenderer>().material = litMaterial;
+        //Player.GetComponent<SpriteRenderer>().material = litMaterial;
 
         moveCampUIPanel.SetActive(false);
 
@@ -275,10 +300,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void LocatePlayerAtWoods()     // 숲으로 이동, 이후에 북쪽, 동쪽 스폰 랜덤하게 구현하기
+    public void LocatePlayerAtWoods()
     {
         GetRandomSpawnNum();
         playerLight.falloffIntensity = 0.9f;
+        SoundManager.instance.EnterWoods();
 
         switch (spawnNum)
         {
@@ -291,13 +317,13 @@ public class GameManager : MonoBehaviour
             case 3:
                 Player.transform.position = EastSpawnArea.transform.position;
                 break;
-
         }
+
         MainCamera.GetComponent<CameraController>().center = new Vector2(62.5f, 9);
         MainCamera.GetComponent<CameraController>().size = new Vector2(54, 28);
         moveWoodsUIPanel.SetActive(false);
         Player.GetComponent<PlayerController>().isPlayerInWoods = true;
-        Player.GetComponent<SpriteRenderer>().material = unlitMaterial;
+        //Player.GetComponent<SpriteRenderer>().material = unlitMaterial;
 
         WestSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", true);
         EastSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", true);
@@ -388,6 +414,7 @@ public class GameManager : MonoBehaviour
     public void EnterFightSetting()
     {
         Player.transform.position = enterFightPos.position;
+        SoundManager.instance.EnterFight();
         isEnterFight = true;
     }
 
@@ -397,9 +424,19 @@ public class GameManager : MonoBehaviour
     void PlayFadeOut()
     {
         Color color = fadeOutImage.color;
-        color.a = Mathf.Lerp(0f, 1f, fadeOutCurTime / 3.5f);  //FadeIn과는 달리 start, end가 반대다.
+        color.a = Mathf.Lerp(0f, 1f, fadeOutCurTime / 3.5f);
         fadeOutImage.color = color;
     }
 
+    public void OpenSoundControlPanel()
+    {
+        SoundManager.instance.OpenSoundControlPanel();
+    }
+
+    public void ClosdSoundControlPanel()
+    {
+        SoundManager.instance.CloseSoundControllPanel();
+
+    }
 
 }

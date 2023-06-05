@@ -15,7 +15,6 @@ public class EnemyBullet : MonoBehaviour
 
     public int damage;
 
-    public AudioClip clip;
 
     void Start()
     {

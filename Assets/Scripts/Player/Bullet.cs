@@ -13,14 +13,11 @@ public class Bullet : MonoBehaviour
     private Rigidbody2D rb;
     public float fireForce;
 
-    public AudioClip clip;
 
     void Start()
     {
         GameManager = GameObject.FindGameObjectWithTag("GameManager");
 
-
-        // 사운드 추가
 
         if (GameManager.GetComponent<GameManager>().isEnterFight)
             MainCamera = GameObject.FindGameObjectWithTag("FightCamera").GetComponent<Camera>();

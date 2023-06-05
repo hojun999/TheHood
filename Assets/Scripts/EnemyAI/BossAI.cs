@@ -7,6 +7,7 @@ public class BossAI : MonoBehaviour
 {
     public GameManager gameManager;
     public QuestManager questManager;
+    public AudioClip clip;
 
     [Header("Stats")]
     public int maxHp;
@@ -124,6 +125,7 @@ public class BossAI : MonoBehaviour
         attackAngle = Random.Range(playerPos.position.x - 1f, playerPos.position.x + 1f);
         attackAngleVector = new Vector3(attackAngle, playerPos.position.y, 0);
         Vector3 dir = (attackAngleVector - ShootPos).normalized;
+        SoundManager.instance.SFXPlayer("EnemyShoot", clip);
         Instantiate(EnemyBullet, ShootPos, Quaternion.LookRotation(dir));
     }
 

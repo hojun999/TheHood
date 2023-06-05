@@ -139,3 +139,4 @@ MonoBehaviour:
   explosionDamage: 15
   explosionPower: 4500
   isCanHitExplosion: 1
+  clip: {fileID: 8300000, guid: 6b8a26391f894d34f89e93a362e73cce, type: 3}

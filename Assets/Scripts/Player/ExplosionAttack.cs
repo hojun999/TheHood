@@ -12,11 +12,10 @@ public class ExplosionAttack : MonoBehaviour
     Vector2 enemyPos;
     Vector2 explosionAttackObjPos;
     Vector2 dirBetweenThisAndEnemy;
-
-
     void Start()
     {
         explosionAttackObjPos = transform.position;
+
     }
 
 

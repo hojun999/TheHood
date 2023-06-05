@@ -145,6 +145,7 @@ MonoBehaviour:
   damage: 10
   GameManager: {fileID: 0}
   fireForce: 7
+  clip: {fileID: 8300000, guid: cbd6e7774d789364090f22bb0271cf88, type: 3}
 --- !u!70 &6459526386557114129
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

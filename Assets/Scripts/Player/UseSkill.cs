@@ -10,6 +10,7 @@ public class UseSkill : MonoBehaviour
     public GameObject gameManager;
     public PlayerController playerController;
     public GameObject enterFightArea;
+    public AudioClip clip;
 
     [Header("LineAttackObject")]
     public GameObject LineAttackObject;
@@ -93,6 +94,7 @@ public class UseSkill : MonoBehaviour
 
         if (mouseclickScoreOfExplosion == 1 && !isExistExplosionObject)
         {
+            SoundManager.instance.SFXPlayer("ExplosionAttack", clip);
             StartCoroutine(createAndDestroyExplosionObj());
             explosionCoolTimeImage.fillAmount = 0;
             StartCoroutine(ExplosionCoolTime(5f));

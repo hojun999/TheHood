@@ -19,6 +19,7 @@ TagManager:
   - BigQuestArea
   - SmallQuestArea
   - PlayerAttack
+  - SoundControlPanel
   layers:
   - Default
   - TransparentFX

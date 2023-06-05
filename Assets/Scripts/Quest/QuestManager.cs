@@ -55,13 +55,13 @@ public class QuestManager : MonoBehaviour
 
     private void GenerateData()     // 퀘스트 목록 생성
     {
-        questList.Add(10, new QuestData("점거 지역 탐색", new int[] { 2000, 2000 }));
+        questList.Add(10, new QuestData("점거 지역 탐색", new int[] { 2000}));
 
-        questList.Add(20, new QuestData("흔적 조사", new int[] { 2000, 2000 }));
+        questList.Add(20, new QuestData("흔적 조사", new int[] { 2000}));
 
-        questList.Add(30, new QuestData("부하 사살", new int[] { 2000, 2000 }));
+        questList.Add(30, new QuestData("부하 사살", new int[] { 2000}));
 
-        questList.Add(40, new QuestData("말머리 패거리 정리", new int[] { 2000, 2000 }));
+        questList.Add(40, new QuestData("말머리 패거리 정리", new int[] { 2000}));
 
         questList.Add(50, new QuestData("엔딩", new int[] { 2000 }));
     }
@@ -73,7 +73,7 @@ public class QuestManager : MonoBehaviour
             questActionIndex++;
 
         // 대화 계속해서 다음 퀘스트로 넘어가지 않게 조절
-        if (questActionIndex == 5)
+        if (questActionIndex == 8)
             questActionIndex = 1;
 
         if (questId == 10)      // 다음 퀘스트로 넘기는 부분은 PlayerController의 oncollisionenter에서 처리
