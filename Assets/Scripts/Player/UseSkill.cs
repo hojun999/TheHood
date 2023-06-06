@@ -189,7 +189,7 @@ public class UseSkill : MonoBehaviour
             yield return null;
         }
 
-        LineAttackObject.GetComponent<LineAttack>().isCanHitLineAttack = true;
+        //LineAttackObject.GetComponent<LineAttack>().isCanHitLineAttack = true;
         LineAttackCoolTimeImage.fillAmount = 1;
         yield break;
     }
@@ -202,7 +202,7 @@ public class UseSkill : MonoBehaviour
             yield return null;
         }
 
-        explosionOutline.GetComponent<ExplosionAttack>().isCanHitExplosion = true;
+        //explosionOutline.GetComponent<ExplosionAttack>().isCanHitExplosion = true;
         explosionCoolTimeImage.fillAmount = 1;
         yield break;
     }

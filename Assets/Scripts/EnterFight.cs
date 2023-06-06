@@ -5,12 +5,14 @@ using UnityEngine;
 public class EnterFight : MonoBehaviour
 {
     public GameObject EnterFightUIPanel;
+    public GameManager gameManager;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             EnterFightUIPanel.SetActive(true);
+            gameManager.isAction = true;
             Time.timeScale = 0;
         }
     }

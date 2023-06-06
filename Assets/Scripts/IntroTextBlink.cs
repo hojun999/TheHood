@@ -34,12 +34,12 @@ public class IntroTextBlink : MonoBehaviour
 
     public IEnumerator FadeTextToZero()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(3.5f);
 
         text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
         while (text.color.a > 0.0f)
         {
-            text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a - (Time.deltaTime / 2f));
+            text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a - (Time.deltaTime / 3));
 
             yield return null;
         }

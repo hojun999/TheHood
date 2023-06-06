@@ -59,5 +59,12 @@ public class Bullet : MonoBehaviour
 
             Destroy(gameObject);
         }
+
+        if (collision.CompareTag("Henchman_Quest3"))
+        {
+            collision.gameObject.GetComponent<HenchmanAI_Quest3>().Hurt(damage);
+
+            Destroy(gameObject);
+        }
     }
 }

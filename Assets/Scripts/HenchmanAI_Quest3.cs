@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HenchmanAI : MonoBehaviour
+public class HenchmanAI_Quest3 : MonoBehaviour
 {
     public GameManager gameManager;
     public QuestManager questManager;
@@ -79,16 +79,16 @@ public class HenchmanAI : MonoBehaviour
             CancelInvoke("Action");
             doAttack = false;
             if (questManager.eliminateHenchmanNum_Quest3 < 5)
-                text_Quest3.text = "부하 " + questManager.eliminateHenchmanNum_Quest3 + " / 5";
+                text_Quest3.text = "숲에 흩어져있는 부하 " + questManager.eliminateHenchmanNum_Quest3 + " / 5";
 
-            if(questManager.eliminateHenchmanNum_Quest4 < 6)
+            if (questManager.eliminateHenchmanNum_Quest4 < 6)
                 text_Quest4.text = "부하 " + questManager.eliminateHenchmanNum_Quest4 + " / 6";
         }
 
-        if (gameManager.isEnterFight)
-            isStartFight = true;
-        else
-            isStartFight = false;
+        //if (gameManager.isEnterFight)
+        //    isStartFight = true;
+        //else
+        //    isStartFight = false;
 
         DistOfXPositionPlayerAndEnemy = playerPos.position.x - gameObject.gameObject.transform.position.x;
 
@@ -171,5 +171,4 @@ public class HenchmanAI : MonoBehaviour
         sr.color = fullA;
         yield return null;
     }
-
 }

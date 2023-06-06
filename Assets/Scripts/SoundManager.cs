@@ -110,7 +110,7 @@ public class SoundManager : MonoBehaviour
         AudioSource audiosource = go.AddComponent<AudioSource>();
         audioSource.outputAudioMixerGroup = mixer.FindMatchingGroups("SFX")[0];
         audiosource.clip = clip;
-        audiosource.volume = 0.1f;
+        audiosource.volume = 0.05f;
         audiosource.Play();
 
         Destroy(go, clip.length);

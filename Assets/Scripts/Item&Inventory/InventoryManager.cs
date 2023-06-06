@@ -126,7 +126,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void DestroyQuestItemAndTradeEtcItem()
+    public void DestroyQuestItemAndTradeEtcItem()       // 거래 아이템 개수에 따른 각 상인npc의 대화 출력 및 아이템 교환
     {
         for (int i = 0; i < inventory_slots.Length; i++)
         {
@@ -141,63 +141,72 @@ public class InventoryManager : MonoBehaviour
                     Destroy(itemInSlot.gameObject);
                 }
 
-                if (item.itemType == ItemType.etc_HpPosion && itemInSlot.count >= 2)
+                if (item.itemType == ItemType.etc_HpPosion && itemInSlot.count >= 2 && gameManager.scanObject.GetComponent<ObjData>().isPosionTraderNpc)
                 {
                     gameManager.getPosionTradeTalkIndex = 1;
                     playerController.GetItem(1);
                     itemInSlot.count -= 2;
+                    itemInSlot.RefreshCount();
                     if (itemInSlot.count == 0)
+                    {
                         Destroy(itemInSlot.gameObject);
+                        gameManager.getPosionTradeTalkIndex = 2;
+                    }
                 }
-                else if (item.itemType == ItemType.etc_EnergyPosion && itemInSlot.count >= 2)
+
+                if (item.itemType == ItemType.etc_EnergyPosion && itemInSlot.count >= 2 && gameManager.scanObject.GetComponent<ObjData>().isPosionTraderNpc)
                 {
                     gameManager.getPosionTradeTalkIndex = 1;
                     playerController.GetItem(6);
                     itemInSlot.count -= 2;
+                    itemInSlot.RefreshCount();
                     if (itemInSlot.count == 0)
                         Destroy(itemInSlot.gameObject);
                 }
-                else
-                    gameManager.getPosionTradeTalkIndex = 0;
 
-                if (item.itemType == ItemType.etc_Stone && itemInSlot.count >= 3)
+                if (item.itemType == ItemType.etc_Stone && itemInSlot.count >= 3 && gameManager.scanObject.GetComponent<ObjData>().isWeaponTraderNpc)
                 {
                     gameManager.getWeaponTradeTalkIndex = 1;
                     playerController.maxHp += 15;
+                    //playerController.curHp += 15;
+                    itemInSlot.count -= 3;
+                    itemInSlot.RefreshCount();
+                    if (itemInSlot.count == 0)
+                        Destroy(itemInSlot.gameObject);
                 }
             }
         }
     }
 
-    public void TradePosion()
-    {
-        for (int i = 0; i < inventory_slots.Length; i++)
-        {
-            Inventory_Slot slot = inventory_slots[i];
-            Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
+    //public void TradePosion()
+    //{
+    //    for (int i = 0; i < inventory_slots.Length; i++)
+    //    {
+    //        Inventory_Slot slot = inventory_slots[i];
+    //        Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
 
-            if (itemInSlot != null)
-            {
-                Item item = itemInSlot.item;
+    //        if (itemInSlot != null)
+    //        {
+    //            Item item = itemInSlot.item;
 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
 
-    public void TradeStone()
-    {
-        for (int i = 0; i < inventory_slots.Length; i++)
-        {
-            Inventory_Slot slot = inventory_slots[i];
-            Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
+    //public void TradeStone()
+    //{
+    //    for (int i = 0; i < inventory_slots.Length; i++)
+    //    {
+    //        Inventory_Slot slot = inventory_slots[i];
+    //        Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
 
-            if (itemInSlot != null)
-            {
-                Item item = itemInSlot.item;
+    //        if (itemInSlot != null)
+    //        {
+    //            Item item = itemInSlot.item;
 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
 
 
 }

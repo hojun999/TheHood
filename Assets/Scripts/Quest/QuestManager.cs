@@ -35,6 +35,7 @@ public class QuestManager : MonoBehaviour
     [Header("Direction")]
     public GameObject Direction_BigArea;
     public GameObject Direction_SmallArea;
+    public GameObject Direction_Quest3AndQuest4;
 
 
     [SerializeField] public int locateAtQuestAreaNum_Quest1;
@@ -98,13 +99,12 @@ public class QuestManager : MonoBehaviour
             Direction_Up.SetActive(false);
         }
         else if (questId == 30)     // 다음 퀘스트로 넘기는 부분 GameManager Update()에서 처리
-        {            
+        {
             inProgressQuestImage_Quest2.SetActive(false);
             inProgressQuestImage_Quest3.SetActive(true);
             enemyGroup_Quest3.SetActive(true);
             exMark.SetActive(false);
             questionMark.SetActive(true);
-            Direction_BigArea.SetActive(true);
             Direction_Right.SetActive(true);
             Direction_Up.SetActive(false);
         }
@@ -115,7 +115,7 @@ public class QuestManager : MonoBehaviour
             exMark.SetActive(false);
             questionMark.SetActive(true);
             enemyGruop_Quest4.SetActive(true);
-            Direction_BigArea.SetActive(true);
+            Direction_Quest3AndQuest4.SetActive(true);
             Direction_Right.SetActive(true);
             Direction_Up.SetActive(false);
         }

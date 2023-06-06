@@ -76,12 +76,16 @@ public class GameManager : MonoBehaviour
     public int getWeaponTradeTalkIndex;
     public int getPosionTradeTalkIndex;
 
+    private void Start()
+    {
+        activeHelpMenu = true;
+    }
+
     public void talkAction(GameObject scanObj)
     {
         scanObject = scanObj;
         ObjData objData = scanObject.GetComponent<ObjData>();
         Talk(objData.id, objData.isQuestNpc, objData.isWeaponTraderNpc, objData.isPosionTraderNpc);
-        Debug.Log(objData.id + "" + objData.isQuestNpc + "" + objData.isWeaponTraderNpc + "" + objData.isPosionTraderNpc);
         talkPanel.SetActive(isAction);
     }
 
@@ -223,8 +227,8 @@ public class GameManager : MonoBehaviour
             Invoke("setActiveQuestClearText", 1f);
             SoundManager.instance.EnterWoods();
             questManager.NextQuest();
-            isEnterFight = false;
-            fightWall_Quest3.SetActive(false);
+            //isEnterFight = false;
+            //fightWall_Quest3.SetActive(false);
             Player.GetComponent<PlayerController>().BeforeText_eliminateHenchman_Quest3.SetActive(false);
             Player.GetComponent<PlayerController>().AfterText_eliminateHenchman_Quest3.SetActive(true);
             questManager.Direction_Up.SetActive(true);
@@ -256,6 +260,7 @@ public class GameManager : MonoBehaviour
             fightWall_Quest4.SetActive(false);
             questManager.Direction_Up.SetActive(true);
             questManager.Direction_Right.SetActive(false);
+            questManager.Direction_Quest3AndQuest4.SetActive(false);
 
 
             questManager.eliminateBossNum_Quest4++;        // 조건문 한 번만 호출하기 위함
@@ -282,6 +287,7 @@ public class GameManager : MonoBehaviour
 
     public void LocatePlayerAtCamp()      // 캠프로 이동
     {
+        isAction = false;
         Player.transform.position = CampSpawnArea.transform.position;
         playerLight.falloffIntensity = 0.6f;
         SoundManager.instance.EnterCamp();
@@ -302,6 +308,7 @@ public class GameManager : MonoBehaviour
 
     public void LocatePlayerAtWoods()
     {
+        isAction = false;
         GetRandomSpawnNum();
         playerLight.falloffIntensity = 0.9f;
         SoundManager.instance.EnterWoods();
@@ -340,18 +347,21 @@ public class GameManager : MonoBehaviour
     public void CloseMoveWoodsUIPanelandResume()
     {
         moveWoodsUIPanel.SetActive(false);
+        isAction = false;
         Time.timeScale = 1f;
     }
 
     public void CloseMoveCampUIPanelandResume()
     {
         moveCampUIPanel.SetActive(false);
+        isAction = false;
         Time.timeScale = 1f;
     }
 
     public void CloseEnterFightUIPanelAndResume()
     {
         enterFightUIPanel.SetActive(false);
+        isAction = false;
         Time.timeScale = 1f;
     }
 

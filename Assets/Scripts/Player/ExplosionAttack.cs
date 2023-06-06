@@ -7,7 +7,7 @@ public class ExplosionAttack : MonoBehaviour
     public int explosionDamage;
     public float explosionPower;
 
-    public bool isCanHitExplosion;
+    //public bool isCanHitExplosion;
 
     Vector2 enemyPos;
     Vector2 explosionAttackObjPos;
@@ -15,13 +15,13 @@ public class ExplosionAttack : MonoBehaviour
     void Start()
     {
         explosionAttackObjPos = transform.position;
-
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Boss") && isCanHitExplosion || collision.gameObject.CompareTag("Henchman") && isCanHitExplosion)
+        // 剐摹扁 贸府
+        if (collision.gameObject.CompareTag("Boss")|| collision.gameObject.CompareTag("Henchman") || collision.gameObject.CompareTag("Henchman_Quest3"))
         {
             enemyPos = collision.gameObject.transform.position;
             dirBetweenThisAndEnemy = enemyPos - explosionAttackObjPos;
@@ -29,19 +29,25 @@ public class ExplosionAttack : MonoBehaviour
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(dirBetweenThisAndEnemy.normalized * explosionPower, ForceMode2D.Force);
         }
 
-        if (collision.CompareTag("Boss") && isCanHitExplosion)
+        // 单固瘤 贸府
+        if (collision.CompareTag("Boss")) //&& isCanHitExplosion)
         {
             collision.GetComponent<BossAI>().Hurt(explosionDamage);
-            isCanHitExplosion = false;
+            //isCanHitExplosion = false;
         }
 
-        if (collision.CompareTag("Henchman") && isCanHitExplosion)
+        if (collision.CompareTag("Henchman")) //&& isCanHitExplosion)
         {
             collision.GetComponent<HenchmanAI>().Hurt(explosionDamage);
-            isCanHitExplosion = false;
+            //isCanHitExplosion = false;
+        }
+
+        if (collision.CompareTag("Henchman_Quest3"))
+        {
+            collision.GetComponent<HenchmanAI_Quest3>().Hurt(explosionDamage);
         }
     }
 
 
-    
+
 }
