@@ -225,7 +225,6 @@ public class GameManager : MonoBehaviour
         {
             ConvertcameraFightToNormal();
             Invoke("setActiveQuestClearText", 1f);
-            SoundManager.instance.EnterWoods();
             questManager.NextQuest();
             //isEnterFight = false;
             //fightWall_Quest3.SetActive(false);
