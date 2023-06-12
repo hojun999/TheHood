@@ -14,6 +14,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventoryItemPrefab;
     public GameObject Player;
 
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))   // Äü½½·Ô »ç¿ë
@@ -28,10 +29,9 @@ public class InventoryManager : MonoBehaviour
             UseItem(4);
         else if (Input.GetKeyDown(KeyCode.Alpha6))
             UseItem(5);
-        //else if (Input.GetKeyDown(KeyCode.Alpha7))
-        //    UseItem(6);
-        //else if (Input.GetKeyDown(KeyCode.Alpha8))
-        //    UseItem(7);
+
+        if (gameManager.isGetAlreadyPosionNum == 2)
+            gameManager.isGetAlreadyPosionNum = 0;
     }
 
     public bool AddItem(Item item)
@@ -141,7 +141,7 @@ public class InventoryManager : MonoBehaviour
                     Destroy(itemInSlot.gameObject);
                 }
 
-                if (item.itemType == ItemType.etc_HpPosion && itemInSlot.count >= 2 && gameManager.scanObject.GetComponent<ObjData>().isPosionTraderNpc)
+                if (item.itemType == ItemType.etc_HpPosion && itemInSlot.count >= 2 && gameManager.scanObject.GetComponent<ObjData>().isPosionTraderNpc && gameManager.isGetAlreadyPosionNum == 0)
                 {
                     gameManager.getPosionTradeTalkIndex = 1;
                     playerController.GetItem(1);
@@ -177,36 +177,4 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
-
-    //public void TradePosion()
-    //{
-    //    for (int i = 0; i < inventory_slots.Length; i++)
-    //    {
-    //        Inventory_Slot slot = inventory_slots[i];
-    //        Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
-
-    //        if (itemInSlot != null)
-    //        {
-    //            Item item = itemInSlot.item;
-
-    //        }
-    //    }
-    //}
-
-    //public void TradeStone()
-    //{
-    //    for (int i = 0; i < inventory_slots.Length; i++)
-    //    {
-    //        Inventory_Slot slot = inventory_slots[i];
-    //        Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
-
-    //        if (itemInSlot != null)
-    //        {
-    //            Item item = itemInSlot.item;
-
-    //        }
-    //    }
-    //}
-
-
 }

@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
 
     public AudioMixer mixer;
-    public AudioSource audioSource;
+    public AudioSource bgSound;
     public AudioClip[] bglist;
     public GameObject soundControlPanelInMainMenu;
 
@@ -37,14 +38,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        //if (SceneManager.GetActiveScene().name == "MainMenu")
-        //    EnterMainMenu();
-
-        //if (SceneManager.GetActiveScene().name == "Camp")
-        //    EnterCamp();
-    }
 
 
     public void EnterWoods()
@@ -83,12 +76,12 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void BGSoundVolume(float val)
+    public void BGVolumeControl(float val)
     {
-        mixer.SetFloat("BGSound", MathF.Log10(val) * 20);
+        mixer.SetFloat("BGVolume", MathF.Log10(val) * 20);
     }
 
-    public void SFXVolume(float val)
+    public void SFXVolumeControl(float val)
     {
         mixer.SetFloat("SFXVolume", MathF.Log10(val) * 20);
     }
@@ -97,20 +90,20 @@ public class SoundManager : MonoBehaviour
 
     public void BgSoundPlay(AudioClip clip)
     {
-        audioSource.outputAudioMixerGroup = mixer.FindMatchingGroups("BGSound")[0];
-        audioSource.clip = clip;
-        audioSource.loop = true;
-        audioSource.volume = 0.3f;
-        audioSource.Play();
+        bgSound.outputAudioMixerGroup = mixer.FindMatchingGroups("BGSound")[0];
+        bgSound.clip = clip;
+        bgSound.loop = true;
+        bgSound.volume = 0.3f;
+        bgSound.Play();
     }
 
     public void SFXPlayer(string sfxName, AudioClip clip)
     {
         GameObject go = new GameObject(sfxName + "Sound");
         AudioSource audiosource = go.AddComponent<AudioSource>();
-        audioSource.outputAudioMixerGroup = mixer.FindMatchingGroups("SFX")[0];
+        audiosource.outputAudioMixerGroup = mixer.FindMatchingGroups("SFXSound")[0];
         audiosource.clip = clip;
-        audiosource.volume = 0.05f;
+        audiosource.volume = 0.15f;
         audiosource.Play();
 
         Destroy(go, clip.length);

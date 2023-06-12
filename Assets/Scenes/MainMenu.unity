@@ -757,7 +757,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1160595551}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: BGSoundVolume
+        m_MethodName: BGVolumeControl
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1598,7 +1598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: e7eb5e418c94dae44b711c7536caaa8e, type: 2}
-  audioSource: {fileID: 1160595550}
+  bgSound: {fileID: 1160595550}
   bglist:
   - {fileID: 8300000, guid: 1d14bb3a9b1f1414ab87ecf81673cbe8, type: 3}
   - {fileID: 8300000, guid: e413c50046e7f1d4991cae5cedfc08e9, type: 3}
@@ -1699,7 +1699,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1160595551}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: SFXVolume
+        m_MethodName: SFXVolumeControl
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

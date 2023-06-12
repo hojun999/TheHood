@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
 
     public int getWeaponTradeTalkIndex;
     public int getPosionTradeTalkIndex;
+    public int isGetAlreadyPosionNum;
 
     private void Start()
     {
@@ -147,7 +148,7 @@ public class GameManager : MonoBehaviour
         {
             int posionTradeTalkIndex = getPosionTradeTalkIndex;
             string posionTradeTalkData = talkManager.GetTalk(id + posionTradeTalkIndex, talkIndex);
-
+            isGetAlreadyPosionNum++;
 
             if (posionTradeTalkData == null && id == 3000)
             {
@@ -275,6 +276,9 @@ public class GameManager : MonoBehaviour
             if (fadeOutCurTime > fadeOutMaxTime)
                 SceneManager.LoadScene("Ending");
         }
+
+        if (isGetAlreadyPosionNum == 2)
+            isGetAlreadyPosionNum = 0;
     }
 
 
