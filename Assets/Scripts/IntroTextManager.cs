@@ -5,49 +5,60 @@ using UnityEngine.SceneManagement;
 
 public class IntroTextManager : MonoBehaviour
 {
-    private GameObject introText;
+    public typewriterUI_v2 typingManager;
 
-    [SerializeField] private int introTextIndex;
+    //private GameObject introText;
 
-    public float time;
-    float cooltime;
+    //[SerializeField] private int introTextIndex;
 
-    public List<GameObject> introTextList = new List<GameObject>();
+    //public float time;
+    //float cooltime;
+
+    //public List<GameObject> introTextList = new List<GameObject>();
 
     private void Awake()
     {
-        Invoke("LoadCamp", time * introTextList.Count);
     }
 
-    void Start()
-    {
-        introText = introTextList[0];
-        introText.SetActive(true);
+    //void Start()
+    //{
+    //    introText = introTextList[0];
+    //    introText.SetActive(true);
 
-    }
+    //}
 
     private void Update()
     {
-        cooltime += Time.deltaTime;
+        //cooltime += Time.deltaTime;
 
-        if (cooltime >= time)
+        //if (cooltime >= time)
+        //{
+        //    introTextList[introTextIndex].gameObject.SetActive(false);
+        //    introTextIndex++;
+        //    GetNextText();
+        //    cooltime = 0;      
+        //}
+
+        if(typingManager.text.text.Length == 382)
         {
-            introTextList[introTextIndex].gameObject.SetActive(false);
-            introTextIndex++;
-            GetNextText();
-            cooltime = 0;      
+            //typingManager.tmpProText.GetComponent<IntroTextBlink>().enabled = true;
+
+            typingManager.text.GetComponent<IntroTextBlink>().enabled = true;
+            typingManager.text.GetComponent<AudioFadeOut>().enabled = true;
+            Invoke("LoadCamp", 4);
         }
     }
 
-    void GetNextText()
-    {
-        introText = introTextList[introTextIndex];
-        introText.gameObject.SetActive(true);
-    }
+    //void GetNextText()
+    //{
+    //    introText = introTextList[introTextIndex];
+    //    introText.gameObject.SetActive(true);
+    //}
 
     public void LoadCamp()
     {
         SceneManager.LoadScene("Camp");
+        SoundManager.instance.getStartNum = 1;
     }
 
 }

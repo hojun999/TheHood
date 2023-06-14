@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 11
   m_Sprite: {fileID: 1693543420, guid: 3da1b17a3daa814448c96524dfcb388d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -138,5 +138,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionDamage: 15
   explosionPower: 4500
-  isCanHitExplosion: 1
-  clip: {fileID: 8300000, guid: 6b8a26391f894d34f89e93a362e73cce, type: 3}

@@ -154,7 +154,7 @@ public class InventoryManager : MonoBehaviour
                     }
                 }
 
-                if (item.itemType == ItemType.etc_EnergyPosion && itemInSlot.count >= 2 && gameManager.scanObject.GetComponent<ObjData>().isPosionTraderNpc)
+                if (item.itemType == ItemType.etc_EnergyPosion && itemInSlot.count >= 2 && gameManager.scanObject.GetComponent<ObjData>().isPosionTraderNpc && gameManager.isGetAlreadyPosionNum == 0)
                 {
                     gameManager.getPosionTradeTalkIndex = 1;
                     playerController.GetItem(6);

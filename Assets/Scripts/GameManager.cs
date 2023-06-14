@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
 
     private int spawnNum;
     private float fadeOutCurTime;
+    private float fadeInCurTime;
 
     public int getWeaponTradeTalkIndex;
     public int getPosionTradeTalkIndex;
@@ -80,6 +81,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         activeHelpMenu = true;
+        SoundManager.instance.bgSound.volume = 1;
+
     }
 
     public void talkAction(GameObject scanObj)
@@ -178,7 +181,7 @@ public class GameManager : MonoBehaviour
         isAction = true;
         talkIndex++;
 
-
+        Debug.Log(isGetAlreadyPosionNum);
     }
 
     private void Update()
@@ -279,6 +282,17 @@ public class GameManager : MonoBehaviour
 
         if (isGetAlreadyPosionNum == 2)
             isGetAlreadyPosionNum = 0;
+
+        if(SoundManager.instance.getStartNum == 1)
+        {
+            if (fadeOutCurTime < fadeOutMaxTime)
+            {
+                fadeOutCurTime += Time.deltaTime;
+                PlayFadeIn();
+            }
+            if (fadeOutCurTime > fadeOutMaxTime)
+                SoundManager.instance.getStartNum--;
+        }
     }
 
 
@@ -438,6 +452,13 @@ public class GameManager : MonoBehaviour
     {
         Color color = fadeOutImage.color;
         color.a = Mathf.Lerp(0f, 1f, fadeOutCurTime / 3.5f);
+        fadeOutImage.color = color;
+    }
+
+    void PlayFadeIn()
+    {
+        Color color = fadeOutImage.color;
+        color.a = Mathf.Lerp(1f, 0f, fadeOutCurTime / 3.5f);
         fadeOutImage.color = color;
     }
 

@@ -15,6 +15,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip[] bglist;
     public GameObject soundControlPanelInMainMenu;
 
+    public int getStartNum;
+
+
     private void Awake()
     {
         if (instance == null)
