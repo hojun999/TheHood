@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
                 isAction = false;
                 talkIndex = 0;
                 questManager.checkQuest(id);
-                return;         // -void 함수에서 return은 함수의 종료를 의미-
+                return;
             }
 
 
