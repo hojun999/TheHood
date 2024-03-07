@@ -74831,6 +74831,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1415686729}
   - component: {fileID: 1415686728}
+  - component: {fileID: 1415686730}
   m_Layer: 0
   m_Name: dialogueParser
   m_TagString: Untagged
@@ -74865,6 +74866,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1415686730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415686727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d8e73c1aa28ad4b9dcb028e082fed7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CSVFileName: DialogueData
 --- !u!1 &1415987270
 GameObject:
   m_ObjectHideFlags: 0

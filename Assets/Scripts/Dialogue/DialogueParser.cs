@@ -18,6 +18,9 @@ public class DialogueParser : MonoBehaviour
 
             DialogueData dialogueData = new DialogueData();        // 대사 리스트 생성
 
+            dialogueData.talkID = int.Parse(row[0]);        // string > int 변경
+            Debug.Log(row[0]);
+
             dialogueData.npcName = row[1];
             Debug.Log(row[1]);
 
@@ -39,8 +42,8 @@ public class DialogueParser : MonoBehaviour
             dialogueData.dialogueContexts = contextList.ToArray();
 
             dialogueList.Add(dialogueData);
-
         }
+
 
         return dialogueList.ToArray();
     }
