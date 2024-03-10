@@ -74851,6 +74851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5a9ed1e483e29d468ee6bc3edf6c7c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 1415686730}
 --- !u!4 &1415686729
 Transform:
   m_ObjectHideFlags: 0
@@ -74879,6 +74880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _CSVFileName: DialogueData
+  dialogueID: 0
 --- !u!1 &1415987270
 GameObject:
   m_ObjectHideFlags: 0

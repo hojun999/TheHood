@@ -12,10 +12,10 @@ public class DialogueData
     public string[] dialogueContexts;
 }
 
-public class DialogueAction
-{
-    public string questNameByDialogue;
+//public class DialogueAction
+//{
+//    public string questNameByDialogue;
 
-    public Vector2 line;
-    public DialogueData[] dialogueDatas;
-}
+//    public Vector2 line;
+//    public DialogueData[] dialogueDatas;
+//}
