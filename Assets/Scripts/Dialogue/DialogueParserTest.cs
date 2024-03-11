@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class DialogueParserTest : MonoBehaviour
 {
-    public DialogueManager dialogueManager; // 이 부분은 실제 DialogueManager 클래스가 필요합니다.
-
-    public string csvFileName;
-
+    public string _csvFileName;
+    public NPCData[] _NPCdatas;
+ 
+    // dialogueBundleByNPCName[key][value(int : key, list<string> : value)], 외부/내부 딕셔너리 구분 잘
     private Dictionary<string, Dictionary<int, List<string>>> dialogueBundleByNPCName = new Dictionary<string, Dictionary<int, List<string>>>();
 
     private void Start()
     {
-        Parse(csvFileName);
-        PrintDialogueBundle(dialogueBundleByNPCName);
-        Debug.Log("start");
+        Parse(_csvFileName);
+        //PrintDialogueBundle(dialogueBundleByNPCName);
+        SaveDataOnNPCObject();
     }
 
     public void Parse(string _CSVFileName)
@@ -22,35 +22,34 @@ public class DialogueParserTest : MonoBehaviour
         TextAsset csvData = Resources.Load<TextAsset>(_CSVFileName);
         string[] data = csvData.text.Split('\n'); // 행 분리
 
-        string currentNPC = "";
+        string currentNPCName = "";
         int currentDialogueID = 0;
 
         for (int i = 1; i < data.Length; i++)
         {
             string[] row = data[i].Split(','); // 열 분리
-            if (row[0] != "") // 새 NPC
+            if (row[0] != "")   // npcName 처리
             {
-                currentNPC = row[0];
+                currentNPCName = row[0];
                 //Debug.Log(row[0]);
-                if (!dialogueBundleByNPCName.ContainsKey(currentNPC))
+                if (!dialogueBundleByNPCName.ContainsKey(currentNPCName))
                 {
-                    dialogueBundleByNPCName[currentNPC] = new Dictionary<int, List<string>>();
+                    dialogueBundleByNPCName[currentNPCName] = new Dictionary<int, List<string>>();  // dictionary key값 초기화
                 }
             }
 
-            if (row[1] != "") // 새 Dialogue ID
+            if (row[1] != "")   // dialogueID 처리
             {
                 currentDialogueID = int.Parse(row[1]);
                 //Debug.Log(row[1]);
-                if (!dialogueBundleByNPCName[currentNPC].ContainsKey(currentDialogueID))
+                if (!dialogueBundleByNPCName[currentNPCName].ContainsKey(currentDialogueID))
                 {
-                    dialogueBundleByNPCName[currentNPC][currentDialogueID] = new List<string>();
+                    dialogueBundleByNPCName[currentNPCName][currentDialogueID] = new List<string>();
                 }
             }
-
             //Debug.Log(row[2]);
 
-            dialogueBundleByNPCName[currentNPC][currentDialogueID].Add(row[2]); // 대사 추가
+            dialogueBundleByNPCName[currentNPCName][currentDialogueID].Add(row[2]); // 대사 추가
         }
     }
 
@@ -58,12 +57,31 @@ public class DialogueParserTest : MonoBehaviour
     {
         Debug.Log("추가된 대화 데이터 확인");
 
-        foreach (var npcEntry in dialogueBundleByNPCName)
+        foreach (var npcNameEntry in dialogueBundleByNPCName)
         {
-            Debug.Log($"NPC Name: {npcEntry.Key}");
-            foreach (var dialogueEntry in npcEntry.Value)
+            foreach (var dialogueDic in npcNameEntry.Value)
             {
-                Debug.Log($"NPC Name: {npcEntry.Key}, Dialogue ID: {dialogueEntry.Key}, Dialogue: {string.Join(" / ", dialogueEntry.Value)}");
+                Debug.Log($"NPC Name: {npcNameEntry.Key}, Dialogue ID: {dialogueDic.Key}, Dialogue: {string.Join(" / ", dialogueDic.Value)}");
+            }
+        }
+    }
+
+    void SaveDataOnNPCObject()
+    {
+
+        for (int i = 0; i < _NPCdatas.Length; i++)
+        {
+            string npcName = _NPCdatas[i].m_name;
+
+            if (dialogueBundleByNPCName.ContainsKey(npcName))
+            {
+                Debug.Log("npcName에 맞는 데이터 뿌리기");
+
+                _NPCdatas[i].m_dialogueDic = dialogueBundleByNPCName[npcName];
+            }
+            else
+            {
+                Debug.Log("npcName에 맞는 데이터 없음");
             }
         }
     }

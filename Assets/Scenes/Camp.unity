@@ -25396,6 +25396,7 @@ GameObject:
   - component: {fileID: 650797375}
   - component: {fileID: 650797374}
   - component: {fileID: 650797380}
+  - component: {fileID: 650797381}
   m_Layer: 6
   m_Name: Weapon
   m_TagString: NPC
@@ -25570,6 +25571,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &650797381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650797373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58edb3823a49af489544898c69a51a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: "\uBC29\uC5B4\uAD6C\uC0C1\uC778"
+  m_dialogueID: 0
 --- !u!1001 &657311133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74000,6 +74015,7 @@ GameObject:
   - component: {fileID: 1391762927}
   - component: {fileID: 1391762929}
   - component: {fileID: 1391762930}
+  - component: {fileID: 1391762931}
   m_Layer: 6
   m_Name: Client
   m_TagString: NPC
@@ -74173,6 +74189,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1391762931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391762923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58edb3823a49af489544898c69a51a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: "\uC758\uB8B0\uC778"
+  m_dialogueID: 0
 --- !u!1 &1393076212
 GameObject:
   m_ObjectHideFlags: 0
@@ -74875,7 +74905,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415686727}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29d8e73c1aa28ad4b9dcb028e082fed7, type: 3}
   m_Name: 
@@ -74894,8 +74924,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b26206f0cf7358418a23a54ffecc625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 1415686730}
-  csvFileName: DialogueData
+  _csvFileName: DialogueData
+  _NPCdatas:
+  - {fileID: 650797381}
+  - {fileID: 1391762931}
+  - {fileID: 1604117908}
 --- !u!1 &1415987270
 GameObject:
   m_ObjectHideFlags: 0
@@ -82737,6 +82770,7 @@ GameObject:
   - component: {fileID: 1604117902}
   - component: {fileID: 1604117901}
   - component: {fileID: 1604117907}
+  - component: {fileID: 1604117908}
   m_Layer: 6
   m_Name: PosionTrader
   m_TagString: NPC
@@ -82911,6 +82945,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1604117908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604117900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58edb3823a49af489544898c69a51a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: "\uC57D\uCD08\uC0C1\uC778"
+  m_dialogueID: 0
 --- !u!1 &1606791301
 GameObject:
   m_ObjectHideFlags: 0
