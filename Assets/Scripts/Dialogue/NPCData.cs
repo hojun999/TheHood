@@ -5,6 +5,14 @@ using UnityEngine;
 public class NPCData : MonoBehaviour
 {
     public string m_name;
+
+    public enum m_type
+    {
+        client,
+        trador
+    }
+    public m_type NPCType;
+ 
     //public string[] m_contextsArray;
     public Dictionary<int, List<string>> m_dialogueDic = new Dictionary<int, List<string>>();
 
@@ -12,9 +20,24 @@ public class NPCData : MonoBehaviour
 
     private void Start()
     {
-        //Debug.Log(m_name + "의 대화데이터 : " );
-        
-            Debug.Log(m_dialogueDic[1]);
+        PrintAllDialogues();
+    }
+    public void PrintAllDialogues()
+    {
+        StartCoroutine(coPrintAllDialogues());
     }
 
+    IEnumerator coPrintAllDialogues()       // 정상적으로 파싱이 되지만, 메서드 호출이 겹쳐서 콘솔창에 안보이는 이슈 때문에 0.1초 후에 실행, 각 npc별 파싱 확인용 코루틴
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        foreach (KeyValuePair<int, List<string>> dialogueEntry in m_dialogueDic)
+        {
+            Debug.Log($"ID: {dialogueEntry.Key}");
+            foreach (string dialogue in dialogueEntry.Value)
+            {
+                Debug.Log($"{dialogue}");
+            }
+        }
+    }
 }

@@ -15,6 +15,7 @@ public class DialogueParserTest : MonoBehaviour
         Parse(_csvFileName);
         //PrintDialogueBundle(dialogueBundleByNPCName);
         SaveDataOnNPCObject();
+        //PrintDialogueBundle(dialogueBundleByNPCName);
     }
 
     public void Parse(string _CSVFileName)
@@ -76,6 +77,7 @@ public class DialogueParserTest : MonoBehaviour
             if (dialogueBundleByNPCName.ContainsKey(npcName))
             {
                 Debug.Log("npcName에 맞는 데이터 뿌리기");
+                Debug.Log(npcName);
 
                 _NPCdatas[i].m_dialogueDic = dialogueBundleByNPCName[npcName];
             }

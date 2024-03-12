@@ -25394,7 +25394,6 @@ GameObject:
   - component: {fileID: 650797377}
   - component: {fileID: 650797376}
   - component: {fileID: 650797375}
-  - component: {fileID: 650797374}
   - component: {fileID: 650797380}
   - component: {fileID: 650797381}
   m_Layer: 6
@@ -25404,22 +25403,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &650797374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 650797373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57570eb9e2c084249b18273e073f4d22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 1000
-  isQuestNpc: 0
-  isWeaponTraderNpc: 1
-  isPosionTraderNpc: 0
 --- !u!50 &650797375
 Rigidbody2D:
   serializedVersion: 4
@@ -25584,6 +25567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_name: "\uBC29\uC5B4\uAD6C\uC0C1\uC778"
+  NPCType: 1
   m_dialogueID: 0
 --- !u!1001 &657311133
 PrefabInstance:
@@ -48231,6 +48215,8 @@ GameObject:
   - component: {fileID: 1165638548}
   - component: {fileID: 1165638549}
   - component: {fileID: 1165638550}
+  - component: {fileID: 1165638552}
+  - component: {fileID: 1165638551}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -48266,7 +48252,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1165638541}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95095cd5bcf17f845be87f16a3d8c0e9, type: 3}
   m_Name: 
@@ -48575,6 +48561,37 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1165638541}
   m_Enabled: 1
+--- !u!114 &1165638551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165638541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 849b52659a4a71d4ebfc4b2959e9a096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  i_moveSpeed: 3.3
+  i_teleportPower: 70
+  teleport_cooltime: 2
+  moveDirection: {x: 0, y: 0, z: 0}
+--- !u!114 &1165638552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165638541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64a9e22fd25454641a9d98f4cd2cea51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scannedObject: {fileID: 0}
+  isPlayerInteracting: 0
 --- !u!1 &1166478266
 GameObject:
   m_ObjectHideFlags: 0
@@ -74013,7 +74030,6 @@ GameObject:
   - component: {fileID: 1391762924}
   - component: {fileID: 1391762928}
   - component: {fileID: 1391762927}
-  - component: {fileID: 1391762929}
   - component: {fileID: 1391762930}
   - component: {fileID: 1391762931}
   m_Layer: 6
@@ -74152,22 +74168,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.3039546, y: 2.8786092}
   m_EdgeRadius: 0
---- !u!114 &1391762929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1391762923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57570eb9e2c084249b18273e073f4d22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 2000
-  isQuestNpc: 1
-  isWeaponTraderNpc: 0
-  isPosionTraderNpc: 0
 --- !u!95 &1391762930
 Animator:
   serializedVersion: 5
@@ -74202,6 +74202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_name: "\uC758\uB8B0\uC778"
+  NPCType: 0
   m_dialogueID: 0
 --- !u!1 &1393076212
 GameObject:
@@ -74926,9 +74927,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _csvFileName: DialogueData
   _NPCdatas:
+  - {fileID: 1604117908}
   - {fileID: 650797381}
   - {fileID: 1391762931}
-  - {fileID: 1604117908}
 --- !u!1 &1415987270
 GameObject:
   m_ObjectHideFlags: 0
@@ -82768,7 +82769,6 @@ GameObject:
   - component: {fileID: 1604117904}
   - component: {fileID: 1604117903}
   - component: {fileID: 1604117902}
-  - component: {fileID: 1604117901}
   - component: {fileID: 1604117907}
   - component: {fileID: 1604117908}
   m_Layer: 6
@@ -82778,22 +82778,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1604117901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1604117900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57570eb9e2c084249b18273e073f4d22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 3000
-  isQuestNpc: 0
-  isWeaponTraderNpc: 0
-  isPosionTraderNpc: 1
 --- !u!50 &1604117902
 Rigidbody2D:
   serializedVersion: 4
@@ -82958,6 +82942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_name: "\uC57D\uCD08\uC0C1\uC778"
+  NPCType: 1
   m_dialogueID: 0
 --- !u!1 &1606791301
 GameObject:

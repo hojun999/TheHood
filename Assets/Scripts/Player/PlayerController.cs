@@ -156,14 +156,6 @@ public class PlayerController : MonoBehaviour
 
         // 플레이어 움직임 방향
         #region
-        if (v == 1)
-            moveDir = Vector2.up;
-        else if (v == -1)
-            moveDir = Vector2.down;
-        else if (h == 1)
-            moveDir = Vector2.right;
-        else if (h == -1)
-            moveDir = Vector2.left;
         #endregion
 
         // 오브젝트 스캔

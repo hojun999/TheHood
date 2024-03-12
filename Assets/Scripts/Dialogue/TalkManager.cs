@@ -14,6 +14,7 @@ public class TalkManager : MonoBehaviour
         GenerateData();
     }
 
+    #region
     private void GenerateData()         // 기본/퀘스트 대사 추가
     {
         // Talk Data
@@ -74,6 +75,7 @@ public class TalkManager : MonoBehaviour
 
         talkData.Add(2 + 3000, new string[] { "약초 발견하면 또 가져와요!" });
     }
+    #endregion
 
     public string GetTalk(int id, int talkIndex)
     {

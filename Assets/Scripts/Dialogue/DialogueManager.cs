@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,17 @@ public class DialogueManager : MonoBehaviour
         //    // 대화 ID를 키로 사용하여 대화 컨텍스트 배열을 dictionary에 할당합니다.
         //    dialogueDic.Add(dialogueDatas[i].talkID, dialogueDatas[i].dialogueContexts);
         //}
+
+    }
+    public void SetTalkData(GameObject scanObj)
+    {
+        NPCData _NPCData = scanObj.GetComponent<NPCData>();
+        Talk(_NPCData.m_dialogueID, _NPCData.NPCType);
+        //talkPanel.SetActive(isAction);
+    }
+
+    private void Talk(int ID, Enum type)
+    {
 
     }
 
