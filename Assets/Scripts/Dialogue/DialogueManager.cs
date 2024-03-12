@@ -7,13 +7,12 @@ public class DialogueManager : MonoBehaviour
 {
     [SerializeField] private string _CSVFileName;
 
-    public Dictionary<int, string[]> dialogueDic = new Dictionary<int, string[]>();
-    public Dictionary<string, Dictionary<int, string[]>> dialogueBundleDic = new Dictionary<string, Dictionary<int, string[]>>();
+    public PlayerInteract _playerInteract;
 
-    //public Queue<Dictionary<string, Dictionary<int, string[]>>> dialogueBundleQueue = new Queue<Dictionary<string, Dictionary<int, string[]>>>();
+    public GameObject dialogueUI;
 
-    public int dialogueID;
-    private int contextIndex;
+    //public int dialogueID;
+    private int dialogueIndex;
 
     private void Awake()
     {
@@ -30,39 +29,14 @@ public class DialogueManager : MonoBehaviour
     public void SetTalkData(GameObject scanObj)
     {
         NPCData _NPCData = scanObj.GetComponent<NPCData>();
-        Talk(_NPCData.m_dialogueID, _NPCData.NPCType);
-        //talkPanel.SetActive(isAction);
+        Talk(_NPCData, _NPCData.m_dialogueID, _NPCData.NPCType);
+        dialogueUI.SetActive(_playerInteract.isPlayerInteracting);
     }
 
-    private void Talk(int ID, Enum type)
+    private void Talk(NPCData data,int ID, Enum type)
     {
-
+        string dialogueContext = data.m_dialogueDic[ID][dialogueIndex];
     }
 
 
-    public string GetDialogue(int id, int contextIndex)
-    {
-        if (contextIndex == dialogueDic[id].Length)
-        {
-            return null;
-        }
-        else
-        {
-            return dialogueDic[id][contextIndex];
-        }
-    }
-
-    private void Start()
-    {
-        foreach (var pair in dialogueDic)
-        {
-            Debug.Log("Dialogue ID: " + pair.Key);
-            Debug.Log("Dialogue Contexts: ");
-            foreach (var context in pair.Value)
-            {
-                Debug.Log(" - " + context);
-            }
-        }
-
-    }
 }

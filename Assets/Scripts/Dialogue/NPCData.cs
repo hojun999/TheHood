@@ -16,7 +16,8 @@ public class NPCData : MonoBehaviour
     //public string[] m_contextsArray;
     public Dictionary<int, List<string>> m_dialogueDic = new Dictionary<int, List<string>>();
 
-    [HideInInspector] public int m_dialogueID;
+    [HideInInspector] public int m_dialogueID;  // client : [퀘스트 클리어 시] +1, [퀘스트 시작 시] +10, [퀘스트 완료 시] -9
+                                                // trador : [특정 개수 이상 특정 아이템 보유 상태에서 상호작용 시] +1
 
     private void Start()
     {
