@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
     public PlayerInteract _playerInteract;
     private DialogueParserTest _dialougeParserTest;
+    private QuestManager_New _questManager;
 
     [SerializeField] private string _CSVFileName_dialogue;
 
@@ -23,6 +25,8 @@ public class DialogueManager : MonoBehaviour
     {
         _dialougeParserTest = gameObject.GetComponent<DialogueParserTest>();
         i_dialogueBundleByNPCName = _dialougeParserTest.Parse(_CSVFileName_dialogue);
+
+        _questManager = gameObject.GetComponent<QuestManager_New>();
 
         //DialogueData[] dialogueDatas = dialogueParser.Parse(_CSVFileName);
 
@@ -75,7 +79,7 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    public void SetTalkData(GameObject scanObj)
+    public void SetTalkDataOnInteract(GameObject scanObj)
     {
         NPCData _NPCData = scanObj.GetComponent<NPCData>();
         Talk(_NPCData, _NPCData.m_dialogueID, _NPCData.NPCType);
@@ -87,5 +91,48 @@ public class DialogueManager : MonoBehaviour
         string dialogueContext = data.m_dialogueDic[ID][dialogueIndex];
     }
 
+    private string GetTalk(NPCData data, int ID)
+    {
+        NPCData.m_type npcType = data.NPCType;
+        string context = data.m_dialogueDic[ID][dialogueIndex];
 
+        switch (npcType)
+        {
+            case NPCData.m_type.client:
+                if (context != null)
+                {
+                    dialogueIndex++;
+                    return context;
+                }
+                else
+                {
+                    EndTalk();
+                    return null;
+                }
+                break;
+            case NPCData.m_type.trador:
+                if (true)   // 인벤manager와 연계 및 아이템 소지 개수에 따라 대화 다르게 하는 기능 작성
+                {
+                    if(context != null)
+                    {
+                        //TradeEvent();
+                        dialogueID++;
+                        return context;
+                    }
+                    else
+                    {
+                        EndTalk();
+                        return null;
+                    }
+                }
+                break;
+        }
+
+    }
+
+    private void EndTalk()
+    {
+        dialogueIndex = 0;
+        //_questManager.CheckQuestClear();
+    }
 }
