@@ -74906,12 +74906,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415686727}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29d8e73c1aa28ad4b9dcb028e082fed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerInteract: {fileID: 1165638552}
   _CSVFileName: DialogueData
+  _NPCdatas:
+  - {fileID: 650797381}
+  - {fileID: 1391762931}
+  - {fileID: 1604117908}
+  dialogueUI: {fileID: 0}
   dialogueID: 0
 --- !u!114 &1415686731
 MonoBehaviour:
