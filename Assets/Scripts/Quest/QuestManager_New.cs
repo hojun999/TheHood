@@ -12,11 +12,28 @@ public class QuestManager_New : MonoBehaviour
     public GameObject quest_info_panel;
     public TextMeshProUGUI quest_description_tmp;
 
+    [SerializeField] private SetActiveObjectGroup[] _active_group;
+    [SerializeField] private SetUnactiveObjectGroup[] _unactive_group;
+
+    private Dictionary<int, GameObject[]> activeActionDic = new Dictionary<int, GameObject[]>();
+    private Dictionary<int, GameObject[]> unactiveActionDic = new Dictionary<int, GameObject[]>();
+
     private int questIndex;
 
     private void Start()
     {
         _dialogueManager = gameObject.GetComponent<DialogueManager>();
+
+        for (int i = 0; i < _active_group.Length; i++)
+        {
+            activeActionDic.Add(i + 1, _active_group[i].active_group);
+        }
+
+        for (int i = 0; i < _unactive_group.Length; i++)        // 두 배열의 개수가 다를 수 있음
+        {
+            unactiveActionDic.Add(i + 1, _unactive_group[i].unactive_group);
+        }
+
     }
 
     public void ExcuteOnQuestStart(QuestData_New data)
@@ -45,5 +62,20 @@ public class QuestManager_New : MonoBehaviour
         }
     }
 
+    void ActiveObjectsByQuestProgress()
+    {
+        foreach (GameObject obj in activeActionDic[questIndex])     // 데이터 형식을 GameObject[]가 아닌 GameObject로 넣었기 때문에, 정상적으로 기능하는지 확인 필요
+        {
+            obj.SetActive(true);
+        }
+    }
+
+    void UnActiveObjectsByQuestProgress()
+    {
+        foreach (GameObject obj in unactiveActionDic[questIndex])
+        {
+            obj.SetActive(false);
+        }
+    }
 
 }
