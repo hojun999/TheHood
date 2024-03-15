@@ -13,6 +13,15 @@ MonoBehaviour:
   m_Name: Quest2
   m_EditorClassIdentifier: 
   quesitID: 2
+  relativeDialogueID: 2
   questType: 1
-  questDescription: 
+  questName: "\uD754\uC801 \uC870\uC0AC"
+  questDescription_inprogress:
+  - "\uD53C \uBB3B\uC740 \uC637 \uD68D\uB4DD"
+  - "\uB179\uC2A8 \uCD1D \uD68D\uB4DD"
+  - "\uC57D\uBB3C \uC8FC\uC0AC\uAE30 \uD68D\uB4DD"
+  questDescription_achieve:
+  - "\uD53C \uBB3B\uC740 \uC637 \uC81C\uCD9C"
+  - "\uB179\uC2A8 \uCD1D \uC81C\uCD9C"
+  - "\uC57D\uBB3C \uC8FC\uC0AC\uAE30 \uC81C\uCD9C"
   isCurQeustClear: 0

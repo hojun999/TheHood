@@ -6,18 +6,29 @@ using UnityEngine;
 public class QuestData_New : ScriptableObject
 {
     public int quesitID;
+    public int relativeDialogueID;
 
-    public enum q_Type
+    public enum q_state
     {
-        Search,
-        getItem,
-        Eliminate
+        before,
+        progress,
+        clear
     }
 
-    public q_Type questType;
+    public q_state questState;
 
-    public string questDescription_inprogress;
-    public string questDescription_achieve;
+    public enum q_type
+    {
+        search,
+        getItem,
+        eliminate
+    }
 
-    public bool isCurQeustClear;
+    public q_type questType;
+
+    public string questName;
+    public string[] questDescription_inprogress;
+    public string[] questDescription_achieve;
+
+    //public bool isCurQeustClear;
 }

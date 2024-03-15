@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: Quest3
   m_EditorClassIdentifier: 
   quesitID: 3
+  relativeDialogueID: 3
   questType: 2
-  questDescription: 
+  questName: "\uBD80\uD558\uB4E4 \uCC98\uB9AC"
+  questDescription_inprogress:
+  - "\uC232\uC5D0 \uD769\uC5B4\uC838 \uC788\uB294 \uBD80\uD558 0 / 5"
+  questDescription_achieve:
+  - "\uBD80\uD558 \uCC98\uB9AC \uC644\uB8CC"
   isCurQeustClear: 0

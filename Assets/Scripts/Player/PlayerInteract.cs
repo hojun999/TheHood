@@ -5,10 +5,11 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
     private PlayerMove i_playerMove;
+    [SerializeField]private DialogueManager i_dialogueManager;
 
     public GameObject scannedObject;
 
-    [HideInInspector] public bool isPlayerInteracting;
+    public bool isPlayerInteracting;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,12 +19,11 @@ public class PlayerInteract : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Ray();
-        SetInteractWithNPC();
-        SetInteractWithItem();
+        HandleInputInteractWithNPC();
+        HandleInteracWithItem();
     }
 
-    void Ray()
+    void HandleRay()
     {
         Debug.DrawRay(transform.position, i_playerMove.moveDirection * 0.6f, new Color(0, 1, 0));
         RaycastHit2D rayHit = Physics2D.Raycast(transform.position, i_playerMove.moveDirection, 1f, LayerMask.GetMask("Object"));
@@ -40,16 +40,32 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
+
     private void SetInteractWithNPC()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && scannedObject && !isPlayerInteracting)
-        {
 
-        }
     }
 
     private void SetInteractWithItem()
     {
 
+    }
+    private void HandleInputInteractWithNPC()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            HandleRay();
+
+            if (scannedObject != null)
+            {
+                i_dialogueManager.StartDialogueOnInteract(scannedObject);
+            }
+        }
+    }
+
+    private void HandleInteracWithItem()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+            SetInteractWithItem();
     }
 }
