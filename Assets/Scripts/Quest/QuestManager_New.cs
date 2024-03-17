@@ -61,12 +61,32 @@ public class QuestManager_New : MonoBehaviour
         MoveToNextQuest();
     }
 
-    public void CheckQuestClear(QuestData_New data)
+    public void CheckQuestState()
     {
-        //if (data.questState)
-        //    ExcuteOnQuestClear(data);
-        if (data.questState == QuestData_New.q_state.clear)
-            ExcuteOnQuestClear();
+        QuestData_New data = GetCurQuestData();
+
+        switch (data.questState)
+        {
+            case QuestData_New.q_state.before:
+                StartQuest(data);
+                break;
+            case QuestData_New.q_state.progress:
+                break;
+            case QuestData_New.q_state.clear:
+                ExcuteOnQuestClear();
+                break;
+        }
+    }
+
+    public void StartQuest(QuestData_New data)
+    {
+        data.questState = QuestData_New.q_state.progress;
+        Debug.Log(data.questState);
+
+        quest_info_panel.SetActive(true);
+        quest_name_tmp.text = data.questName;
+        //quest_description_tmp.text = data.questDescription_inprogress;
+        // 이후에 퀘스트 스크립터블 오브젝터에서 UI 최신화도 구현하는 것으로..
     }
 
     void ActiveObjectsByQuestProgress()

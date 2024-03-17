@@ -24,8 +24,8 @@ public class EliminateCondition : QuestCondition
 
     private Dictionary<EnemyCondition.e_type, int> enemyConditionDic = new Dictionary<EnemyCondition.e_type, int>();
 
-    public int achievedNum;
-    private int addedNeedNum;
+    public int eliminatedNum;
+    //private int addedNeedNum;
 
     public override bool IsAchieved()
     {
@@ -33,30 +33,41 @@ public class EliminateCondition : QuestCondition
 
         int enemyTypeNum = enemyCondition.Length;
 
-        if(enemyTypeNum >= 2)
+        if(enemyTypeNum >= 2)       // 퀘스트4 조건 처리 
         {
             for (int i = 0; i < enemyTypeNum; i++)
             {
                 enemyConditionDic.Add(enemyCondition[i].enemyType, enemyCondition[i].needNum);
-                addedNeedNum += enemyCondition[i].needNum;
+                //addedNeedNum += enemyCondition[i].needNum;
             }
 
-            if (achievedNum >= addedNeedNum)
-                isAchieved = true;
 
             if (enemyConditionDic.ContainsKey(EnemyCondition.e_type.boss))
             {
-                int individualNeedNum = 1;
+                int eliminatedBossNum = 1;
 
-                if (enemyConditionDic[EnemyCondition.e_type.boss] == individualNeedNum)
+                if (enemyConditionDic[EnemyCondition.e_type.boss] == eliminatedBossNum)
                 {
-                    // 텍스트 최신화 작성
+                    isAchieved = true;
                 }
             }
+            else if (enemyConditionDic.ContainsKey(EnemyCondition.e_type.normal))
+            {
+                int eliminatedNormalNum = 6;
+
+                if (enemyConditionDic[EnemyCondition.e_type.normal] == eliminatedNormalNum)
+                {
+                    isAchieved = true;
+                }
+            }
+            else
+                isAchieved = false;
         }
-        else
+        else        // 퀘스트3 조건 처리
         {
-            if (achievedNum >= enemyCondition[0].needNum)
+            isAchieved = false;
+
+            if (eliminatedNum >= enemyCondition[0].needNum)
                 isAchieved = true;
         }
 

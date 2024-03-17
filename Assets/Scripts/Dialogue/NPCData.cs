@@ -25,7 +25,6 @@ public class NPCData : MonoBehaviour
     {
         //PrintAllDialogues();
         StartCoroutine(SetFirstID());
-        curID = startID;
     }
     public void PrintAllDialogues()
     {
@@ -50,6 +49,6 @@ public class NPCData : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         startID = m_dialogueDic.Keys.Min();       // npc별 첫 번째 대화 배열의 id 찾기
-
+        curID = startID;
     }
 }

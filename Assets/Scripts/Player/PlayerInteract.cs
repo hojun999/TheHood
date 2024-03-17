@@ -50,6 +50,7 @@ public class PlayerInteract : MonoBehaviour
     {
 
     }
+
     private void HandleInputInteractWithNPC()
     {
         if (Input.GetKeyDown(KeyCode.Space))

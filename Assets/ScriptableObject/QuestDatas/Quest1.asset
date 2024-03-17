@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quesitID: 1
   relativeDialogueID: 1
+  questState: 1
   questType: 0
   questName: "\uC810\uAC70 \uC9C0\uC5ED \uD0D0\uC0C9"
   questDescription_inprogress:
@@ -22,4 +23,3 @@ MonoBehaviour:
   questDescription_achieve:
   - "\uB113\uC740 \uC9C0\uC5ED \uD0D0\uC0C9 \uC644\uB8CC"
   - "\uC881\uC740 \uC9C0\uC5ED \uD0D0\uC0C9 \uC644\uB8CC"
-  isCurQeustClear: 0

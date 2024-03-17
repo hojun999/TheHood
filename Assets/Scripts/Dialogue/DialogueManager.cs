@@ -23,6 +23,8 @@ public class DialogueManager : MonoBehaviour
     [HideInInspector] public int dialogueID;
     private int dialogueIndex;
 
+    private bool canStartDialogue = true;
+
     private void Awake()
     {
         _dialougeParserTest = gameObject.GetComponent<DialogueParserTest>();
@@ -69,7 +71,6 @@ public class DialogueManager : MonoBehaviour
             if (dialogueBundleByNPCName.ContainsKey(npcName))
             {
                 //Debug.Log("npcName에 맞는 데이터 뿌리기");
-                //Debug.Log(npcName);
 
                 _NPCdatas[i].m_dialogueDic = dialogueBundleByNPCName[npcName];
             }
@@ -88,11 +89,17 @@ public class DialogueManager : MonoBehaviour
 
         NPCData _NPCData = scanObj.GetComponent<NPCData>();
         //dialogueID = _NPCData.curID;    //  대화하는 npc의 대화 ID에 따른 진행 순서 대응
-        dialogueID = GetCurDialogueID(_NPCData);
-        Debug.Log(dialogueID);
+
+        if (canStartDialogue)       // 대화 시작때만 맞는 대사 ID 할당
+        {
+            dialogueID = GetCurDialogueID(_NPCData);
+            Debug.Log(dialogueID);
+        }
 
         SetDialogueData(_NPCData, dialogueID);
         dialogueUI.SetActive(_playerInteract.isPlayerInteracting);
+
+        canStartDialogue = false;
     }
 
     private void SetDialogueData(NPCData _NPCData, int ID)
@@ -113,7 +120,7 @@ public class DialogueManager : MonoBehaviour
         switch (npcType)
         {
             case NPCData.m_type.client:
-                IDValue = GetCurDialougeIDByQuestState(_NPCData);
+                IDValue = GetCurDialougeIDExceptionByQuestState(_NPCData);
                 break;
             case NPCData.m_type.trador:
                 IDValue = GetCurDialogueIDByItemCount();
@@ -123,27 +130,33 @@ public class DialogueManager : MonoBehaviour
         return IDValue;
     }
 
-    private int GetCurDialougeIDByQuestState(NPCData _NPCData)
+    private int GetCurDialougeIDExceptionByQuestState(NPCData _NPCData)    // 퀘스트 진행 상태에 따른 대화 호출 규칙
     {
         QuestData_New _questData = _questManager.GetCurQuestData();
         QuestData_New.q_state questState = _questData.questState;
 
-        int IDValue = 0;
+        int curID = 0;
+        int npcDataID = _NPCData.curID;
 
-        switch (questState)
+        switch (questState)             // 대화 데이터의 id를 ++하는 조건을 switch문 안에서 말고 메소드로 만들어서 처리하는 것으로 변경!!
         {
             case QuestData_New.q_state.before:
-                IDValue = _NPCData.curID;
+                Debug.Log("해당 npc의 퀘스트 진행 상태는 진행 전");
+                curID = npcDataID;
                 break;
             case QuestData_New.q_state.progress:
-                IDValue = _NPCData.curID + 10 * dialogueID;
+                curID = npcDataID + 10 * (dialogueID + 1);
+                Debug.Log(curID);
+
                 break;
             case QuestData_New.q_state.clear:
-                IDValue = _NPCData.curID - 10 * dialogueID + 1;
+                Debug.Log("해당 npc의 퀘스트 진행 상태는 클리어");
+                curID = npcDataID - 10 * (dialogueID + 1) + 1;
                 break;
         }
 
-        return IDValue;
+        Debug.Log("해당 npc의 ID value 값은 : " + curID);
+        return curID;
     }
 
     private int GetCurDialogueIDByItemCount()
@@ -168,39 +181,6 @@ public class DialogueManager : MonoBehaviour
         else
             context = data.m_dialogueDic[ID][dialogueIndex];
 
-        switch (npcType)
-        {
-            case NPCData.m_type.client:
-                if (dialogueIndex == data.m_dialogueDic[ID].Count)
-                {
-                    context = null;
-                    EndTalk();
-                }
-                else
-                {
-                    context = data.m_dialogueDic[ID][dialogueIndex];
-                }
-                break;
-            case NPCData.m_type.trador:
-                if (true)   // true 부분에 인벤manager와 연계 및 아이템 소지 개수에 따른 bool 값 기입
-                {
-                    if (dialogueIndex == data.m_dialogueDic[ID].Count)
-                    {
-                        //TradeEvent();
-                        context = null;
-                        EndTalk();
-
-                    }
-                    else
-                    {
-                        context = data.m_dialogueDic[ID][dialogueIndex];
-
-                    }
-                }
-                break;
-        }
-
-
         return context;
 
     }
@@ -209,10 +189,18 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("대화 종료");
 
-        //dialogueUI.SetActive(false);
+        QuestData_New data = _questManager.GetCurQuestData();
+
+        if (data.questState == QuestData_New.q_state.before)    // 퀘스트 진행 전이면 자동적으로 퀘스트 시작
+            _questManager.StartQuest(data);
+
+
+        _questManager.CheckQuestState();
+        Debug.Log(data.questState);
         _playerInteract.isPlayerInteracting = false;
+        canStartDialogue = true;
         dialogueIndex = -1;     // 마지막 대화때도 interact가 되기 때문에 dialogueindex++;이 실행됨에 따른 초기화
-        //_questManager.CheckQuestClear();
+
     }
 
     public void MoveToNextDialogueID()

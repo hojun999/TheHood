@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e6386d8f5cd7e44a754a1a15c5050d, type: 3}
   m_Name: condition_quest4
   m_EditorClassIdentifier: 
-  enemycondition:
+  enemyCondition:
   - enemyType: 0
     needNum: 1
   - enemyType: 1
     needNum: 6
+  achievedNum: 0
