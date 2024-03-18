@@ -3,7 +3,7 @@ guid: 717c19b9dee6d544b8a375ed76ca6264
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,7 +63,6 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
-  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -872,41 +871,41 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Example 1 sprite map_0: 671407070
-      Example 1 sprite map_1: 1524865195
-      Example 1 sprite map_10: 1571554433
-      Example 1 sprite map_11: 626875564
-      Example 1 sprite map_12: 1400282131
-      Example 1 sprite map_13: 1587506817
-      Example 1 sprite map_14: 470708431
-      Example 1 sprite map_15: -1971246075
-      Example 1 sprite map_16: 1504496740
-      Example 1 sprite map_17: -1996393221
-      Example 1 sprite map_18: -1016181607
-      Example 1 sprite map_19: -1796745752
-      Example 1 sprite map_2: -449797332
-      Example 1 sprite map_20: 21405815
-      Example 1 sprite map_21: 1393861634
-      Example 1 sprite map_22: 655309445
-      Example 1 sprite map_23: -1203927837
-      Example 1 sprite map_24: 2010075331
-      Example 1 sprite map_25: -1978262054
-      Example 1 sprite map_26: 238303881
-      Example 1 sprite map_27: -84230680
-      Example 1 sprite map_28: 1277020212
-      Example 1 sprite map_29: 1070608040
-      Example 1 sprite map_3: 1229684666
-      Example 1 sprite map_30: 2123965236
-      Example 1 sprite map_31: 386767604
-      Example 1 sprite map_32: 831152789
-      Example 1 sprite map_33: -1362748622
       Example 1 sprite map_34: -1073625501
-      Example 1 sprite map_35: -1001273143
       Example 1 sprite map_4: -334704844
-      Example 1 sprite map_5: 414498526
-      Example 1 sprite map_6: -921696875
-      Example 1 sprite map_7: 2049590437
       Example 1 sprite map_8: 648261734
+      Example 1 sprite map_32: 831152789
+      Example 1 sprite map_12: 1400282131
+      Example 1 sprite map_21: 1393861634
       Example 1 sprite map_9: -2069397711
+      Example 1 sprite map_14: 470708431
+      Example 1 sprite map_26: 238303881
+      Example 1 sprite map_29: 1070608040
+      Example 1 sprite map_30: 2123965236
+      Example 1 sprite map_13: 1587506817
+      Example 1 sprite map_15: -1971246075
+      Example 1 sprite map_33: -1362748622
+      Example 1 sprite map_11: 626875564
+      Example 1 sprite map_27: -84230680
+      Example 1 sprite map_10: 1571554433
+      Example 1 sprite map_2: -449797332
+      Example 1 sprite map_25: -1978262054
+      Example 1 sprite map_3: 1229684666
+      Example 1 sprite map_24: 2010075331
+      Example 1 sprite map_22: 655309445
+      Example 1 sprite map_6: -921696875
+      Example 1 sprite map_20: 21405815
+      Example 1 sprite map_1: 1524865195
+      Example 1 sprite map_35: -1001273143
+      Example 1 sprite map_28: 1277020212
+      Example 1 sprite map_23: -1203927837
+      Example 1 sprite map_19: -1796745752
+      Example 1 sprite map_7: 2049590437
+      Example 1 sprite map_17: -1996393221
+      Example 1 sprite map_16: 1504496740
+      Example 1 sprite map_18: -1016181607
+      Example 1 sprite map_31: 386767604
+      Example 1 sprite map_5: 414498526
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -9,17 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de2872c23c6e32b4388b915e5b963a2c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8899129ea2937b5419d11d0719f089b8, type: 3}
   m_Name: Quest1
   m_EditorClassIdentifier: 
   quesitID: 1
   relativeDialogueID: 1
-  questState: 1
+  questState: 0
   questType: 0
   questName: "\uC810\uAC70 \uC9C0\uC5ED \uD0D0\uC0C9"
-  questDescription_inprogress:
-  - "\uB113\uC740 \uC9C0\uC5ED \uD0D0\uC0C9"
-  - "\uC881\uC740 \uC9C0\uC5ED \uD0D0\uC0C9"
-  questDescription_achieve:
-  - "\uB113\uC740 \uC9C0\uC5ED \uD0D0\uC0C9 \uC644\uB8CC"
-  - "\uC881\uC740 \uC9C0\uC5ED \uD0D0\uC0C9 \uC644\uB8CC"
+  questDescription_inprogress: []
+  questDescription_achieve: []

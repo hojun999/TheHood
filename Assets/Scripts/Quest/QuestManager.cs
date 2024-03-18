@@ -1,142 +1,128 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using TMPro;
+using System;
 
 public class QuestManager : MonoBehaviour
 {
-    public int questId;
-    public int questActionIndex;
+    private DialogueManager _dialogueManager;
 
-    [Header("Quest1")]
-    public GameObject required_Area_Quest1;     // 퀘스트 1의 숲 맵 특정 지역 탐색, 빈 오브젝트 boxcollider2d 넣어서 oncollisionenter2d로 관리
-    public GameObject inProgressQuestImage_Quest1;
+    public QuestData[] questDatas;
 
-    [Header("Quest2")]
-    public GameObject required_ItemGroup_Quest2;
-    public GameObject inProgressQuestImage_Quest2;
-    public int getItemNum_Quest2;
+    public GameObject quest_info_panel;
+    public TextMeshProUGUI quest_name_tmp;
+    public TextMeshProUGUI quest_description_tmp;
 
+    [SerializeField] private SetActiveObjectGroup[] _active_group;
+    [SerializeField] private SetUnactiveObjectGroup[] _unactive_group;
 
-    [Header("Quest3")]
-    public GameObject enemyGroup_Quest3;
-    public GameObject inProgressQuestImage_Quest3;
+    private Dictionary<int, GameObject[]> activeObjectsDic = new Dictionary<int, GameObject[]>();
+    private Dictionary<int, GameObject[]> unactiveObjectsDic = new Dictionary<int, GameObject[]>();
 
-    [Header("Quest4")]
-    public GameObject enemyGruop_Quest4;
-    public GameObject inProgressQuestImage_Quest4;
+    private int questIndex;
+    private int i_relativeDialogueID;
 
-    [Header("QuestUI")]
-    public GameObject questionMark;
-    public GameObject exMark;
-    public GameObject Direction_Right;
-    public GameObject Direction_Up;
+    
 
-    [Header("Direction")]
-    public GameObject Direction_BigArea;
-    public GameObject Direction_SmallArea;
-    public GameObject Direction_Quest3AndQuest4;
+    [HideInInspector] public bool canStartQuest;
 
-
-    [SerializeField] public int locateAtQuestAreaNum_Quest1;
-    [SerializeField] public int eliminateHenchmanNum_Quest3;
-    [SerializeField] public int eliminateBossNum_Quest4;
-    [SerializeField] public int eliminateHenchmanNum_Quest4;
-
-
-    Dictionary<int, QuestData> questList;
-
-    void Awake()
+    private void Start()
     {
-        questList = new Dictionary<int, QuestData>();
-        GenerateData();
+        _dialogueManager = gameObject.GetComponent<DialogueManager>();
 
-        getItemNum_Quest2 = 3;
+        // questdata scriptableobejct 진행 상태 초기화
+        foreach (QuestData questData in questDatas)
+            questData.questState = QuestData.q_state.before;
+
+        // 아래 배열의 개수가 다를 수 있으므로 분리하여 for문
+        for (int i = 0; i < _active_group.Length; i++)
+            activeObjectsDic.Add(i + 1, _active_group[i].active_group);
+
+        for (int i = 0; i < _unactive_group.Length; i++)        
+            unactiveObjectsDic.Add(i + 1, _unactive_group[i].unactive_group);
+
     }
 
-    private void GenerateData()     // 퀘스트 목록 생성
+    public QuestData GetCurQuestData()
     {
-        questList.Add(10, new QuestData("점거 지역 탐색", new int[] { 2000}));
-
-        questList.Add(20, new QuestData("흔적 조사", new int[] { 2000}));
-
-        questList.Add(30, new QuestData("부하 사살", new int[] { 2000}));
-
-        questList.Add(40, new QuestData("말머리 패거리 정리", new int[] { 2000}));
-
-        questList.Add(50, new QuestData("엔딩", new int[] { 2000 }));
+        return questDatas[questIndex];
     }
 
-    public void checkQuest(int id)      // 정해진 npc와 대화를 할 때만 index++
+    public void ExcuteOnQuestStart()
     {
-        // 퀘스트 대화가 끝나면  그 퀘스트의 다음 대화 출력
-        if (id == questList[questId].npcId[0])
-            questActionIndex++;
+        ActiveObjectsByQuestProgress();
+    }
 
-        // 대화 계속해서 다음 퀘스트로 넘어가지 않게 조절
-        if (questActionIndex == 8)
-            questActionIndex = 1;
+    public void ExcuteOnQuestClear()
+    {
+        UnActiveObjectsByQuestProgress();
 
-        if (questId == 10)      // 다음 퀘스트로 넘기는 부분은 PlayerController의 oncollisionenter에서 처리
+        //_dialogueManager.MoveToNextDialogueID();
+        MoveToNextQuest();
+    }
+
+    public void SetQuestDataByQuestState(QuestData data)        // 각 퀘스트 상태에 따른 처리
+    {
+        switch (data.questState)
         {
-            inProgressQuestImage_Quest1.SetActive(true);        // checkQuest 함수가 대화(spacebar) '직후' 호출되므로 퀘스트UI오브젝트를 여기에 배치함
-            required_Area_Quest1.SetActive(true);
-            exMark.SetActive(false);
-            questionMark.SetActive(true);
-            Direction_Right.SetActive(true);
-            Direction_Up.SetActive(false);
-            Direction_BigArea.SetActive(true);
-            Direction_SmallArea.SetActive(true);
-        }
-        else if (questId == 20)
-        {
-            inProgressQuestImage_Quest1.SetActive(false);
-            inProgressQuestImage_Quest2.SetActive(true);
-            required_ItemGroup_Quest2.SetActive(true);
-            exMark.SetActive(false);
-            questionMark.SetActive(true);
-            Direction_Right.SetActive(true);
-            Direction_Up.SetActive(false);
-        }
-        else if (questId == 30)     // 다음 퀘스트로 넘기는 부분 GameManager Update()에서 처리
-        {
-            inProgressQuestImage_Quest2.SetActive(false);
-            inProgressQuestImage_Quest3.SetActive(true);
-            enemyGroup_Quest3.SetActive(true);
-            exMark.SetActive(false);
-            questionMark.SetActive(true);
-            Direction_Right.SetActive(true);
-            Direction_Up.SetActive(false);
-        }
-        else if (questId == 40)
-        {
-            inProgressQuestImage_Quest3.SetActive(false);
-            inProgressQuestImage_Quest4.SetActive(true);
-            exMark.SetActive(false);
-            questionMark.SetActive(true);
-            enemyGruop_Quest4.SetActive(true);
-            Direction_Quest3AndQuest4.SetActive(true);
-            Direction_Right.SetActive(true);
-            Direction_Up.SetActive(false);
-        }
-        else if(questId == 50)
-        {
-            inProgressQuestImage_Quest4.SetActive(false);
-            questionMark.SetActive(false);
-            Direction_Right.SetActive(false);
-            Direction_Up.SetActive(false);
+            case QuestData.q_state.before:
+                StartQuest(data);       // 퀘스트 시작
+                break;
+            case QuestData.q_state.progress:
+                break;
+            case QuestData.q_state.clear:
+                ExcuteOnQuestClear();   // 퀘스트 클리어 시의 처리 함수 호출
+                break;
         }
     }
 
-    public int GetQuestTalkIndex(int id)    // 한 퀘스트 내에서의 다음 대화 출력 (수락 x 상태 대화 > 수락 o 상태 대화)
+    public void StartQuest(QuestData data)
     {
-        return questId + questActionIndex;      // 퀘스트 번호 + 퀘스트 대화 순서
+        data.questState = QuestData.q_state.progress;
+
+        quest_info_panel.SetActive(true);
+        quest_name_tmp.text = data.questName;
+        //quest_description_tmp.text = data.questDescription_inprogress;
+
+        // 이후에 퀘스트 스크립터블 오브젝터에서 UI 최신화도 구현하는 것으로..
     }
 
-    public void NextQuest()
+
+    void ActiveObjectsByQuestProgress()     // 각 퀘스트마다 필요한 활성화 오브젝트 처리
     {
-        questId += 10;
-        questActionIndex = 0;
+            foreach (GameObject obj in activeObjectsDic[questIndex])     // 데이터 형식을 GameObject[]가 아닌 GameObject로 넣었기 때문에, 정상적으로 기능하는지 확인 필요
+            {
+                obj.SetActive(true);
+            }
+
     }
+
+    void UnActiveObjectsByQuestProgress()   // 각 퀘스트마다 필요 없는 비활성화 오브젝트 처리
+    {
+        foreach (GameObject obj in unactiveObjectsDic[questIndex])
+        {
+            obj.SetActive(false);
+        }
+    }
+
+    //void MoveToProgressDialogue()
+    //{
+    //    GetCurQuestData().cur + 10;
+    //}
+
+    void MoveToNextQuest()
+    {
+        questIndex++;
+    }
+
+    //void EndingEvent()
+    //{
+    //    StartCoroutine(coEndingEvent());
+    //}
+
+    //IEnumerator coEndingEvent()
+    //{
+    //    yield return new WaitForSeconds(0.1f);
+    //}
 }

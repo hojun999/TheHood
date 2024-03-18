@@ -33,13 +33,11 @@ public class DialogueParserTest : MonoBehaviour
             if (row[1] != "")   // dialogueID 처리
             {
                 currentDialogueID = int.Parse(row[1]);
-                //Debug.Log(row[1]);
                 if (!dialogueBundleByNPCName[currentNPCName].ContainsKey(currentDialogueID))
                 {
                     dialogueBundleByNPCName[currentNPCName][currentDialogueID] = new List<string>();
                 }
             }
-            //Debug.Log(row[2]);
 
             dialogueBundleByNPCName[currentNPCName][currentDialogueID].Add(row[2]); // 대사 추가
 

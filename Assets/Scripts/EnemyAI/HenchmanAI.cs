@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HenchmanAI : MonoBehaviour
 {
     public GameManager gameManager;
-    public QuestManager questManager;
+    public QuestManager_Lagacy questManager_lagacy;
     public AudioClip clip;
 
     [Header("Stats")]
@@ -78,11 +78,11 @@ public class HenchmanAI : MonoBehaviour
             CancelInvoke("Attack");
             CancelInvoke("Action");
             doAttack = false;
-            if (questManager.eliminateHenchmanNum_Quest3 < 5)
-                text_Quest3.text = "何窍 " + questManager.eliminateHenchmanNum_Quest3 + " / 5";
+            if (questManager_lagacy.eliminateHenchmanNum_Quest3 < 5)
+                text_Quest3.text = "何窍 " + questManager_lagacy.eliminateHenchmanNum_Quest3 + " / 5";
 
-            if(questManager.eliminateHenchmanNum_Quest4 < 6)
-                text_Quest4.text = "何窍 " + questManager.eliminateHenchmanNum_Quest4 + " / 6";
+            if(questManager_lagacy.eliminateHenchmanNum_Quest4 < 6)
+                text_Quest4.text = "何窍 " + questManager_lagacy.eliminateHenchmanNum_Quest4 + " / 6";
         }
 
         if (gameManager.isEnterFight)
@@ -156,10 +156,10 @@ public class HenchmanAI : MonoBehaviour
             isDie = true;
             gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
 
-            if (questManager.questId == 30)
-                questManager.eliminateHenchmanNum_Quest3++;
-            else if (questManager.questId == 40)
-                questManager.eliminateHenchmanNum_Quest4++;
+            if (questManager_lagacy.questId == 30)
+                questManager_lagacy.eliminateHenchmanNum_Quest3++;
+            else if (questManager_lagacy.questId == 40)
+                questManager_lagacy.eliminateHenchmanNum_Quest4++;
         }
     }
 

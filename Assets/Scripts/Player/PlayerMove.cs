@@ -32,6 +32,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         GetMoveDirection();
+
     }
 
     private void FixedUpdate()
@@ -42,6 +43,7 @@ public class PlayerMove : MonoBehaviour
         {
             Teleport();
         }
+
     }
 
     private void GetMoveDirection()     // 입력된 값에 따른 이동 방향값 세팅

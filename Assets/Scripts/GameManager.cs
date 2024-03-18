@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Manager")]
     public TalkManager talkManager;
-    public QuestManager questManager;
+    public QuestManager_Lagacy questManager_lagacy;
     public InventoryManager inventoryManager;
 
     [Header("Camera")]
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]public bool activeInventory = false;
     private bool activeSubMenu;
     private bool activeHelpMenu;
-    private bool isEnding;
+    //private bool isEnding;
 
     private int spawnNum;
     private float fadeOutCurTime;
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         activeHelpMenu = true;
-        SoundManager.instance.bgSound.volume = 1;
+        //SoundManager.instance.bgSound.volume = 1;
 
     }
 
@@ -95,10 +95,10 @@ public class GameManager : MonoBehaviour
 
     void Talk(int id, bool isQuestNpc, bool isWeaponTradeNpc, bool isPosionTradeNpc)
     {
-        if (questManager.eliminateHenchmanNum_Quest3 == 6)
+        if (questManager_lagacy.eliminateHenchmanNum_Quest3 == 6)
             enemyGroup_Quest3.SetActive(false);
 
-        if (questManager.eliminateBossNum_Quest4 == 2 && questManager.eliminateHenchmanNum_Quest4 == 6)
+        if (questManager_lagacy.eliminateBossNum_Quest4 == 2 && questManager_lagacy.eliminateHenchmanNum_Quest4 == 6)
             enemyGroup_Quest4.SetActive(false);
 
         inventoryManager.DestroyQuestItemAndTradeEtcItem();
@@ -106,18 +106,18 @@ public class GameManager : MonoBehaviour
         // 대화 데이터 세팅, 각 npc id마다 작성 ★
         if(id == 2000)
         {
-            int questTalkIndex = questManager.GetQuestTalkIndex(id);
+            int questTalkIndex = questManager_lagacy.GetQuestTalkIndex(id);
             string questTalkData = talkManager.GetTalk(id + questTalkIndex, talkIndex);
 
-            if (questTalkData == null && questManager.questId == 50)
+            if (questTalkData == null && questManager_lagacy.questId == 50)
             {
-                isEnding = true;
+                //isEnding = true;
             }
             if (questTalkData == null && id == 2000 && !isWeaponTradeNpc && !isPosionTradeNpc)
             {
                 isAction = false;
                 talkIndex = 0;
-                questManager.checkQuest(id);
+                questManager_lagacy.checkQuest(id);
                 return;
             }
 
@@ -184,116 +184,116 @@ public class GameManager : MonoBehaviour
         Debug.Log(isGetAlreadyPosionNum);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            activeInventory = !activeInventory;
-            inventoryPanel.SetActive(activeInventory);
-        }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.I))
+    //    {
+    //        activeInventory = !activeInventory;
+    //        inventoryPanel.SetActive(activeInventory);
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !activeHelpMenu)        // helpmenu 꺼져있을 때만(예외처리)
-            OnOffSubMenuPanel();
+    //    if (Input.GetKeyDown(KeyCode.Escape) && !activeHelpMenu)        // helpmenu 꺼져있을 때만(예외처리)
+    //        OnOffSubMenuPanel();
 
-        if (activeHelpMenu)     // 예외처리
-        {
-            if(Input.GetKeyDown(KeyCode.Escape))
-                OnOffHelpMenuPanel();
-        }
-
-
-        if(questManager.locateAtQuestAreaNum_Quest1 == 2)   // 퀘스트 1 처리
-        {
-            Invoke("setActiveQuestClearText", 1f);
-            questManager.NextQuest();
-            questManager.required_Area_Quest1.SetActive(false);
-            questManager.locateAtQuestAreaNum_Quest1++;
-            Player.GetComponent<PlayerController>().questionMark.SetActive(false);
-            Player.GetComponent<PlayerController>().exMark.SetActive(true);
-            questManager.Direction_Up.SetActive(true);
-            questManager.Direction_Right.SetActive(false);
-        }
-
-        if (questManager.getItemNum_Quest2 == 0)        // 퀘스트2 처리
-        {
-            Invoke("setActiveQuestClearText", 1f);
-            questManager.NextQuest();
-            questManager.required_ItemGroup_Quest2.SetActive(false);
-            questManager.Direction_Up.SetActive(true);
-            questManager.Direction_Right.SetActive(false);
-
-            questManager.getItemNum_Quest2 += 100;      // 조건문 한 번만 호출
-        }
-
-        if(questManager.eliminateHenchmanNum_Quest3 == 5)      // 퀘스트3 처리
-        {
-            ConvertcameraFightToNormal();
-            Invoke("setActiveQuestClearText", 1f);
-            questManager.NextQuest();
-            //isEnterFight = false;
-            //fightWall_Quest3.SetActive(false);
-            Player.GetComponent<PlayerController>().BeforeText_eliminateHenchman_Quest3.SetActive(false);
-            Player.GetComponent<PlayerController>().AfterText_eliminateHenchman_Quest3.SetActive(true);
-            questManager.Direction_Up.SetActive(true);
-            questManager.Direction_Right.SetActive(false);
-
-            questManager.eliminateHenchmanNum_Quest3++;        // 조건문 한 번만 호출하기 위함
-        }
-
-        // 퀘스트 4 처리
-        if (questManager.eliminateBossNum_Quest4 == 1)
-        {
-            Player.GetComponent<PlayerController>().BeforeText_eliminateBoss.SetActive(false);
-            Player.GetComponent<PlayerController>().AfterText_eliminateBoss.SetActive(true);
-        }
-
-        if(questManager.eliminateHenchmanNum_Quest4 == 6)
-        {
-            Player.GetComponent<PlayerController>().BeforeText_eliminateHenchman_Quest4.SetActive(false);
-            Player.GetComponent<PlayerController>().AfterText_eliminateHenchman_Quest4.SetActive(true);
-        }
-
-        if (questManager.eliminateHenchmanNum_Quest4 == 6 && questManager.eliminateBossNum_Quest4 == 1)      // 퀘스트 4 처리
-        {
-            ConvertcameraFightToNormal();
-            SoundManager.instance.EnterWoods();
-            Invoke("setActiveQuestClearText", 1f);
-            questManager.NextQuest();
-            isEnterFight = false;
-            fightWall_Quest4.SetActive(false);
-            questManager.Direction_Up.SetActive(true);
-            questManager.Direction_Right.SetActive(false);
-            questManager.Direction_Quest3AndQuest4.SetActive(false);
+    //    if (activeHelpMenu)     // 예외처리
+    //    {
+    //        if(Input.GetKeyDown(KeyCode.Escape))
+    //            OnOffHelpMenuPanel();
+    //    }
 
 
-            questManager.eliminateBossNum_Quest4++;        // 조건문 한 번만 호출하기 위함
-        }
+    //    if(questManager_lagacy.locateAtQuestAreaNum_Quest1 == 2)   // 퀘스트 1 처리
+    //    {
+    //        Invoke("setActiveQuestClearText", 1f);
+    //        questManager_lagacy.NextQuest();
+    //        questManager_lagacy.required_Area_Quest1.SetActive(false);
+    //        questManager_lagacy.locateAtQuestAreaNum_Quest1++;
+    //        Player.GetComponent<PlayerController>().questionMark.SetActive(false);
+    //        Player.GetComponent<PlayerController>().exMark.SetActive(true);
+    //        questManager_lagacy.Direction_Up.SetActive(true);
+    //        questManager_lagacy.Direction_Right.SetActive(false);
+    //    }
 
-        if (isEnding)
-        {
-            if (fadeOutCurTime < fadeOutMaxTime)
-            {
-                fadeOutCurTime += Time.deltaTime;
-                PlayFadeOut();
-            }
-            if (fadeOutCurTime > fadeOutMaxTime)
-                SceneManager.LoadScene("Ending");
-        }
+    //    if (questManager_lagacy.getItemNum_Quest2 == 0)        // 퀘스트2 처리
+    //    {
+    //        Invoke("setActiveQuestClearText", 1f);
+    //        questManager_lagacy.NextQuest();
+    //        questManager_lagacy.required_ItemGroup_Quest2.SetActive(false);
+    //        questManager_lagacy.Direction_Up.SetActive(true);
+    //        questManager_lagacy.Direction_Right.SetActive(false);
 
-        if (isGetAlreadyPosionNum == 2)
-            isGetAlreadyPosionNum = 0;
+    //        questManager_lagacy.getItemNum_Quest2 += 100;      // 조건문 한 번만 호출
+    //    }
 
-        if(SoundManager.instance.getStartNum == 1)
-        {
-            if (fadeOutCurTime < fadeOutMaxTime)
-            {
-                fadeOutCurTime += Time.deltaTime;
-                PlayFadeIn();
-            }
-            if (fadeOutCurTime > fadeOutMaxTime)
-                SoundManager.instance.getStartNum--;
-        }
-    }
+    //    if(questManager_lagacy.eliminateHenchmanNum_Quest3 == 5)      // 퀘스트3 처리
+    //    {
+    //        ConvertcameraFightToNormal();
+    //        Invoke("setActiveQuestClearText", 1f);
+    //        questManager_lagacy.NextQuest();
+    //        //isEnterFight = false;
+    //        //fightWall_Quest3.SetActive(false);
+    //        Player.GetComponent<PlayerController>().BeforeText_eliminateHenchman_Quest3.SetActive(false);
+    //        Player.GetComponent<PlayerController>().AfterText_eliminateHenchman_Quest3.SetActive(true);
+    //        questManager_lagacy.Direction_Up.SetActive(true);
+    //        questManager_lagacy.Direction_Right.SetActive(false);
+
+    //        questManager_lagacy.eliminateHenchmanNum_Quest3++;        // 조건문 한 번만 호출하기 위함
+    //    }
+
+    //    // 퀘스트 4 처리
+    //    if (questManager_lagacy.eliminateBossNum_Quest4 == 1)
+    //    {
+    //        Player.GetComponent<PlayerController>().BeforeText_eliminateBoss.SetActive(false);
+    //        Player.GetComponent<PlayerController>().AfterText_eliminateBoss.SetActive(true);
+    //    }
+
+    //    if(questManager_lagacy.eliminateHenchmanNum_Quest4 == 6)
+    //    {
+    //        Player.GetComponent<PlayerController>().BeforeText_eliminateHenchman_Quest4.SetActive(false);
+    //        Player.GetComponent<PlayerController>().AfterText_eliminateHenchman_Quest4.SetActive(true);
+    //    }
+
+    //    if (questManager_lagacy.eliminateHenchmanNum_Quest4 == 6 && questManager_lagacy.eliminateBossNum_Quest4 == 1)      // 퀘스트 4 처리
+    //    {
+    //        ConvertcameraFightToNormal();
+    //        SoundManager.instance.EnterWoods();
+    //        Invoke("setActiveQuestClearText", 1f);
+    //        questManager_lagacy.NextQuest();
+    //        isEnterFight = false;
+    //        fightWall_Quest4.SetActive(false);
+    //        questManager_lagacy.Direction_Up.SetActive(true);
+    //        questManager_lagacy.Direction_Right.SetActive(false);
+    //        questManager_lagacy.Direction_Quest3AndQuest4.SetActive(false);
+
+
+    //        questManager_lagacy.eliminateBossNum_Quest4++;        // 조건문 한 번만 호출하기 위함
+    //    }
+
+    //    if (isEnding)
+    //    {
+    //        if (fadeOutCurTime < fadeOutMaxTime)
+    //        {
+    //            fadeOutCurTime += Time.deltaTime;
+    //            PlayFadeOut();
+    //        }
+    //        if (fadeOutCurTime > fadeOutMaxTime)
+    //            SceneManager.LoadScene("Ending");
+    //    }
+
+    //    if (isGetAlreadyPosionNum == 2)
+    //        isGetAlreadyPosionNum = 0;
+
+    //    if(SoundManager.instance.getStartNum == 1)
+    //    {
+    //        if (fadeOutCurTime < fadeOutMaxTime)
+    //        {
+    //            fadeOutCurTime += Time.deltaTime;
+    //            PlayFadeIn();
+    //        }
+    //        if (fadeOutCurTime > fadeOutMaxTime)
+    //            SoundManager.instance.getStartNum--;
+    //    }
+    //}
 
 
     public void setActiveQuestClearText()

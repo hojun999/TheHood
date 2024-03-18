@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Quest1Conditions : MonoBehaviour
 {
-    QuestManager_New _questManager;
+    QuestManager _questManager;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -13,7 +13,7 @@ public class Quest1Conditions : MonoBehaviour
             gameObject.SetActive(false);
 
 
-            _questManager.GetCurQuestData().questState = QuestData_New.q_state.clear;
+            _questManager.GetCurQuestData().questState = QuestData.q_state.clear;
         }
     }
 }

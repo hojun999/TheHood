@@ -9,15 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de2872c23c6e32b4388b915e5b963a2c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8899129ea2937b5419d11d0719f089b8, type: 3}
   m_Name: Quest3
   m_EditorClassIdentifier: 
   quesitID: 3
   relativeDialogueID: 3
+  questState: 0
   questType: 2
-  questName: "\uBD80\uD558\uB4E4 \uCC98\uB9AC"
-  questDescription_inprogress:
-  - "\uC232\uC5D0 \uD769\uC5B4\uC838 \uC788\uB294 \uBD80\uD558 0 / 5"
-  questDescription_achieve:
-  - "\uBD80\uD558 \uCC98\uB9AC \uC644\uB8CC"
-  isCurQeustClear: 0
+  questName: "\uBD80\uD558\uB4E4 \uC81C\uAC70"
+  questDescription_inprogress: []
+  questDescription_achieve: []

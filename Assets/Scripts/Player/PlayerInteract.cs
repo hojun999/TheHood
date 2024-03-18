@@ -19,6 +19,8 @@ public class PlayerInteract : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleRay();
+
         HandleInputInteractWithNPC();
         HandleInteracWithItem();
     }
@@ -31,12 +33,12 @@ public class PlayerInteract : MonoBehaviour
         if (rayHit.collider)
         {
             scannedObject = rayHit.collider.gameObject;
-            Debug.Log("오브젝트 감지(상호작용)");
+            //Debug.Log("오브젝트 감지(상호작용)");
         }
         else
         {
             scannedObject = null;
-            Debug.Log("오브젝트 감지 안됨");
+            //Debug.Log("오브젝트 감지 안됨");
         }
     }
 
@@ -53,14 +55,9 @@ public class PlayerInteract : MonoBehaviour
 
     private void HandleInputInteractWithNPC()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && scannedObject != null)
         {
-            HandleRay();
-
-            if (scannedObject != null)
-            {
-                i_dialogueManager.StartDialogueOnInteract(scannedObject);
-            }
+            i_dialogueManager.StartDialogueOnInteract(scannedObject);
         }
     }
 

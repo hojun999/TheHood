@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [Header("Manager")]
     public GameManager gameManager;
     public InventoryManager inventoryManager;
-    public QuestManager questManager;
+    public QuestManager_Lagacy questManager_lagacy;
 
     [Header("Attack")]
     public GameObject shootObject;
@@ -184,7 +184,7 @@ public class PlayerController : MonoBehaviour
             if (scanObject.name == "Clothes_With_Blood")
             {
                 GetItem(0);
-                questManager.getItemNum_Quest2--;
+                questManager_lagacy.getItemNum_Quest2--;
                 BeforeGetText_Clothes_With_Blood.SetActive(false);
                 AfterGetText_Clothes_With_Blood.SetActive(true);
                 AfterGetItemText_Alpha_Clothes_With_Blood.SetActive(true);
@@ -193,7 +193,7 @@ public class PlayerController : MonoBehaviour
             else if (scanObject.name == "Injector")
             {
                 GetItem(2);
-                questManager.getItemNum_Quest2--;
+                questManager_lagacy.getItemNum_Quest2--;
                 BeforeGetText_Injector.SetActive(false);
                 AfterGetText_Injector.SetActive(true);
                 AfterGetItemText_Alpha_Injector.SetActive(true);
@@ -202,7 +202,7 @@ public class PlayerController : MonoBehaviour
             else if (scanObject.name == "RustyGun")
             {
                 GetItem(3);
-                questManager.getItemNum_Quest2--;
+                questManager_lagacy.getItemNum_Quest2--;
                 BeforeGetText_RustyGun.SetActive(false);
                 AfterGetText_RustyGun.SetActive(true);
                 AfterGetItemText_Alpha_RustyGun.SetActive(true);
@@ -280,7 +280,7 @@ public class PlayerController : MonoBehaviour
         // 1¹ø Äù½ºÆ® 
         if (collision.gameObject.CompareTag("BigQuestArea"))
         {
-            questManager.locateAtQuestAreaNum_Quest1++;
+            questManager_lagacy.locateAtQuestAreaNum_Quest1++;
             collision.gameObject.SetActive(false);
             BeforeGetText_BigQuestArea.SetActive(false);
             AfterGetText_BigQuestArea.SetActive(true);
@@ -290,7 +290,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("SmallQuestArea"))
         {
-            questManager.locateAtQuestAreaNum_Quest1++;
+            questManager_lagacy.locateAtQuestAreaNum_Quest1++;
             collision.gameObject.SetActive(false);
             BeforeGetText_SmallQuestArea.SetActive(false);
             AfterGetText_SmallQuestArea.SetActive(true);

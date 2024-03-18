@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
-    public QuestManager questManager;
+    public QuestManager_Lagacy questManager_lagacy;
     public PlayerController playerController;
     public GameManager gameManager;
 
@@ -136,7 +136,7 @@ public class InventoryManager : MonoBehaviour
             if(itemInSlot != null)
             {
                 Item item = itemInSlot.item;
-                if(item.itemType == ItemType.Quest && questManager.getItemNum_Quest2 == 100)
+                if(item.itemType == ItemType.Quest && questManager_lagacy.getItemNum_Quest2 == 100)
                 {
                     Destroy(itemInSlot.gameObject);
                 }

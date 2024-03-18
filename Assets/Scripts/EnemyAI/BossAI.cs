@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BossAI : MonoBehaviour
 {
     public GameManager gameManager;
-    public QuestManager questManager;
+    public QuestManager_Lagacy questManager_lagacy;
     public AudioClip clip;
 
     [Header("Stats")]
@@ -150,7 +150,7 @@ public class BossAI : MonoBehaviour
         {
             isDie = true;
             gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
-            questManager.eliminateBossNum_Quest4++;
+            questManager_lagacy.eliminateBossNum_Quest4++;
         }
     }
 

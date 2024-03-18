@@ -1,15 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class QuestData
+[CreateAssetMenu(fileName = "QuestDataByIndex", menuName = "Scriptable object/Quest")]
+public class QuestData : ScriptableObject
 {
-    public string questName;
-    public int[] npcId;
+    public int quesitID;
+    public int relativeDialogueID;
 
-    public QuestData(string name, int[] npc)
+    public enum q_state
     {
-        questName = name;
-        npcId = npc;
+        before,
+        progress,
+        clear
     }
 
+    public q_state questState;
+
+    public enum q_type
+    {
+        search,
+        getItem,
+        eliminate
+    }
+
+    public q_type questType;
+
+    public string questName;
+    public string[] questDescription_inprogress;
+    public string[] questDescription_achieve;
+
+    //public bool isCurQeustClear;
 }
