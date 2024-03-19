@@ -7,20 +7,22 @@ using System;
 public class QuestManager : MonoBehaviour
 {
     private DialogueManager _dialogueManager;
+    private PlayerInteract _playerInteract;
 
     public QuestData[] questDatas;
+    public QuestConditionData[] questConditionDatas;
 
     public GameObject quest_info_panel;
     public TextMeshProUGUI quest_name_tmp;
     public TextMeshProUGUI quest_description_tmp;
 
-    [SerializeField] private SetActiveObjectGroup[] _active_group;
-    [SerializeField] private SetUnactiveObjectGroup[] _unactive_group;
+    [SerializeField] private GameObject[] activeObjects;
+    [SerializeField] private GameObject[] unactiveObjects;
 
-    private Dictionary<int, GameObject[]> activeObjectsDic = new Dictionary<int, GameObject[]>();
-    private Dictionary<int, GameObject[]> unactiveObjectsDic = new Dictionary<int, GameObject[]>();
+    public Dictionary<int, GameObject> activeObjectsDic = new Dictionary<int, GameObject>();
+    public Dictionary<int, GameObject> unactiveObjectsDic = new Dictionary<int, GameObject>();
 
-    private int questIndex;
+    [SerializeField] private int questIndex;
     private int i_relativeDialogueID;
 
     
@@ -30,88 +32,83 @@ public class QuestManager : MonoBehaviour
     private void Start()
     {
         _dialogueManager = gameObject.GetComponent<DialogueManager>();
+        _playerInteract = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInteract>();
 
-        // questdata scriptableobejct 진행 상태 초기화
-        foreach (QuestData questData in questDatas)
-            questData.questState = QuestData.q_state.before;
-
-        // 아래 배열의 개수가 다를 수 있으므로 분리하여 for문
-        for (int i = 0; i < _active_group.Length; i++)
-            activeObjectsDic.Add(i + 1, _active_group[i].active_group);
-
-        for (int i = 0; i < _unactive_group.Length; i++)        
-            unactiveObjectsDic.Add(i + 1, _unactive_group[i].unactive_group);
+        SetQuestConditionsOnData();     // 퀘스트 조건 정보 각 데이터에 할당
+        InitializeQuestDataState();     // 퀘스트 데이터 진행 상태 초기화
 
     }
 
-    public QuestData GetCurQuestData()
+    private void SetQuestConditionsOnData()     // 퀘스트 조건을 각 퀘스트 데이터에 할당
     {
-        return questDatas[questIndex];
-    }
-
-    public void ExcuteOnQuestStart()
-    {
-        ActiveObjectsByQuestProgress();
-    }
-
-    public void ExcuteOnQuestClear()
-    {
-        UnActiveObjectsByQuestProgress();
-
-        //_dialogueManager.MoveToNextDialogueID();
-        MoveToNextQuest();
-    }
-
-    public void SetQuestDataByQuestState(QuestData data)        // 각 퀘스트 상태에 따른 처리
-    {
-        switch (data.questState)
+        for (int i = 0; i < questConditionDatas.Length; i++)
         {
-            case QuestData.q_state.before:
-                StartQuest(data);       // 퀘스트 시작
-                break;
-            case QuestData.q_state.progress:
-                break;
-            case QuestData.q_state.clear:
-                ExcuteOnQuestClear();   // 퀘스트 클리어 시의 처리 함수 호출
-                break;
+            questDatas[i].conditionData = questConditionDatas[i];
         }
     }
 
-    public void StartQuest(QuestData data)
+    private void InitializeQuestDataState()     // 퀘스트 데이터의 진행 상태 before로 초기화
     {
+        foreach (QuestData questData in questDatas)
+            questData.questState = QuestData.q_state.before;
+    }
+
+
+    public QuestData GetCurQuestData()      // 현재 진행되는 퀘스트 데이터 호출
+    {
+        Debug.Log("현재 퀘스트 데이터는 : " + questDatas[questIndex]);
+        return questDatas[questIndex];
+    }
+
+    public QuestConditionData GetCurQuestCondition()    // 현재 퀘스트 데이터의 조건 정보 얻기
+    {
+        return questConditionDatas[questIndex];
+    }
+
+
+    public void StartQuest(QuestData data)      // 퀘스트 시작 처리
+    {
+
         data.questState = QuestData.q_state.progress;
 
         quest_info_panel.SetActive(true);
         quest_name_tmp.text = data.questName;
+
+        ExcuteOnQuestStart();
         //quest_description_tmp.text = data.questDescription_inprogress;
 
         // 이후에 퀘스트 스크립터블 오브젝터에서 UI 최신화도 구현하는 것으로..
     }
 
-
-    void ActiveObjectsByQuestProgress()     // 각 퀘스트마다 필요한 활성화 오브젝트 처리
+    public void ExcuteOnQuestStart()        // 퀘스트 시작 시 실행 함수들, startquest에서 실행
     {
-            foreach (GameObject obj in activeObjectsDic[questIndex])     // 데이터 형식을 GameObject[]가 아닌 GameObject로 넣었기 때문에, 정상적으로 기능하는지 확인 필요
-            {
-                obj.SetActive(true);
-            }
-
+        ActiveObjects();
     }
 
-    void UnActiveObjectsByQuestProgress()   // 각 퀘스트마다 필요 없는 비활성화 오브젝트 처리
+    public void ExcuteOnQuestClear()        // 퀘스트 클리어 시 실행 함수들, endtalk에서 실행
     {
-        foreach (GameObject obj in unactiveObjectsDic[questIndex])
-        {
-            obj.SetActive(false);
-        }
+        UnActiveObjects();
+        MoveToNextQuest();
     }
 
-    //void MoveToProgressDialogue()
-    //{
-    //    GetCurQuestData().cur + 10;
-    //}
+    public void SetNextDialogueIDOnQuestClear()
+    {
+        _dialogueManager.SetNextDatasID(_playerInteract.scannedObject.GetComponent<NPCData>());
+        // 해당 부분이 호출될 때 scannedobject = null 이기 때문에, 수정 필요 ★★★★★★
+        //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    }
 
-    void MoveToNextQuest()
+    void ActiveObjects()     // 각 퀘스트마다 필요한 활성화 오브젝트 처리
+    {
+        activeObjects[questIndex].SetActive(true);
+    }
+
+    void UnActiveObjects()   // 각 퀘스트마다 필요 없는 비활성화 오브젝트 처리
+    {
+        activeObjects[questIndex].SetActive(false);
+    }
+
+    public void MoveToNextQuest()   // 다음 퀘스트로 진행
     {
         questIndex++;
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "QuestDataByIndex", menuName = "Scriptable object/Quest")]
+[CreateAssetMenu(fileName = "QuestDataByIndex", menuName = "Quest/Info")]
 public class QuestData : ScriptableObject
 {
     public int quesitID;
@@ -25,6 +25,8 @@ public class QuestData : ScriptableObject
     }
 
     public q_type questType;
+
+    public QuestConditionData conditionData;
 
     public string questName;
     public string[] questDescription_inprogress;

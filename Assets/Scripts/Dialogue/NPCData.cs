@@ -18,7 +18,7 @@ public class NPCData : MonoBehaviour
     public Dictionary<int, List<string>> m_dialogueDic = new Dictionary<int, List<string>>();       // ID에 따른 대사[] 배열. 퀘스트 진행 상태에 따라 ID++, 대사 진행 상태에 따라 index++;
 
     private int startID;                    // 시작 대화 ID 저장 변수
-    [HideInInspector] public int curID;     // 진행 중인 대화 ID 저장 변수
+    public int curID;     // 진행 중인 대화 ID 저장 변수
 
     private void Start()
     {
@@ -52,5 +52,11 @@ public class NPCData : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         startID = m_dialogueDic.Keys.Min();       // npc별 첫 번째 대화 배열의 id 찾기
         curID = startID;
+    }
+
+    public void SetNextID()
+    {
+        curID++;
+        Debug.Log("다음 id 호출");
     }
 }

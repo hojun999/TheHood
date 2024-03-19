@@ -6107,7 +6107,6 @@ MonoBehaviour:
   inventoryManager: {fileID: 1053084448}
   MainCamera: {fileID: 519420031}
   FightCamera: {fileID: 1536551532}
-  CampSpawnArea: {fileID: 1054444124}
   WestSpawnArea: {fileID: 305509588}
   EastSpawnArea: {fileID: 979216698}
   NorthSpawnArea: {fileID: 48528931}
@@ -6127,6 +6126,12 @@ MonoBehaviour:
   getWeaponTradeTalkIndex: 0
   getPosionTradeTalkIndex: 0
   isGetAlreadyPosionNum: 0
+  woods_spawn_areas:
+  - {fileID: 305509591}
+  - {fileID: 48528934}
+  - {fileID: 979216701}
+  CampSpawnArea: {fileID: 1054444126}
+  fadeImage: {fileID: 399372285}
 --- !u!4 &138589900
 Transform:
   m_ObjectHideFlags: 0
@@ -9226,7 +9231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &215248205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16088,7 +16093,7 @@ GameObject:
   - component: {fileID: 399372286}
   - component: {fileID: 399372285}
   m_Layer: 5
-  m_Name: FadeOutImage
+  m_Name: fade_img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17751,7 +17756,7 @@ GameObject:
   - component: {fileID: 436765657}
   - component: {fileID: 436765660}
   m_Layer: 6
-  m_Name: Injector
+  m_Name: injector
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23928,7 +23933,7 @@ GameObject:
   m_Component:
   - component: {fileID: 603774733}
   m_Layer: 0
-  m_Name: required_ItemGroup_Quest2
+  m_Name: quest2_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23962,7 +23967,7 @@ GameObject:
   m_Component:
   - component: {fileID: 603857390}
   m_Layer: 12
-  m_Name: EnterFightPos
+  m_Name: enterFightPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24877,9 +24882,10 @@ GameObject:
   - component: {fileID: 637522625}
   - component: {fileID: 637522624}
   - component: {fileID: 637522626}
+  - component: {fileID: 637522627}
   m_Layer: 0
-  m_Name: QuestArea_Big
-  m_TagString: BigQuestArea
+  m_Name: BigArea
+  m_TagString: BigArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24977,6 +24983,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &637522627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637522622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b67f90118d83eb4897ae1e4d4f9ac7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questManager: {fileID: 1415686732}
+  questData: {fileID: 0}
+  questCondition: {fileID: 0}
 --- !u!1 &642985026
 GameObject:
   m_ObjectHideFlags: 0
@@ -26403,7 +26424,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 138589899}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: LocatePlayerAtWoods
+        m_MethodName: LocatePlayerOnWoods
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -31902,7 +31923,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &760243870
 Transform:
   m_ObjectHideFlags: 0
@@ -38398,7 +38419,7 @@ GameObject:
   - component: {fileID: 932008588}
   - component: {fileID: 932008587}
   m_Layer: 6
-  m_Name: RustyGun
+  m_Name: rustyGun
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40570,12 +40591,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1000376773}
   m_Layer: 0
-  m_Name: FightWall_Quest4
+  m_Name: wallCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1000376773
 Transform:
   m_ObjectHideFlags: 0
@@ -40688,7 +40709,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1006612119}
   m_Layer: 0
-  m_Name: enemyGroup_Quest3
+  m_Name: enemyGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40800,7 +40821,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1017535538}
   m_Layer: 0
-  m_Name: BossGroup_Quest4
+  m_Name: quest4_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64469,7 +64490,7 @@ GameObject:
   - component: {fileID: 1178258262}
   - component: {fileID: 1178258261}
   m_Layer: 6
-  m_Name: Clothes_With_Blood
+  m_Name: clothes_with_blood
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74542,7 +74563,7 @@ GameObject:
   - component: {fileID: 1406231601}
   - component: {fileID: 1406231602}
   m_Layer: 12
-  m_Name: FightWall_Bottom
+  m_Name: fightWall_bottom
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74823,6 +74844,7 @@ GameObject:
   - component: {fileID: 1415686730}
   - component: {fileID: 1415686731}
   - component: {fileID: 1415686732}
+  - component: {fileID: 1415686734}
   m_Layer: 0
   m_Name: manager
   m_TagString: Untagged
@@ -74878,7 +74900,7 @@ MonoBehaviour:
   - {fileID: 1604117908}
   dialogueUI: {fileID: 1413551976}
   i_dialogueContext_tmp: {fileID: 1937313914}
-  dialogueID: 0
+  dialogueIDValue: 0
   canStartDialogue: 1
 --- !u!114 &1415686731
 MonoBehaviour:
@@ -74914,12 +74936,76 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c0b97cdca5c24e545a79c05fe2db6b08, type: 2}
   - {fileID: 11400000, guid: d7e69db9f022bf74b846c6c9b297f0ce, type: 2}
   - {fileID: 11400000, guid: 09cbb5c51d010764fae189e456f8fa84, type: 2}
+  questConditionDatas: []
   quest_info_panel: {fileID: 618336080}
   quest_name_tmp: {fileID: 117822444}
   quest_description_tmp: {fileID: 1373171891}
-  _active_group: []
-  _unactive_group: []
+  activeObjects:
+  - {fileID: 2057901824}
+  - {fileID: 603774732}
+  - {fileID: 1817810215}
+  - {fileID: 1017535537}
+  unactiveObjects:
+  - {fileID: 2057901824}
+  - {fileID: 603774732}
+  - {fileID: 1817810215}
+  - {fileID: 1017535537}
+  questIndex: 0
   canStartQuest: 0
+--- !u!114 &1415686734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415686727}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28727311d41343942a686aed2c6354a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 1165638541}
+  playerLight: {fileID: 1179789410}
+  talkPanel: {fileID: 0}
+  talkText: {fileID: 0}
+  scanObject: {fileID: 0}
+  inventoryPanel: {fileID: 0}
+  moveWoodsUIPanel: {fileID: 0}
+  moveCampUIPanel: {fileID: 0}
+  subMenuUIPanel: {fileID: 0}
+  helpMenuPanel: {fileID: 0}
+  QuestClearText: {fileID: 0}
+  enterFightUIPanel: {fileID: 0}
+  talkManager: {fileID: 0}
+  questManager_lagacy: {fileID: 0}
+  inventoryManager: {fileID: 0}
+  MainCamera: {fileID: 519420031}
+  FightCamera: {fileID: 1536551532}
+  WestSpawnArea: {fileID: 0}
+  EastSpawnArea: {fileID: 0}
+  NorthSpawnArea: {fileID: 0}
+  talkIndex: 0
+  unlitMaterial: {fileID: 0}
+  litMaterial: {fileID: 0}
+  enterFightPos: {fileID: 0}
+  isEnterFight: 0
+  fightWall_Quest3: {fileID: 0}
+  enemyGroup_Quest3: {fileID: 0}
+  fightWall_Quest4: {fileID: 0}
+  enemyGroup_Quest4: {fileID: 0}
+  fadeOutImage: {fileID: 0}
+  fadeOutMaxTime: 0
+  isAction: 0
+  activeInventory: 0
+  getWeaponTradeTalkIndex: 0
+  getPosionTradeTalkIndex: 0
+  isGetAlreadyPosionNum: 0
+  woods_spawn_areas:
+  - {fileID: 305509591}
+  - {fileID: 48528934}
+  - {fileID: 979216701}
+  CampSpawnArea: {fileID: 1054444126}
+  fadeImage: {fileID: 399372285}
 --- !u!1 &1415987270
 GameObject:
   m_ObjectHideFlags: 0
@@ -79139,7 +79225,7 @@ GameObject:
   - component: {fileID: 1522514101}
   - component: {fileID: 1522514102}
   m_Layer: 12
-  m_Name: FightWall_Right
+  m_Name: fightWall_right
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83375,7 +83461,7 @@ GameObject:
   - component: {fileID: 1626807072}
   - component: {fileID: 1626807073}
   m_Layer: 12
-  m_Name: EnterFightArea
+  m_Name: enterFightArea
   m_TagString: enterFightArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92163,7 +92249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1817810216}
   m_Layer: 0
-  m_Name: HenchmanGroup_Quest3
+  m_Name: quest3_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92698,7 +92784,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1833882941}
   m_Layer: 0
-  m_Name: enemyGroup_Quest4
+  m_Name: enemyGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98742,9 +98828,10 @@ GameObject:
   - component: {fileID: 1994510362}
   - component: {fileID: 1994510364}
   - component: {fileID: 1994510365}
+  - component: {fileID: 1994510366}
   m_Layer: 0
-  m_Name: QuestArea_Small
-  m_TagString: SmallQuestArea
+  m_Name: SmallArea
+  m_TagString: SmallArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98842,6 +98929,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1994510366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994510361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b67f90118d83eb4897ae1e4d4f9ac7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questManager: {fileID: 1415686732}
+  questData: {fileID: 0}
+  questCondition: {fileID: 0}
 --- !u!1 &1999658538
 GameObject:
   m_ObjectHideFlags: 0
@@ -102223,7 +102325,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2057901825}
   m_Layer: 0
-  m_Name: required_Area_Quest1
+  m_Name: quest1_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103857,7 +103959,7 @@ GameObject:
   - component: {fileID: 2110369504}
   - component: {fileID: 2110369505}
   m_Layer: 12
-  m_Name: FightWall_Left
+  m_Name: fightWall_left
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

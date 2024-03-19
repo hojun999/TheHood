@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering.Universal;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,7 +36,6 @@ public class GameManager : MonoBehaviour
 
 
     [Header("SpawnArea")]
-    public GameObject CampSpawnArea;
     public GameObject WestSpawnArea;
     public GameObject EastSpawnArea;
     public GameObject NorthSpawnArea;
@@ -78,10 +78,27 @@ public class GameManager : MonoBehaviour
     public int getPosionTradeTalkIndex;
     public int isGetAlreadyPosionNum;
 
+
+
+
+
+    //------------------------
+    PlayerInteract _playerInteract;
+
+    public Animator[] woods_spawn_areas;
+
+    public Transform CampSpawnArea;
+
+    public Image fadeImage;
+
     private void Start()
     {
         activeHelpMenu = true;
         //SoundManager.instance.bgSound.volume = 1;
+
+
+
+        _playerInteract = Player.GetComponent<PlayerInteract>();
 
     }
 
@@ -316,50 +333,147 @@ public class GameManager : MonoBehaviour
 
         moveCampUIPanel.SetActive(false);
 
-        WestSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", false);
-        EastSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", false);
-        NorthSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", false);
+        //WestSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", false);
+        //EastSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", false);
+        //NorthSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", false);
 
         Time.timeScale = 1f;
     }
 
     public void LocatePlayerAtWoods()
     {
-        isAction = false;
-        GetRandomSpawnNum();
-        playerLight.falloffIntensity = 0.9f;
-        SoundManager.instance.EnterWoods();
+        //isAction = false;
+        //GetRandomSpawnNum();
+        //playerLight.falloffIntensity = 0.9f;
+        //SoundManager.instance.EnterWoods();
 
-        switch (spawnNum)
-        {
-            case 1:
-                Player.transform.position = WestSpawnArea.transform.position;
-                break;
-            case 2:
-                Player.transform.position = NorthSpawnArea.transform.position;
-                break;
-            case 3:
-                Player.transform.position = EastSpawnArea.transform.position;
-                break;
-        }
+        //switch (spawnNum)
+        //{
+        //    case 1:
+        //        Player.transform.position = WestSpawnArea.transform.position;
+        //        break;
+        //    case 2:
+        //        Player.transform.position = NorthSpawnArea.transform.position;
+        //        break;
+        //    case 3:
+        //        Player.transform.position = EastSpawnArea.transform.position;
+        //        break;
+        //}
 
-        MainCamera.GetComponent<CameraController>().center = new Vector2(62.5f, 9);
-        MainCamera.GetComponent<CameraController>().size = new Vector2(54, 28);
+        //MainCamera.GetComponent<CameraController>().center = new Vector2(62.5f, 9);
+        //MainCamera.GetComponent<CameraController>().size = new Vector2(54, 28);
         moveWoodsUIPanel.SetActive(false);
         Player.GetComponent<PlayerController>().isPlayerInWoods = true;
         //Player.GetComponent<SpriteRenderer>().material = unlitMaterial;
 
-        WestSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", true);
-        EastSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", true);
-        NorthSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", true);
+        //WestSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", true);
+        //EastSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", true);
+        //NorthSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", true);
 
         Time.timeScale = 1f;
     }
 
-    private void GetRandomSpawnNum()
+    public void SpawnPlayerOnWoods()
     {
-        spawnNum = Random.Range(1, 4);
+        StartCoroutine(coSpawnPlayerOnWoods());
+
+        MainCamera.GetComponent<CameraController>().center = new Vector2(62.5f, 9);
+        MainCamera.GetComponent<CameraController>().size = new Vector2(54, 28);
     }
+
+    IEnumerator coSpawnPlayerOnWoods()
+    {
+        _playerInteract.isPlayerInteracting = true;     // 이동 제한
+        ScreenFadeOut();                                // 화면 페이드아웃
+
+        yield return new WaitForSeconds(1.5f);
+
+        LocatePlayerAtWoods();                           // 플레이어 위치 지정
+        ScreenFadeIn();                                 // 화면 페이드인
+
+        yield return new WaitForSeconds(0.5f);
+        SetTrueSpawnAreasAnimState();                  // 문 애니메이션 초기화
+        _playerInteract.isPlayerInteracting = false;    // 이동 제한 해제
+
+        yield return new WaitForSeconds(0.8f);
+        fadeImage.gameObject.SetActive(false);
+    }
+
+    public void LocatePlayerOnWoods()    // 캠프 > 숲 플레이어 이동 처리
+    {
+
+        int randomCount = Random.Range(0, 3);
+
+        switch (randomCount)
+        {
+            case 0:
+                Player.transform.position = woods_spawn_areas[randomCount].transform.position; break;
+            case 1:
+                Player.transform.position = woods_spawn_areas[randomCount].transform.position; break;
+            case 2:
+                Player.transform.position = woods_spawn_areas[randomCount].transform.position; break;
+        }
+    }
+
+    public void SpawnPlayerOnCamp()
+    {
+        StartCoroutine(coSpawnPlayerOnCamp());
+    }
+
+    IEnumerator coSpawnPlayerOnCamp()
+    {
+        _playerInteract.isPlayerInteracting = true;     // 이동 제한
+        ScreenFadeOut();                                // 화면 페이드아웃
+
+        yield return new WaitForSeconds(1.5f);
+
+        LocatePlayerAtCamp();                           // 플레이어 위치 지정
+        ScreenFadeIn();                                 // 화면 페이드인
+
+        yield return new WaitForSeconds(0.5f);
+        SetFalseSpawnAreasAnimState();                  // 문 애니메이션 초기화
+        _playerInteract.isPlayerInteracting = false;    // 이동 제한 해제
+
+        yield return new WaitForSeconds(0.8f);
+        fadeImage.gameObject.SetActive(false);
+    }
+
+    public void LocatePlayerOnCamp()     // 숲 > 캠프 플레이어 이동 처리
+    {
+        Player.transform.position = CampSpawnArea.transform.position;
+        playerLight.falloffIntensity = 0.6f;
+    }
+
+    private void ScreenFadeOut()
+    {
+        fadeImage.gameObject.SetActive(true);
+        fadeImage.DOFade(1, 1.3f);
+    }
+
+    private void ScreenFadeIn()
+    {
+        fadeImage.DOFade(0, 1.3f);
+    }
+
+    private void SetTrueSpawnAreasAnimState()       // 플레이어가 이동한 문 애니메이션 동작
+    {
+        foreach (Animator spawnArea in woods_spawn_areas)
+        {
+            spawnArea.SetBool("isPlayerInWoods", true);
+        }
+    }
+    private void SetFalseSpawnAreasAnimState()      // 문 애니메이션 초기화
+    {
+        foreach (Animator spawnArea in woods_spawn_areas)
+        {
+            spawnArea.SetBool("isPlayerInWoods", false);
+        }
+    }
+
+    //private void GetRandomSpawnNum()
+    //{
+    //    spawnNum = Random.Range(1, 4);
+    //}
 
     public void CloseMoveWoodsUIPanelandResume()
     {

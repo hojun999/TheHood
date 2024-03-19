@@ -75,8 +75,8 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogueOnInteract(GameObject scanObj)
     {
-        Debug.Log("대화 시작");
-        Debug.Log(canStartDialogue);
+        //Debug.Log("대화 시작");
+        //Debug.Log(canStartDialogue);
         _playerInteract.isPlayerInteracting = true;
 
         NPCData _NPCData = scanObj.GetComponent<NPCData>();
@@ -84,17 +84,17 @@ public class DialogueManager : MonoBehaviour
         if (canStartDialogue)       // 대화 시작때만 맞는 대사 ID 할당
         {
             //int i_curID = CurDialogueIDByNPCType(_NPCData);
-            CurDialogueIDByNPCType(_NPCData);
+            SetCurDialogueIDByNPCType(_NPCData);
 
             canStartDialogue = false;
         }
 
-        SetDialogueData(_NPCData, dialogueIDValue);
+        SetDialogueContext(_NPCData, dialogueIDValue);
         dialogueUI.SetActive(_playerInteract.isPlayerInteracting);
 
     }
 
-    private void SetDialogueData(NPCData _NPCData, int ID)
+    private void SetDialogueContext(NPCData _NPCData, int ID)
     {
 
         //Debug.Log("대화 데이터 세팅");
@@ -105,7 +105,7 @@ public class DialogueManager : MonoBehaviour
         MoveToNextDialogueContext();    // 대사 한 줄이 끝나면 대사[]index++
     }
 
-    private void CurDialogueIDByNPCType(NPCData _NPCData)       // npc타입에 따라 다른 대화 ID 호출 분리
+    private void SetCurDialogueIDByNPCType(NPCData _NPCData)       // npc타입에 따라 다른 대화 ID 호출 분리
     {
         NPCData.m_type npcType = _NPCData.NPCType;
         //int IDValue = 0;
@@ -114,7 +114,7 @@ public class DialogueManager : MonoBehaviour
         {
             case NPCData.m_type.client:
                 //IDValue = CurDatasDialougeIDByQuestState(_NPCData);
-                CurDatasDialougeIDByQuestState(_NPCData);
+                SetDatasDialougeIDByQuestState(_NPCData);
                 break;
             case NPCData.m_type.trador:
                 //IDValue = GetCurDialogueIDByItemCount();
@@ -126,7 +126,7 @@ public class DialogueManager : MonoBehaviour
         //return IDValue;
     }
 
-    private void CurDatasDialougeIDByQuestState(NPCData _NPCData)    // 퀘스트 진행 상태에 따른 대화 ID 호출 규칙
+    private void SetDatasDialougeIDByQuestState(NPCData _NPCData)    // 퀘스트 진행 상태에 따른 대화 ID 호출 규칙
     {
         //Debug.Log("현재 대화 데이터의 ID 값 호출");
         QuestData _questData = _questManager.GetCurQuestData();
@@ -134,7 +134,7 @@ public class DialogueManager : MonoBehaviour
 
         //int curIDvalue = 0;
         int npcDataID = _NPCData.curID;
-
+        Debug.Log(npcDataID);
         switch (questState)
         {
             case QuestData.q_state.before:              // 해당 퀘스트가 진행 전이면
@@ -148,27 +148,27 @@ public class DialogueManager : MonoBehaviour
         //return curIDvalue;
     }
 
-    private void GetCurDialogueIDByItemCount()
+    private void GetCurDialogueIDByItemCount()  // 인벤토리에 보관하고 있는 특정 아이템 개수에 따른 대화 ID 호출
     {
         //int IDValue = 0;
 
         //return IDValue;
     }
 
-    private string GetCurDialogueContext(NPCData data, int ID)      // 대사가 여러 줄인 경우 다음 줄로 넘기기
+    private string GetCurDialogueContext(NPCData _NPCData, int ID)      // 대사가 여러 줄인 경우 다음 줄로 넘기기
     {
         //Debug.Log("대화 각 줄의 대사 불러오기");
 
         string context;
 
-        if(dialogueIndex == data.m_dialogueDic[ID].Count)
+        if(dialogueIndex == _NPCData.m_dialogueDic[ID].Count)
         {
             //Debug.Log("해당 대화 줄 끝");
             context = null;
             EndTalk();
         }
         else
-            context = data.m_dialogueDic[ID][dialogueIndex];
+            context = _NPCData.m_dialogueDic[ID][dialogueIndex];
 
         return context;
 
@@ -179,7 +179,9 @@ public class DialogueManager : MonoBehaviour
 
         QuestData data = _questManager.GetCurQuestData();
 
-        _questManager.SetQuestDataByQuestState(data);   // 대화가 끝날 때 퀘스트 상태에 따른 데이터 세팅
+        if (data.questState == QuestData.q_state.before)
+            _questManager.StartQuest(data);
+
         canStartDialogue = true;                        // 다시 대화 데이터의 curID를 불러오기 위함
         dialogueIndex = -1;                             // 마지막 대화때도 interact가 되기 때문에 dialogueindex++;이 실행됨에 따른 초기화
 
@@ -187,9 +189,9 @@ public class DialogueManager : MonoBehaviour
 
     }
 
-    public void MoveToNextDialogueDatasID(NPCData data)        // 데이터의 다음 퀘스트 대사로 넘기기
+    public void SetNextDatasID(NPCData _NPCData)        // 데이터의 다음 퀘스트 대사로 넘기기
     {
-        data.curID++;
+            _NPCData.SetNextID();
     }
 
     private void MoveToNextDialogueContext()        // 다음 대사 넘기기

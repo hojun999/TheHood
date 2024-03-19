@@ -9,7 +9,7 @@ public class PlayerInteract : MonoBehaviour
 
     public GameObject scannedObject;
 
-    public bool isPlayerInteracting;
+    [HideInInspector] public bool isPlayerInteracting;
     // Start is called before the first frame update
     void Start()
     {
