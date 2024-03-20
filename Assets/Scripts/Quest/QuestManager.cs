@@ -9,12 +9,18 @@ public class QuestManager : MonoBehaviour
     private DialogueManager _dialogueManager;
     private PlayerInteract _playerInteract;
 
+    [Header("데이터")]
     public QuestData[] questDatas;
     public QuestConditionData[] questConditionDatas;
 
+    [Header("UI")]
     public GameObject quest_info_panel;
     public TextMeshProUGUI quest_name_tmp;
     public TextMeshProUGUI quest_description_tmp;
+
+    [Header("활성/비활성 오브젝트")]
+    public GameObject questionmark;
+    public GameObject exclamationmark;
 
     [SerializeField] private GameObject[] activeObjects;
     [SerializeField] private GameObject[] unactiveObjects;
@@ -93,9 +99,7 @@ public class QuestManager : MonoBehaviour
 
     public void SetNextDialogueIDOnQuestClear()
     {
-        _dialogueManager.SetNextDatasID(_playerInteract.scannedObject.GetComponent<NPCData>());
-        // 해당 부분이 호출될 때 scannedobject = null 이기 때문에, 수정 필요 ★★★★★★
-        //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+        _dialogueManager.SetNextDatasID(_playerInteract.scannedObjectHolder.GetComponent<NPCData>());
     }
 
     void ActiveObjects()     // 각 퀘스트마다 필요한 활성화 오브젝트 처리

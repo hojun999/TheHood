@@ -110,8 +110,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        h = gameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
-        v = gameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
+        //h = gameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
+        //v = gameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
 
         curHp = Math.Clamp(curHp, 0, maxHp);
         curMp = Math.Clamp(curMp, 0, maxMp);
@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour
 
         // 오브젝트 스캔
         if (Input.GetButtonDown("Jump") && scanObject != null)
-            gameManager.talkAction(scanObject);
+            //gameManager.talkAction(scanObject);
 
         // Ray - Object Layer만 scanObject에 할당
         #region
@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         // dash
-        if (Input.GetKeyDown(KeyCode.Space) && !gameManager.isAction && isReadyDash) //&& !scanObject)
+        if (Input.GetKeyDown(KeyCode.Space) && !gameManager.isUIInteract && isReadyDash) //&& !scanObject)
             isDashButtonDown = true;
 
 
@@ -225,7 +225,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (gameManager.isAction || gameManager.activeInventory || !isPlayerInWoods)    // 인벤토리 활성화, 대화 중, 캠프에서 공격 불가능
+        if (gameManager.isUIInteract || gameManager.activeInventory || !isPlayerInWoods)    // 인벤토리 활성화, 대화 중, 캠프에서 공격 불가능
             shootObject.SetActive(false);
         else
             shootObject.SetActive(true);
@@ -257,7 +257,7 @@ public class PlayerController : MonoBehaviour
 
         //dash
         #region
-        if (!isReadyDash && !gameManager.isAction)
+        if (!isReadyDash && !gameManager.isUIInteract)
         {
             timer += Time.deltaTime;
             if (timer > dodgeCooltime)
@@ -314,7 +314,7 @@ public class PlayerController : MonoBehaviour
 
             if (curHp <= 0)
             {
-                gameManager.isAction = true;
+                //gameManager.isAction = true;
                 GetComponent<BoxCollider2D>().enabled = false;
                 anim.SetTrigger("isDie");
                 Invoke("OpenDiePanel", 2f);

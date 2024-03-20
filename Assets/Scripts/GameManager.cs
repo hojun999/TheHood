@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
 
 
     [Header("UI")]
-    public GameObject talkPanel;
-    public Text talkText;
+    //public GameObject talkPanel;
+    //public Text talkText;
     public GameObject scanObject;
     public GameObject inventoryPanel;
     public GameObject moveWoodsUIPanel;
@@ -25,9 +25,9 @@ public class GameManager : MonoBehaviour
     public GameObject QuestClearText;
     public GameObject enterFightUIPanel;
 
-    [Header("Manager")]
-    public TalkManager talkManager;
-    public QuestManager_Lagacy questManager_lagacy;
+    //[Header("Manager")]
+    //public TalkManager talkManager;
+    //public QuestManager_Lagacy questManager_lagacy;
     public InventoryManager inventoryManager;
 
     [Header("Camera")]
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
     public float fadeOutMaxTime;
 
 
-    [HideInInspector]public bool isAction;
+    //[HideInInspector]public bool isAction;
     [HideInInspector]public bool activeInventory = false;
     private bool activeSubMenu;
     private bool activeHelpMenu;
@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour
 
     public Image fadeImage;
 
+    [HideInInspector] public bool isUIInteract;
     private void Start()
     {
         activeHelpMenu = true;
@@ -102,88 +103,88 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void talkAction(GameObject scanObj)
-    {
-        scanObject = scanObj;
-        ObjData objData = scanObject.GetComponent<ObjData>();
-        Talk(objData.id, objData.isQuestNpc, objData.isWeaponTraderNpc, objData.isPosionTraderNpc);
-        talkPanel.SetActive(isAction);
-    }
+    //public void talkAction(GameObject scanObj)
+    //{
+    //    scanObject = scanObj;
+    //    ObjData objData = scanObject.GetComponent<ObjData>();
+    //    Talk(objData.id, objData.isQuestNpc, objData.isWeaponTraderNpc, objData.isPosionTraderNpc);
+    //    talkPanel.SetActive(isAction);
+    //}
 
-    void Talk(int id, bool isQuestNpc, bool isWeaponTradeNpc, bool isPosionTradeNpc)
-    {
-        if (questManager_lagacy.eliminateHenchmanNum_Quest3 == 6)
-            enemyGroup_Quest3.SetActive(false);
+    //void Talk(int id, bool isQuestNpc, bool isWeaponTradeNpc, bool isPosionTradeNpc)
+    //{
+    //    if (questManager_lagacy.eliminateHenchmanNum_Quest3 == 6)
+    //        enemyGroup_Quest3.SetActive(false);
 
-        if (questManager_lagacy.eliminateBossNum_Quest4 == 2 && questManager_lagacy.eliminateHenchmanNum_Quest4 == 6)
-            enemyGroup_Quest4.SetActive(false);
+    //    if (questManager_lagacy.eliminateBossNum_Quest4 == 2 && questManager_lagacy.eliminateHenchmanNum_Quest4 == 6)
+    //        enemyGroup_Quest4.SetActive(false);
 
-        inventoryManager.DestroyQuestItemAndTradeEtcItem();
+    //    inventoryManager.DestroyQuestItemAndTradeEtcItem();
 
-        // 대화 데이터 세팅, 각 npc id마다 작성 ★
-        if(id == 2000)
-        {
-            int questTalkIndex = questManager_lagacy.GetQuestTalkIndex(id);
-            string questTalkData = talkManager.GetTalk(id + questTalkIndex, talkIndex);
+    //    // 대화 데이터 세팅, 각 npc id마다 작성 ★
+    //    if(id == 2000)
+    //    {
+    //        int questTalkIndex = questManager_lagacy.GetQuestTalkIndex(id);
+    //        string questTalkData = talkManager.GetTalk(id + questTalkIndex, talkIndex);
 
-            if (questTalkData == null && questManager_lagacy.questId == 50)
-            {
-                //isEnding = true;
-            }
-            if (questTalkData == null && id == 2000 && !isWeaponTradeNpc && !isPosionTradeNpc)
-            {
-                isAction = false;
-                talkIndex = 0;
-                questManager_lagacy.checkQuest(id);
-                return;
-            }
-
-
-            if (isQuestNpc && id == 2000)
-            {
-                talkText.text = questTalkData;
-            }
-
-        }
-        else if(id == 1000)
-        {
-            int weaponTradeTalkIndex = getWeaponTradeTalkIndex;
-            string weaponTradeTalkData = talkManager.GetTalk(id + weaponTradeTalkIndex, talkIndex);
-
-             if (isWeaponTradeNpc && id == 1000)
-            {
-                talkText.text = weaponTradeTalkData;
-            }
+    //        if (questTalkData == null && questManager_lagacy.questId == 50)
+    //        {
+    //            //isEnding = true;
+    //        }
+    //        if (questTalkData == null && id == 2000 && !isWeaponTradeNpc && !isPosionTradeNpc)
+    //        {
+    //            isAction = false;
+    //            talkIndex = 0;
+    //            questManager_lagacy.checkQuest(id);
+    //            return;
+    //        }
 
 
-            if (weaponTradeTalkData == null && id == 1000)
-            {
-                isAction = false;
-                talkIndex = 0;
-                return;
-            }
+    //        if (isQuestNpc && id == 2000)
+    //        {
+    //            talkText.text = questTalkData;
+    //        }
 
-        }
-        else if(id == 3000)
-        {
-            int posionTradeTalkIndex = getPosionTradeTalkIndex;
-            string posionTradeTalkData = talkManager.GetTalk(id + posionTradeTalkIndex, talkIndex);
-            isGetAlreadyPosionNum++;
+    //    }
+    //    else if(id == 1000)
+    //    {
+    //        int weaponTradeTalkIndex = getWeaponTradeTalkIndex;
+    //        string weaponTradeTalkData = talkManager.GetTalk(id + weaponTradeTalkIndex, talkIndex);
 
-            if (posionTradeTalkData == null && id == 3000)
-            {
-                isAction = false;
-                talkIndex = 0;
-                return;
-            }
-
-            else if (isPosionTradeNpc && id == 3000)
-            {
-                talkText.text = posionTradeTalkData;
-            }
+    //         if (isWeaponTradeNpc && id == 1000)
+    //        {
+    //            talkText.text = weaponTradeTalkData;
+    //        }
 
 
-        }
+    //        if (weaponTradeTalkData == null && id == 1000)
+    //        {
+    //            isAction = false;
+    //            talkIndex = 0;
+    //            return;
+    //        }
+
+    //    }
+    //    else if(id == 3000)
+    //    {
+    //        int posionTradeTalkIndex = getPosionTradeTalkIndex;
+    //        string posionTradeTalkData = talkManager.GetTalk(id + posionTradeTalkIndex, talkIndex);
+    //        isGetAlreadyPosionNum++;
+
+    //        if (posionTradeTalkData == null && id == 3000)
+    //        {
+    //            isAction = false;
+    //            talkIndex = 0;
+    //            return;
+    //        }
+
+    //        else if (isPosionTradeNpc && id == 3000)
+    //        {
+    //            talkText.text = posionTradeTalkData;
+    //        }
+
+
+    //    }
 
 
         // 캐릭터의 각 대화가 끝났을 때
@@ -195,11 +196,11 @@ public class GameManager : MonoBehaviour
         //}
 
 
-        isAction = true;
-        talkIndex++;
+    //    isAction = true;
+    //    talkIndex++;
 
-        Debug.Log(isGetAlreadyPosionNum);
-    }
+    //    Debug.Log(isGetAlreadyPosionNum);
+    //}
 
     //private void Update()
     //{
@@ -319,29 +320,29 @@ public class GameManager : MonoBehaviour
             Instantiate(QuestClearText, QuestClearText.transform.position, Quaternion.identity, GameObject.Find("UI").transform);
     }
 
-    public void LocatePlayerAtCamp()      // 캠프로 이동
-    {
-        isAction = false;
-        Player.transform.position = CampSpawnArea.transform.position;
-        playerLight.falloffIntensity = 0.6f;
-        SoundManager.instance.EnterCamp();
+    //public void LocatePlayerAtCamp()      // 캠프로 이동
+    //{
+        //isAction = false;
+        //Player.transform.position = CampSpawnArea.transform.position;
+        //playerLight.falloffIntensity = 0.6f;
+        //-----SoundManager.instance.EnterCamp();
         
-        MainCamera.GetComponent<CameraController>().center = new Vector2(0, 0);
-        MainCamera.GetComponent<CameraController>().size = new Vector2(18, 10);
-        Player.GetComponent<PlayerController>().isPlayerInWoods = false;
-        //Player.GetComponent<SpriteRenderer>().material = litMaterial;
+        //-----MainCamera.GetComponent<CameraController>().center = new Vector2(0, 0);
+        //-----MainCamera.GetComponent<CameraController>().size = new Vector2(18, 10);
+        //-----Player.GetComponent<PlayerController>().isPlayerInWoods = false;
+        //-----Player.GetComponent<SpriteRenderer>().material = litMaterial;
 
-        moveCampUIPanel.SetActive(false);
+        //-----moveCampUIPanel.SetActive(false);
 
         //WestSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", false);
         //EastSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", false);
         //NorthSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", false);
 
-        Time.timeScale = 1f;
-    }
+        //-----Time.timeScale = 1f;
+    //}
 
-    public void LocatePlayerAtWoods()
-    {
+    //public void LocatePlayerAtWoods()
+    //{
         //isAction = false;
         //GetRandomSpawnNum();
         //playerLight.falloffIntensity = 0.9f;
@@ -362,40 +363,42 @@ public class GameManager : MonoBehaviour
 
         //MainCamera.GetComponent<CameraController>().center = new Vector2(62.5f, 9);
         //MainCamera.GetComponent<CameraController>().size = new Vector2(54, 28);
-        moveWoodsUIPanel.SetActive(false);
-        Player.GetComponent<PlayerController>().isPlayerInWoods = true;
+        //---------------------moveWoodsUIPanel.SetActive(false);
+        //---------------------Player.GetComponent<PlayerController>().isPlayerInWoods = true;
         //Player.GetComponent<SpriteRenderer>().material = unlitMaterial;
 
         //WestSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", true);
         //EastSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", true);
         //NorthSpawnArea.GetComponent<Animator>().SetBool("isPlayerInWoods", true);
 
-        Time.timeScale = 1f;
-    }
+        //Time.timeScale = 1f;
+    //}
 
     public void SpawnPlayerOnWoods()
     {
         StartCoroutine(coSpawnPlayerOnWoods());
 
-        MainCamera.GetComponent<CameraController>().center = new Vector2(62.5f, 9);
-        MainCamera.GetComponent<CameraController>().size = new Vector2(54, 28);
     }
 
     IEnumerator coSpawnPlayerOnWoods()
     {
         _playerInteract.isPlayerInteracting = true;     // 이동 제한
         ScreenFadeOut();                                // 화면 페이드아웃
-
         yield return new WaitForSeconds(1.5f);
 
-        LocatePlayerAtWoods();                           // 플레이어 위치 지정
-        ScreenFadeIn();                                 // 화면 페이드인
+        LocatePlayerOnWoods();                           // 플레이어 위치 지정
+        MainCamera.transform.position = Player.transform.position;
+        MainCamera.GetComponent<CameraController>().center = new Vector2(62.5f, 9);
+        MainCamera.GetComponent<CameraController>().size = new Vector2(54, 28);
+        yield return new WaitForSeconds(0.2f);
 
+        ScreenFadeIn();                                 // 화면 페이드인
         yield return new WaitForSeconds(0.5f);
+
         SetTrueSpawnAreasAnimState();                  // 문 애니메이션 초기화
         _playerInteract.isPlayerInteracting = false;    // 이동 제한 해제
-
         yield return new WaitForSeconds(0.8f);
+
         fadeImage.gameObject.SetActive(false);
     }
 
@@ -407,11 +410,11 @@ public class GameManager : MonoBehaviour
         switch (randomCount)
         {
             case 0:
-                Player.transform.position = woods_spawn_areas[randomCount].transform.position; break;
+                Player.transform.position = woods_spawn_areas[0].transform.position; break;
             case 1:
-                Player.transform.position = woods_spawn_areas[randomCount].transform.position; break;
+                Player.transform.position = woods_spawn_areas[1].transform.position; break;
             case 2:
-                Player.transform.position = woods_spawn_areas[randomCount].transform.position; break;
+                Player.transform.position = woods_spawn_areas[2].transform.position; break;
         }
     }
 
@@ -427,7 +430,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        LocatePlayerAtCamp();                           // 플레이어 위치 지정
+        LocatePlayerOnCamp();                           // 플레이어 위치 지정
         ScreenFadeIn();                                 // 화면 페이드인
 
         yield return new WaitForSeconds(0.5f);
@@ -475,54 +478,50 @@ public class GameManager : MonoBehaviour
     //    spawnNum = Random.Range(1, 4);
     //}
 
-    public void CloseMoveWoodsUIPanelandResume()
+    public void CloseEnterWoodsUIPanelandResume()
     {
         moveWoodsUIPanel.SetActive(false);
-        isAction = false;
-        Time.timeScale = 1f;
+        isUIInteract = false;
     }
 
-    public void CloseMoveCampUIPanelandResume()
+    public void CloseEnterCampUIPanelandResume()
     {
         moveCampUIPanel.SetActive(false);
-        isAction = false;
-        Time.timeScale = 1f;
+        isUIInteract = false;
     }
 
-    public void CloseEnterFightUIPanelAndResume()
+    public void CloseEnterFightUIAndResume()
     {
         enterFightUIPanel.SetActive(false);
-        isAction = false;
-        Time.timeScale = 1f;
+        isUIInteract = false;
     }
 
     public void ResumeGame()        // 게임 일시정지 해제
     {
         activeSubMenu = false;
         subMenuUIPanel.SetActive(false);
-        Time.timeScale = 1f;
     }
-
-    public void LoadCamp()
-    {
-        SceneManager.LoadScene("Camp");
-    }
-
-    public void LoadIntro()
-    {
-        SceneManager.LoadScene("Intro");
-    }
-
-    public void TurnOffGame()
-    {
-        Application.Quit();
-    }
-
-    public void ReturnMainMenu()
+    public void LoadMainMenuScene()
     {
         SceneManager.LoadScene("MainMenu");
         Time.timeScale = 1;
     }
+    public void LoadIntroScene()
+    {
+        SceneManager.LoadScene("Intro");
+    }
+
+    public void LoadCampScene()
+    {
+        SceneManager.LoadScene("Camp");
+    }
+
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
 
     public void OnOffSubMenuPanel()
     {
@@ -562,19 +561,19 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
-    void PlayFadeOut()
-    {
-        Color color = fadeOutImage.color;
-        color.a = Mathf.Lerp(0f, 1f, fadeOutCurTime / 3.5f);
-        fadeOutImage.color = color;
-    }
+    //void PlayFadeOut()
+    //{
+    //    Color color = fadeOutImage.color;
+    //    color.a = Mathf.Lerp(0f, 1f, fadeOutCurTime / 3.5f);
+    //    fadeOutImage.color = color;
+    //}
 
-    void PlayFadeIn()
-    {
-        Color color = fadeOutImage.color;
-        color.a = Mathf.Lerp(1f, 0f, fadeOutCurTime / 3.5f);
-        fadeOutImage.color = color;
-    }
+    //void PlayFadeIn()
+    //{
+    //    Color color = fadeOutImage.color;
+    //    color.a = Mathf.Lerp(1f, 0f, fadeOutCurTime / 3.5f);
+    //    fadeOutImage.color = color;
+    //}
 
     public void OpenSoundControlPanel()
     {

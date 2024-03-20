@@ -8,6 +8,7 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField]private DialogueManager i_dialogueManager;
 
     public GameObject scannedObject;
+    [HideInInspector] public GameObject scannedObjectHolder;    // 직후에 대화한 npc오브젝트를 저장하기 위한 변수
 
     [HideInInspector] public bool isPlayerInteracting;
     // Start is called before the first frame update
@@ -58,6 +59,7 @@ public class PlayerInteract : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && scannedObject != null)
         {
             i_dialogueManager.StartDialogueOnInteract(scannedObject);
+            scannedObjectHolder = scannedObject;
         }
     }
 

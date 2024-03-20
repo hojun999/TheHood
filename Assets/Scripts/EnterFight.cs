@@ -12,7 +12,7 @@ public class EnterFight : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             EnterFightUIPanel.SetActive(true);
-            gameManager.isAction = true;
+            gameManager.isUIInteract = true;
             Time.timeScale = 0;
         }
     }

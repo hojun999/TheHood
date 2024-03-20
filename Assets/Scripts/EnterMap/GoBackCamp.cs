@@ -12,7 +12,7 @@ public class GoBackCamp : MonoBehaviour
         if (collision.collider.gameObject.CompareTag("Player"))
         {
             Time.timeScale = 0f;
-            gameManager.isAction = true;
+            gameManager.isUIInteract = true;
             EnterUIPanel.SetActive(true);
         }
     }

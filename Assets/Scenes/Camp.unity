@@ -3725,7 +3725,7 @@ GameObject:
   - component: {fileID: 83492838}
   - component: {fileID: 83492837}
   m_Layer: 7
-  m_Name: RawImage
+  m_Name: rawimage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6092,8 +6092,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1165638541}
   playerLight: {fileID: 1179789410}
-  talkPanel: {fileID: 1413551976}
-  talkText: {fileID: 0}
   scanObject: {fileID: 0}
   inventoryPanel: {fileID: 598904980}
   moveWoodsUIPanel: {fileID: 278070451}
@@ -6102,8 +6100,6 @@ MonoBehaviour:
   helpMenuPanel: {fileID: 1302697308}
   QuestClearText: {fileID: 3411138054845486009, guid: 084ce626283c81948a2ca94261cc33c3, type: 3}
   enterFightUIPanel: {fileID: 23724264}
-  talkManager: {fileID: 760243871}
-  questManager_lagacy: {fileID: 0}
   inventoryManager: {fileID: 1053084448}
   MainCamera: {fileID: 519420031}
   FightCamera: {fileID: 1536551532}
@@ -6121,7 +6117,6 @@ MonoBehaviour:
   enemyGroup_Quest4: {fileID: 1833882940}
   fadeOutImage: {fileID: 399372285}
   fadeOutMaxTime: 5
-  isAction: 0
   activeInventory: 0
   getWeaponTradeTalkIndex: 0
   getPosionTradeTalkIndex: 0
@@ -6132,6 +6127,7 @@ MonoBehaviour:
   - {fileID: 979216701}
   CampSpawnArea: {fileID: 1054444126}
   fadeImage: {fileID: 399372285}
+  isUIInteract: 0
 --- !u!4 &138589900
 Transform:
   m_ObjectHideFlags: 0
@@ -12605,12 +12601,12 @@ GameObject:
   - component: {fileID: 278070454}
   - component: {fileID: 278070453}
   m_Layer: 5
-  m_Name: Enter Woods Panel
+  m_Name: enterWoods UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &278070452
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15881,7 +15877,7 @@ GameObject:
   - component: {fileID: 397870024}
   - component: {fileID: 397870023}
   m_Layer: 7
-  m_Name: BackGround
+  m_Name: bg_img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17355,7 +17351,7 @@ GameObject:
   - component: {fileID: 423479378}
   - component: {fileID: 423479377}
   m_Layer: 7
-  m_Name: Minimap Outline
+  m_Name: outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24997,7 +24993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questManager: {fileID: 1415686732}
   questData: {fileID: 0}
-  questCondition: {fileID: 0}
+  questCondition: {fileID: 11400000, guid: 85d3935eb9987944fba98a204997daba, type: 2}
 --- !u!1 &642985026
 GameObject:
   m_ObjectHideFlags: 0
@@ -26424,8 +26420,20 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 138589899}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: LocatePlayerOnWoods
+        m_MethodName: SpawnPlayerOnWoods
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 278070451}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -34148,7 +34156,7 @@ GameObject:
   - component: {fileID: 807405572}
   - component: {fileID: 807405573}
   m_Layer: 5
-  m_Name: hpBar
+  m_Name: hpBar_slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48437,6 +48445,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   i_dialogueManager: {fileID: 1415686730}
   scannedObject: {fileID: 0}
+  scannedObjectHolder: {fileID: 0}
   isPlayerInteracting: 0
 --- !u!1 &1166478266
 GameObject:
@@ -74940,6 +74949,8 @@ MonoBehaviour:
   quest_info_panel: {fileID: 618336080}
   quest_name_tmp: {fileID: 117822444}
   quest_description_tmp: {fileID: 1373171891}
+  questionmark: {fileID: 0}
+  exclamationmark: {fileID: 0}
   activeObjects:
   - {fileID: 2057901824}
   - {fileID: 603774732}
@@ -74966,8 +74977,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1165638541}
   playerLight: {fileID: 1179789410}
-  talkPanel: {fileID: 0}
-  talkText: {fileID: 0}
   scanObject: {fileID: 0}
   inventoryPanel: {fileID: 0}
   moveWoodsUIPanel: {fileID: 0}
@@ -74976,8 +74985,6 @@ MonoBehaviour:
   helpMenuPanel: {fileID: 0}
   QuestClearText: {fileID: 0}
   enterFightUIPanel: {fileID: 0}
-  talkManager: {fileID: 0}
-  questManager_lagacy: {fileID: 0}
   inventoryManager: {fileID: 0}
   MainCamera: {fileID: 519420031}
   FightCamera: {fileID: 1536551532}
@@ -74995,7 +75002,6 @@ MonoBehaviour:
   enemyGroup_Quest4: {fileID: 0}
   fadeOutImage: {fileID: 0}
   fadeOutMaxTime: 0
-  isAction: 0
   activeInventory: 0
   getWeaponTradeTalkIndex: 0
   getPosionTradeTalkIndex: 0
@@ -75006,6 +75012,7 @@ MonoBehaviour:
   - {fileID: 979216701}
   CampSpawnArea: {fileID: 1054444126}
   fadeImage: {fileID: 399372285}
+  isUIInteract: 0
 --- !u!1 &1415987270
 GameObject:
   m_ObjectHideFlags: 0
@@ -75799,7 +75806,7 @@ GameObject:
   - component: {fileID: 1440373844}
   - component: {fileID: 1440373843}
   m_Layer: 0
-  m_Name: questionMark
+  m_Name: questionmark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88898,7 +88905,7 @@ GameObject:
   - component: {fileID: 1722302336}
   - component: {fileID: 1722302335}
   m_Layer: 0
-  m_Name: exMark
+  m_Name: exclamationmark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98943,7 +98950,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questManager: {fileID: 1415686732}
   questData: {fileID: 0}
-  questCondition: {fileID: 0}
+  questCondition: {fileID: 11400000, guid: 85d3935eb9987944fba98a204997daba, type: 2}
 --- !u!1 &1999658538
 GameObject:
   m_ObjectHideFlags: 0
@@ -103700,7 +103707,7 @@ GameObject:
   - component: {fileID: 2099587400}
   - component: {fileID: 2099587401}
   m_Layer: 5
-  m_Name: energyBar
+  m_Name: energyBar_slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
