@@ -36,6 +36,7 @@ public class Quest1Object : QuestObject
         {
             questManager.MoveToNextQuest();
             SetNextDialogueID();
+            ActiveQuestionMarkOnClear();
         }
     }
 

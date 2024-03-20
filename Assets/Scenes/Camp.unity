@@ -12606,7 +12606,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &278070452
 RectTransform:
   m_ObjectHideFlags: 0
@@ -74949,8 +74949,8 @@ MonoBehaviour:
   quest_info_panel: {fileID: 618336080}
   quest_name_tmp: {fileID: 117822444}
   quest_description_tmp: {fileID: 1373171891}
-  questionmark: {fileID: 0}
-  exclamationmark: {fileID: 0}
+  questionmark: {fileID: 1440373842}
+  exclamationmark: {fileID: 1722302334}
   activeObjects:
   - {fileID: 2057901824}
   - {fileID: 603774732}
