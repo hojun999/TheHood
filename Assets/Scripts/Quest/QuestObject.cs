@@ -26,4 +26,9 @@ public class QuestObject : MonoBehaviour
     {
         questManager.SetNextDialogueIDOnQuestClear();
     }
+
+    public void ActiveQuestionMarkOnClear()
+    {
+        questManager.questionmark.SetActive(true);
+    }
 }

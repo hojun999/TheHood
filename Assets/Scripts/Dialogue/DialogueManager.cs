@@ -180,7 +180,11 @@ public class DialogueManager : MonoBehaviour
         QuestData data = _questManager.GetCurQuestData();
 
         if (data.questState == QuestData.q_state.before)
+        {
             _questManager.StartQuest(data);
+            _questManager.questionmark.SetActive(false);
+            _questManager.exclamationmark.SetActive(false);
+        }
 
         canStartDialogue = true;                        // 다시 대화 데이터의 curID를 불러오기 위함
         dialogueIndex = -1;                             // 마지막 대화때도 interact가 되기 때문에 dialogueindex++;이 실행됨에 따른 초기화

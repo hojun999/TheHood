@@ -404,6 +404,7 @@ public class GameManager : MonoBehaviour
 
     public void LocatePlayerOnWoods()    // 캠프 > 숲 플레이어 이동 처리
     {
+        playerLight.falloffIntensity = 0.9f;
 
         int randomCount = Random.Range(0, 3);
 

@@ -21,7 +21,6 @@ public class PlayerInteract : MonoBehaviour
     void Update()
     {
         HandleRay();
-
         HandleInputInteractWithNPC();
         HandleInteracWithItem();
     }
@@ -56,7 +55,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void HandleInputInteractWithNPC()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && scannedObject != null)
+        if (Input.GetKeyDown(KeyCode.Space) && scannedObject != null && scannedObject.CompareTag("NPC"))
         {
             i_dialogueManager.StartDialogueOnInteract(scannedObject);
             scannedObjectHolder = scannedObject;
@@ -65,7 +64,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void HandleInteracWithItem()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && scannedObject != null && scannedObject.CompareTag("Item"))
             SetInteractWithItem();
     }
 }
