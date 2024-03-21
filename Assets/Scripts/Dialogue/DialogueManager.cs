@@ -8,7 +8,7 @@ using UnityEngine;
 public class DialogueManager : MonoBehaviour
 {
     public PlayerInteract _playerInteract;
-    private DialogueParserTest _dialougeParserTest;
+    private DialogueParser _dialougeParserTest;
     private QuestManager _questManager;
 
     [SerializeField] private string _CSVFileName_dialogue;
@@ -27,7 +27,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Awake()
     {
-        _dialougeParserTest = gameObject.GetComponent<DialogueParserTest>();
+        _dialougeParserTest = gameObject.GetComponent<DialogueParser>();
         i_dialogueBundleByNPCName = _dialougeParserTest.Parse(_CSVFileName_dialogue);
 
         _questManager = gameObject.GetComponent<QuestManager>();

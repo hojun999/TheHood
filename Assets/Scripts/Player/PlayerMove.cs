@@ -32,17 +32,17 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         GetMoveDirection();
-
-    }
-
-    private void FixedUpdate()
-    {
         SetMove();
 
         if (Input.GetKeyDown(KeyCode.Space) && !isTeleporting && !i_playerInteract.isPlayerInteracting && i_playerInteract.scannedObject == null)
         {
             Teleport();
         }
+
+    }
+
+    private void FixedUpdate()
+    {
 
     }
 

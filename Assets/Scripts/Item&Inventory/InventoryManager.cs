@@ -30,8 +30,8 @@ public class InventoryManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha6))
             UseItem(5);
 
-        if (gameManager.isGetAlreadyPosionNum == 2)
-            gameManager.isGetAlreadyPosionNum = 0;
+        //if (gameManager.isGetAlreadyPosionNum == 2)
+        //    gameManager.isGetAlreadyPosionNum = 0;
     }
 
     public bool AddItem(Item item)
@@ -126,55 +126,55 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void DestroyQuestItemAndTradeEtcItem()       // 거래 아이템 개수에 따른 각 상인npc의 대화 출력 및 아이템 교환
-    {
-        for (int i = 0; i < inventory_slots.Length; i++)
-        {
-            Inventory_Slot slot = inventory_slots[i];
-            Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
+    //public void DestroyQuestItemAndTradeEtcItem()       // 거래 아이템 개수에 따른 각 상인npc의 대화 출력 및 아이템 교환
+    //{
+    //    for (int i = 0; i < inventory_slots.Length; i++)
+    //    {
+    //        Inventory_Slot slot = inventory_slots[i];
+    //        Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
 
-            if(itemInSlot != null)
-            {
-                Item item = itemInSlot.item;
-                if(item.itemType == ItemType.Quest && questManager_lagacy.getItemNum_Quest2 == 100)
-                {
-                    Destroy(itemInSlot.gameObject);
-                }
+    //        if(itemInSlot != null)
+    //        {
+    //            Item item = itemInSlot.item;
+    //            if(item.itemType == ItemType.Quest && questManager_lagacy.getItemNum_Quest2 == 100)
+    //            {
+    //                Destroy(itemInSlot.gameObject);
+    //            }
 
-                if (item.itemType == ItemType.etc_HpPosion && itemInSlot.count >= 2 && gameManager.scanObject.GetComponent<ObjData>().isPosionTraderNpc && gameManager.isGetAlreadyPosionNum == 0)
-                {
-                    gameManager.getPosionTradeTalkIndex = 1;
-                    playerController.GetItem(1);
-                    itemInSlot.count -= 2;
-                    itemInSlot.RefreshCount();
-                    if (itemInSlot.count == 0)
-                    {
-                        Destroy(itemInSlot.gameObject);
-                        gameManager.getPosionTradeTalkIndex = 2;
-                    }
-                }
+    //            if (item.itemType == ItemType.etc_HpPosion && itemInSlot.count >= 2 && gameManager.scanObject.GetComponent<ObjData>().isPosionTraderNpc && gameManager.isGetAlreadyPosionNum == 0)
+    //            {
+    //                //gameManager.getPosionTradeTalkIndex = 1;
+    //                playerController.GetItem(1);
+    //                itemInSlot.count -= 2;
+    //                itemInSlot.RefreshCount();
+    //                if (itemInSlot.count == 0)
+    //                {
+    //                    Destroy(itemInSlot.gameObject);
+    //                    //gameManager.getPosionTradeTalkIndex = 2;
+    //                }
+    //            }
 
-                if (item.itemType == ItemType.etc_EnergyPosion && itemInSlot.count >= 2 && gameManager.scanObject.GetComponent<ObjData>().isPosionTraderNpc && gameManager.isGetAlreadyPosionNum == 0)
-                {
-                    gameManager.getPosionTradeTalkIndex = 1;
-                    playerController.GetItem(6);
-                    itemInSlot.count -= 2;
-                    itemInSlot.RefreshCount();
-                    if (itemInSlot.count == 0)
-                        Destroy(itemInSlot.gameObject);
-                }
+    //            if (item.itemType == ItemType.etc_EnergyPosion && itemInSlot.count >= 2 && gameManager.scanObject.GetComponent<ObjData>().isPosionTraderNpc && gameManager.isGetAlreadyPosionNum == 0)
+    //            {
+    //                //gameManager.getPosionTradeTalkIndex = 1;
+    //                playerController.GetItem(6);
+    //                itemInSlot.count -= 2;
+    //                itemInSlot.RefreshCount();
+    //                if (itemInSlot.count == 0)
+    //                    Destroy(itemInSlot.gameObject);
+    //            }
 
-                if (item.itemType == ItemType.etc_Stone && itemInSlot.count >= 3 && gameManager.scanObject.GetComponent<ObjData>().isWeaponTraderNpc)
-                {
-                    gameManager.getWeaponTradeTalkIndex = 1;
-                    playerController.maxHp += 15;
-                    //playerController.curHp += 15;
-                    itemInSlot.count -= 3;
-                    itemInSlot.RefreshCount();
-                    if (itemInSlot.count == 0)
-                        Destroy(itemInSlot.gameObject);
-                }
-            }
-        }
-    }
+    //            if (item.itemType == ItemType.etc_Stone && itemInSlot.count >= 3 && gameManager.scanObject.GetComponent<ObjData>().isWeaponTraderNpc)
+    //            {
+    //                //gameManager.getWeaponTradeTalkIndex = 1;
+    //                playerController.maxHp += 15;
+    //                //playerController.curHp += 15;
+    //                itemInSlot.count -= 3;
+    //                itemInSlot.RefreshCount();
+    //                if (itemInSlot.count == 0)
+    //                    Destroy(itemInSlot.gameObject);
+    //            }
+    //        }
+    //    }
+    //}
 }
