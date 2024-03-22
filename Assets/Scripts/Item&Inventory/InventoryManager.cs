@@ -34,43 +34,55 @@ public class InventoryManager : MonoBehaviour
         //    gameManager.isGetAlreadyPosionNum = 0;
     }
 
-    public bool AddItem(Item item)
+    public void AddItemInInventory(Item item)
     {
-        //  아이템 스택 검사
-        for (int i = 0; i < inventory_slots.Length; i++)
-        {
-            Inventory_Slot slot = inventory_slots[i];
-            Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
-            if (itemInSlot != null &&
-                itemInSlot.item == item &&
-                itemInSlot.count < maxStackedItems &&
-                item.stackable)
-            {
-                itemInSlot.count++;
-                itemInSlot.RefreshCount();
-                return true;
-            }
-        }
+        //for (int i = 0; i < inventory_slots.Length; i++)
+        //{
+        //    Inventory_Slot slot = inventory_slots[i];
+        //    Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
+        //    if (itemInSlot != null &&
+        //        itemInSlot.item == item &&
+        //        itemInSlot.count < maxStackedItems &&
+        //        item.stackable)   
+        //    {
+        //        itemInSlot.count++;
+        //        itemInSlot.RefreshCount();
+        //        //return true;
+        //    }
+        //}
 
         // 빈 슬롯 찾기
         for (int i = 0; i < inventory_slots.Length; i++)
         {
             Inventory_Slot slot = inventory_slots[i];
             Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
+
             if (itemInSlot == null)
             {
-                SpawnNewItem(item, slot);
-                return true;
+                SetNewItem(item, slot);
+                break;
+                //return true;
+            }
+            else if(itemInSlot != null &&                   // 슬롯에 아이템이 있으면
+                    item.stackable &&                       // 중첩 가능한 아이템인지 확인
+                    itemInSlot.count < maxStackedItems &&   // 최대 중첩 수보다 작은지 확인
+                    itemInSlot.item == item)                // 해당 아이템 확인
+            {
+                itemInSlot.count++;
+                itemInSlot.RefreshCount();
+                break;
             }
         }
 
-        return false;
+        Debug.Log("인벤토리가 다 찼고, 중첩 가능한 아이템 없음");
+
+        //return false;
     }
 
-    void SpawnNewItem(Item item, Inventory_Slot slot)
+    void SetNewItem(Item item, Inventory_Slot slot)
     {
-        GameObject newItemGo = Instantiate(inventoryItemPrefab, slot.transform);
-        Inventory_Item inventory_Item = newItemGo.GetComponent<Inventory_Item>();
+        GameObject newItem = Instantiate(inventoryItemPrefab, slot.transform);
+        Inventory_Item inventory_Item = newItem.GetComponent<Inventory_Item>();
         inventory_Item.InitialiseItem(item);
     }
 

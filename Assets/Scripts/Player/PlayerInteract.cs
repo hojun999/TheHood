@@ -42,17 +42,6 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-
-    private void SetInteractWithNPC()
-    {
-
-    }
-
-    private void SetInteractWithItem()
-    {
-
-    }
-
     private void HandleInputInteractWithNPC()
     {
         if (Input.GetKeyDown(KeyCode.Space) && scannedObject != null && scannedObject.CompareTag("NPC"))
@@ -65,6 +54,8 @@ public class PlayerInteract : MonoBehaviour
     private void HandleInteracWithItem()
     {
         if (Input.GetKeyDown(KeyCode.E) && scannedObject != null && scannedObject.CompareTag("Item"))
-            SetInteractWithItem();
+        {
+
+        }
     }
 }

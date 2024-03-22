@@ -344,7 +344,7 @@ public class PlayerController : MonoBehaviour
 
     public void GetItem(int id)
     {
-        inventoryManager.AddItem(fieldItems[id]);
+        inventoryManager.AddItemInInventory(fieldItems[id]);
     }
 
     IEnumerator HurtRoutine()   // 무적 상태 조정
