@@ -6,16 +6,15 @@ using UnityEngine;
 public class Item : ScriptableObject
 {
 
-    [Header("Only gameplay")]
+    public Sprite image;
+    public int itemID;
+
     public ItemType itemType;
     public ActionType actionType;
 
-    [Header("Only UI")]
     public bool stackable;       // 개수 중첩이 가능한 아이템인지.
     public bool consumable;      // 소비 아이템인지.
 
-    [Header("Both")]
-    public Sprite image;
 
 
 }

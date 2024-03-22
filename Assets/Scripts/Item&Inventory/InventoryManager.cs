@@ -5,33 +5,32 @@ using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
-    public QuestManager_Lagacy questManager_lagacy;
-    public PlayerController playerController;
-    public GameManager gameManager;
+    private GameManager _gameManager;
+    private QuestManager _questManager;
 
-    public int maxStackedItems = 4;
-    public Inventory_Slot[] inventory_slots;
-    public GameObject inventoryItemPrefab;
     public GameObject Player;
+    public GameObject inventoryItemPrefab;
+    public Inventory_Slot[] inventory_slots;
+    public Item[] canGetItems;
+    [SerializeField] private int maxStackedItems = 99;
 
+    private void Start()
+    {
+        _gameManager = gameObject.GetComponent<GameManager>();
+        _questManager = gameObject.GetComponent<QuestManager>();
+    }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))   // 퀵슬롯 사용
-            UseItem(0);
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            UseItem(1);
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-            UseItem(2);
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-            UseItem(3);
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-            UseItem(4);
-        else if (Input.GetKeyDown(KeyCode.Alpha6))
-            UseItem(5);
-
+        HandleInputUseQuickSlotItem();
         //if (gameManager.isGetAlreadyPosionNum == 2)
         //    gameManager.isGetAlreadyPosionNum = 0;
+    }
+
+    public void GetItem(int index)
+    {
+        AddItemInInventory(canGetItems[index]);
+
     }
 
     public void AddItemInInventory(Item item)
@@ -89,7 +88,7 @@ public class InventoryManager : MonoBehaviour
     void UseItem(int index)
     {
         // 소비 개수에 따른 카운트 차감
-        Inventory_Slot slot = inventory_slots[index];
+        Inventory_Slot slot = inventory_slots[index];       // 해당 부분 퀵슬롯 변수 따로 선언하여 등록 및 수정-----------------------------------
         Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
         if(itemInSlot != null)
         {
@@ -136,6 +135,22 @@ public class InventoryManager : MonoBehaviour
             }       
             
         }
+    }
+
+    private void HandleInputUseQuickSlotItem()      // 퀵슬롯 아이템 사용 입력키 관리
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            UseItem(0);
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+            UseItem(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+            UseItem(2);
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+            UseItem(3);
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+            UseItem(4);
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+            UseItem(5);
     }
 
     //public void DestroyQuestItemAndTradeEtcItem()       // 거래 아이템 개수에 따른 각 상인npc의 대화 출력 및 아이템 교환

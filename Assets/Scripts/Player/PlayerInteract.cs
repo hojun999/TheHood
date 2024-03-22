@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    private PlayerMove i_playerMove;
-    [SerializeField]private DialogueManager i_dialogueManager;
+    private PlayerMove _playerMove;
+    [SerializeField] private DialogueManager _dialogueManager;
+    [SerializeField] private InventoryManager _inventoryManager;
 
     public GameObject scannedObject;
-    [HideInInspector] public GameObject scannedObjectHolder;    // 직후에 대화한 npc오브젝트를 저장하기 위한 변수
+    [HideInInspector] public GameObject scannedObjectHolder;    // 직전에 대화한 npc오브젝트를 저장하기 위한 변수
 
     [HideInInspector] public bool isPlayerInteracting;
     // Start is called before the first frame update
     void Start()
     {
-        i_playerMove = gameObject.GetComponent<PlayerMove>();
+        _playerMove = gameObject.GetComponent<PlayerMove>();
     }
 
     // Update is called once per frame
@@ -27,8 +28,8 @@ public class PlayerInteract : MonoBehaviour
 
     void HandleRay()
     {
-        Debug.DrawRay(transform.position, i_playerMove.moveDirection * 0.6f, new Color(0, 1, 0));
-        RaycastHit2D rayHit = Physics2D.Raycast(transform.position, i_playerMove.moveDirection, 1f, LayerMask.GetMask("Object"));
+        Debug.DrawRay(transform.position, _playerMove.moveDirection * 0.6f, new Color(0, 1, 0));
+        RaycastHit2D rayHit = Physics2D.Raycast(transform.position, _playerMove.moveDirection, 1f, LayerMask.GetMask("Object"));
 
         if (rayHit.collider)
         {
@@ -46,7 +47,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && scannedObject != null && scannedObject.CompareTag("NPC"))
         {
-            i_dialogueManager.StartDialogueOnInteract(scannedObject);
+            _dialogueManager.StartDialogueOnInteract(scannedObject);
             scannedObjectHolder = scannedObject;
         }
     }
@@ -55,7 +56,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && scannedObject != null && scannedObject.CompareTag("Item"))
         {
-
+            _inventoryManager.GetItem(scannedObject.GetComponent<Item>().itemID);
         }
     }
 }
