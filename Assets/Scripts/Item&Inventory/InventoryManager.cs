@@ -12,12 +12,21 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventoryItemPrefab;
     public Inventory_Slot[] inventory_slots;
     public Item[] canGetItems;
+    public Dictionary<int, Item> itemDicByID = new Dictionary<int, Item>();   // 퀘스트 아이템 ID : 1번~ / 소모성 아이템(포션) : 100번~ 
+                                                // 기타 아이템 ID : 1000번~
     [SerializeField] private int maxStackedItems = 99;
 
     private void Start()
     {
         _gameManager = gameObject.GetComponent<GameManager>();
         _questManager = gameObject.GetComponent<QuestManager>();
+
+        SetItemDic();
+
+        foreach (var item in itemDicByID)
+        {
+            Debug.Log($"Key: {item.Key}, Value: {item.Value}");
+        }
     }
 
     private void Update()
@@ -27,37 +36,29 @@ public class InventoryManager : MonoBehaviour
         //    gameManager.isGetAlreadyPosionNum = 0;
     }
 
-    public void GetItem(int index)
+    private void SetItemDic()
     {
-        AddItemInInventory(canGetItems[index]);
+        foreach (Item item in canGetItems)      // Item은 scriptableobject라서 호환이 안되는것 같음.---------------------------------------------
+        {
+            itemDicByID.Add(item.itemID, item);
+        }
+    }
 
+    public void GetItem(int ID)
+    {
+        AddItemInInventory(itemDicByID[ID]);
     }
 
     public void AddItemInInventory(Item item)
     {
-        //for (int i = 0; i < inventory_slots.Length; i++)
-        //{
-        //    Inventory_Slot slot = inventory_slots[i];
-        //    Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
-        //    if (itemInSlot != null &&
-        //        itemInSlot.item == item &&
-        //        itemInSlot.count < maxStackedItems &&
-        //        item.stackable)   
-        //    {
-        //        itemInSlot.count++;
-        //        itemInSlot.RefreshCount();
-        //        //return true;
-        //    }
-        //}
-
-        // 빈 슬롯 찾기
-        for (int i = 0; i < inventory_slots.Length; i++)
+        for (int i = 0; i < inventory_slots.Length; i++)         // 빈 슬롯 찾기
         {
             Inventory_Slot slot = inventory_slots[i];
             Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
 
             if (itemInSlot == null)
             {
+                Debug.Log("아이템 획득");
                 SetNewItem(item, slot);
                 break;
                 //return true;
@@ -67,6 +68,7 @@ public class InventoryManager : MonoBehaviour
                     itemInSlot.count < maxStackedItems &&   // 최대 중첩 수보다 작은지 확인
                     itemInSlot.item == item)                // 해당 아이템 확인
             {
+                Debug.Log("아이템 중첩");
                 itemInSlot.count++;
                 itemInSlot.RefreshCount();
                 break;

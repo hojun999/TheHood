@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af81b51226628948b50533ab149b823, type: 3}
   m_Name: Crystal
   m_EditorClassIdentifier: 
+  image: {fileID: 21300000, guid: 91ad295fbd6cf104384d151898926658, type: 3}
+  itemID: 1002
   itemType: 4
   actionType: 0
   stackable: 1
   consumable: 0
-  image: {fileID: 21300000, guid: 91ad295fbd6cf104384d151898926658, type: 3}

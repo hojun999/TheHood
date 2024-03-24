@@ -34,15 +34,13 @@ public class PlayerMove : MonoBehaviour
         GetMoveDirection();
         SetMove();
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isTeleporting && !i_playerInteract.isPlayerInteracting && i_playerInteract.scannedObject == null)
+        if (Input.GetKeyDown(KeyCode.Space) &&
+            !isTeleporting &&                           // 쿨타임 중 아니고
+            !i_playerInteract.isPlayerInteracting &&    // 상호작용 중 아니고
+            i_playerInteract.scannedObject == null)     // 상호작용 오브젝트 인식 범위 밖일 때
         {
             Teleport();
         }
-
-    }
-
-    private void FixedUpdate()
-    {
 
     }
 
@@ -84,6 +82,7 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator coTeleport()        // 순간이동 구현
     {
+        Debug.Log("텔레포트");
         WaitForSeconds cooltime = new WaitForSeconds(teleport_cooltime);
 
         rb.AddForce(new Vector2(h_value, v_value).normalized * i_teleportPower, ForceMode2D.Impulse);

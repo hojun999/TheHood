@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af81b51226628948b50533ab149b823, type: 3}
   m_Name: Malfunctioned Gun
   m_EditorClassIdentifier: 
+  image: {fileID: 21300000, guid: 37abe77d69a31c14ca57cd0cdc15d37e, type: 3}
+  itemID: 3
   itemType: 0
   actionType: 2
   stackable: 0
   consumable: 0
-  image: {fileID: 21300000, guid: 37abe77d69a31c14ca57cd0cdc15d37e, type: 3}

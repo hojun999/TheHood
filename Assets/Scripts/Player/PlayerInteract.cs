@@ -54,9 +54,10 @@ public class PlayerInteract : MonoBehaviour
 
     private void HandleInteracWithItem()
     {
-        if (Input.GetKeyDown(KeyCode.E) && scannedObject != null && scannedObject.CompareTag("Item"))
+        if (Input.GetKeyDown(KeyCode.E) && scannedObject.CompareTag("Item"))
         {
-            _inventoryManager.GetItem(scannedObject.GetComponent<Item>().itemID);
+            _inventoryManager.GetItem(scannedObject.GetComponent<ItemObject>().itemData.itemID);
+            scannedObject.SetActive(false);     // 획득한 아이템 오브젝트 비활성화
         }
     }
 }

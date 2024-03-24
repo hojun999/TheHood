@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af81b51226628948b50533ab149b823, type: 3}
   m_Name: BlueFlower
   m_EditorClassIdentifier: 
+  image: {fileID: 21300000, guid: 4768cae80bb5ef94883ee6f640d55af7, type: 3}
+  itemID: 1001
   itemType: 3
   actionType: 0
   stackable: 1
   consumable: 0
-  image: {fileID: 21300000, guid: 4768cae80bb5ef94883ee6f640d55af7, type: 3}

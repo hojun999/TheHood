@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af81b51226628948b50533ab149b823, type: 3}
   m_Name: Clothes With Blood
   m_EditorClassIdentifier: 
+  image: {fileID: 21300000, guid: e3a8513953531a14caffc107d81212d9, type: 3}
+  itemID: 1
   itemType: 0
   actionType: 2
-  stackable: 1
+  stackable: 0
   consumable: 0
-  image: {fileID: 21300000, guid: e3a8513953531a14caffc107d81212d9, type: 3}
