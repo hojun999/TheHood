@@ -24,6 +24,10 @@ TagManager:
   - LeftDirection
   - RightDirection
   - Henchman_Quest3
+  - BigArea
+  - SmallArea
+  - QuestDescriptionLayout
+  - Managers
   layers:
   - Default
   - TransparentFX

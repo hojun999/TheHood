@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool isUIInteract;
     private bool isActiveSubMenu;
     private bool isActiveHelpMenu;
+    private bool isActiveInventory;
 
     private void Start()
     {
@@ -334,17 +335,22 @@ public class GameManager : MonoBehaviour
     {
         _playerInteract.isPlayerInteracting = true;     // 이동 제한
         ScreenFadeOut();                                // 화면 페이드아웃
-
         yield return new WaitForSeconds(1.5f);
 
         LocatePlayerOnCamp();                           // 플레이어 위치 지정
-        ScreenFadeIn();                                 // 화면 페이드인
 
+        MainCamera.transform.position = player.transform.position;
+        MainCamera.GetComponent<CameraController>().center = new Vector2(0, 0);
+        MainCamera.GetComponent<CameraController>().size = new Vector2(18, 10);
+        yield return new WaitForSeconds(0.2f);
+
+        ScreenFadeIn();                                 // 화면 페이드인
         yield return new WaitForSeconds(0.5f);
+
         SetFalseSpawnAreasAnimState();                  // 문 애니메이션 초기화
         _playerInteract.isPlayerInteracting = false;    // 이동 제한 해제
-
         yield return new WaitForSeconds(0.8f);
+
         fadeImage.gameObject.SetActive(false);
     }
 
@@ -353,6 +359,13 @@ public class GameManager : MonoBehaviour
         player.transform.position = CampSpawnArea.transform.position;
         playerLight.falloffIntensity = 0.6f;
     }
+
+    public void SetPlayerInteractFalseOnCloseSpawnUI()
+    {
+        _playerInteract.isPlayerInteracting = false;
+        Time.timeScale = 1;
+    }
+
 
     private void ScreenFadeOut()
     {
@@ -430,9 +443,7 @@ public class GameManager : MonoBehaviour
             OnOffSubMenu();
 
         if (Input.GetKeyDown(KeyCode.I))
-        {
-            // 인벤토리
-        }
+            OnOffInventory();
     }
 
     public void OnOffSubMenu()
@@ -447,6 +458,13 @@ public class GameManager : MonoBehaviour
         isActiveHelpMenu = !isActiveHelpMenu;
         helpMenuUI.SetActive(isActiveHelpMenu);
         Time.timeScale = isActiveHelpMenu ? 0 : 1;
+    }
+
+    public void OnOffInventory()
+    {
+        isActiveInventory = !isActiveInventory;
+        inventoryUI.SetActive(isActiveInventory);
+        Time.timeScale = isActiveInventory ? 0 : 1;
     }
 
     public void OpenSoundControlPanel()

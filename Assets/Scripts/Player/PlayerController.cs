@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     public GameObject shootObject;
 
     [Header("CanGetItemList")]
-    public Item[] fieldItems;
+    public ItemData[] fieldItems;
 
     [Header("BeforeGetItemTextUI")]
     public GameObject BeforeGetText_BigQuestArea;

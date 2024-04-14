@@ -8,16 +8,15 @@ public class Inventory_Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 {
     
 
-    [Header("UI")]
     public Image image;
     public Text countText;
     public GameObject selectedSlot;
 
-    [HideInInspector] public Item item;
-    [HideInInspector] public int count = 1;     // 아이템 스택 카운트
+    [HideInInspector] public ItemData item;         // 해당 칸에 있는 아이템 정보
+    public int count = 1;     // 아이템 스택 카운트
     [HideInInspector] public Transform parentAfterDrag;
 
-    public void InitialiseItem(Item newItem)
+    public void InitialiseItem(ItemData newItem)
     {
         item = newItem;
         image.sprite = newItem.image;

@@ -16,6 +16,8 @@ MonoBehaviour:
   relativeDialogueID: 4
   questState: 0
   questType: 2
+  conditionData: {fileID: 0}
   questName: "\uB9D0 \uBA38\uB9AC \uD328\uAC70\uB9AC \uC81C\uAC70"
-  questDescription_inprogress: []
-  questDescription_achieve: []
+  questDescription_inprogress:
+  - "\uB9D0 \uBA38\uB9AC  0 / 1"
+  - "\uBD80\uD558 0 / 6"

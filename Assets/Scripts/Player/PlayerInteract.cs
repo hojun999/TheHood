@@ -54,10 +54,23 @@ public class PlayerInteract : MonoBehaviour
 
     private void HandleInteracWithItem()
     {
-        if (Input.GetKeyDown(KeyCode.E) && scannedObject.CompareTag("Item"))
+        if (Input.GetKeyDown(KeyCode.E) && scannedObject != null && scannedObject.CompareTag("Item"))
         {
-            _inventoryManager.GetItem(scannedObject.GetComponent<ItemObject>().itemData.itemID);
-            scannedObject.SetActive(false);     // 획득한 아이템 오브젝트 비활성화
+            ItemObject itemObj = scannedObject.GetComponent<ItemObject>();
+
+            if(itemObj != null)
+            {
+                _inventoryManager.GetItem(itemObj.itemData.itemID);
+                scannedObject.SetActive(false);     // 획득한 아이템 오브젝트 비활성화
+            }
+            else
+            {
+                Debug.Log("상호작용한 오브젝트에 아이템 데이터가 할당되어 있지 않음");
+            }
+        }
+        else if(Input.GetKeyDown(KeyCode.E) && scannedObject == null)
+        {
+            Debug.Log("아이템이 근처에 없음");
         }
     }
 }

@@ -15,8 +15,11 @@ public class QuestManager : MonoBehaviour
 
     [Header("UI")]
     public GameObject quest_info_panel;
-    public TextMeshProUGUI quest_name_tmp;
-    public TextMeshProUGUI quest_description_tmp;
+    public GameObject quest_clear_UI;
+    public TextMeshProUGUI quest_name;
+    public TextMeshProUGUI quest_description_line1;
+    public TextMeshProUGUI quest_description_line2;
+    public TextMeshProUGUI quest_description_line3;
 
     [Header("활성/비활성 오브젝트")]
     public GameObject questionmark;
@@ -28,8 +31,8 @@ public class QuestManager : MonoBehaviour
     public Dictionary<int, GameObject> activeObjectsDic = new Dictionary<int, GameObject>();
     public Dictionary<int, GameObject> unactiveObjectsDic = new Dictionary<int, GameObject>();
 
-    [SerializeField] private int questIndex;
-    private int i_relativeDialogueID;
+    [HideInInspector] public int questIndex;
+    //private int i_relativeDialogueID;
 
     
 
@@ -42,6 +45,7 @@ public class QuestManager : MonoBehaviour
 
         SetQuestConditionsOnData();     // 퀘스트 조건 정보 각 데이터에 할당
         InitializeQuestDataState();     // 퀘스트 데이터 진행 상태 초기화
+        InitializeQuestConditionData(); // 퀘스트 조건 정보 초기화
 
     }
 
@@ -59,6 +63,35 @@ public class QuestManager : MonoBehaviour
             questData.questState = QuestData.q_state.before;
     }
 
+    private void InitializeQuestConditionData() // 각 퀘스트 조건의 데이터 초기화 관리
+    {
+        if(questConditionDatas[0] is Quest1Condition)
+        {
+            Quest1Condition quest1Condition = (Quest1Condition)questConditionDatas[0];
+            quest1Condition.checkBigArea = false;
+            quest1Condition.checkSmallArea = false;
+        }
+
+        if(questConditionDatas[1] is Quest2Condition)
+        {
+            Quest2Condition quest2Condition = (Quest2Condition)questConditionDatas[1];
+            quest2Condition.getItemCount = 0;
+        }
+
+        if(questConditionDatas[2] is Quest3Condition)
+        {
+            Quest3Condition quest3Condition = (Quest3Condition)questConditionDatas[2];
+            quest3Condition.getNormalEnemyCount = 0;
+        }
+
+        if(questConditionDatas[3] is Quest4Condition)
+        {
+            Quest4Condition quest4Condition = (Quest4Condition)questConditionDatas[3];
+            quest4Condition.getBossCount = 0;
+            quest4Condition.getNormalEnemyCount = 0;
+        }
+
+    }
 
     public QuestData GetCurQuestData()      // 현재 진행되는 퀘스트 데이터 호출
     {
@@ -72,18 +105,89 @@ public class QuestManager : MonoBehaviour
     }
 
 
-    public void StartQuest(QuestData data)      // 퀘스트 시작 처리
+    public void StartQuest(QuestData data)      // 퀘스트 시작 처리, 대화가 끝날 때 판단하여 호출
     {
 
         data.questState = QuestData.q_state.progress;
 
         quest_info_panel.SetActive(true);
-        quest_name_tmp.text = data.questName;
+        quest_name.text = data.questName;
+        SetQuestDiscriptionText(data);
 
         ExcuteOnQuestStart();
         //quest_description_tmp.text = data.questDescription_inprogress;
 
         // 이후에 퀘스트 스크립터블 오브젝터에서 UI 최신화도 구현하는 것으로..
+    }
+
+    void SetQuestDiscriptionText(QuestData data)
+    {
+        InitializeDescriptionText();       // 퀘스트 UI 텍스트 색깔 하얀색으로 초기화
+
+        switch (data.quesitID)
+        {
+            case 1:
+                quest_description_line1.gameObject.SetActive(true);
+                quest_description_line1.text = data.questDescription_inprogress[0];
+
+                quest_description_line2.gameObject.SetActive(true);
+                quest_description_line2.text = data.questDescription_inprogress[1];
+
+                quest_description_line3.gameObject.SetActive(false);
+                break;
+            case 2:
+                quest_description_line1.gameObject.SetActive(true);
+                quest_description_line1.text = data.questDescription_inprogress[0];
+
+                quest_description_line2.gameObject.SetActive(true);
+                quest_description_line2.text = data.questDescription_inprogress[1];
+
+                quest_description_line3.gameObject.SetActive(true);
+                quest_description_line3.text = data.questDescription_inprogress[2];
+                break;
+            case 3:
+                quest_description_line1.gameObject.SetActive(true);
+                quest_description_line1.text = data.questDescription_inprogress[0];
+
+                quest_description_line2.gameObject.SetActive(false);
+                quest_description_line3.gameObject.SetActive(false);
+                break;
+            case 4:
+                quest_description_line1.gameObject.SetActive(true);
+                quest_description_line1.text = data.questDescription_inprogress[0];
+
+                quest_description_line2.gameObject.SetActive(true);
+                quest_description_line2.text = data.questDescription_inprogress[1];
+
+                quest_description_line3.gameObject.SetActive(false);
+                break;
+        }
+    }   // 각 퀘스트의 조건을 달성했을 때, 달성한 조건에 대한 퀘스트 진행 정보 UI 전환
+
+    void InitializeDescriptionText()
+    {
+        quest_description_line1.color = Color.white;
+        quest_description_line2.color = Color.white;
+        quest_description_line3.color = Color.white;
+
+        RemoveStrikethoroughOnTMP(quest_description_line1);
+        RemoveStrikethoroughOnTMP(quest_description_line2);
+        RemoveStrikethoroughOnTMP(quest_description_line3);
+    }
+
+    public void AddStrikethroughOnTMP(TextMeshProUGUI textComponent)
+    {
+        textComponent.text = "<s>" + textComponent.text + "</s>";
+    }
+
+    public void RemoveStrikethoroughOnTMP(TextMeshProUGUI textComponent)
+    {
+        textComponent.text = textComponent.text.Replace("<s>", "").Replace("</s>", "");
+    }
+
+    public void ConvertColorRedOnTmp(TextMeshProUGUI textComponent)
+    {
+        textComponent.color = Color.red;
     }
 
     public void ExcuteOnQuestStart()        // 퀘스트 시작 시 실행 함수들, startquest에서 실행
@@ -117,6 +221,17 @@ public class QuestManager : MonoBehaviour
         questIndex++;
     }
 
+    public void InstanciateQuestClearText()
+    {
+        StartCoroutine(coInstanciateQuestClearText());
+    }
+
+    IEnumerator coInstanciateQuestClearText()
+    {
+        GameObject clearUI = Instantiate(quest_clear_UI, GameObject.Find("MainUICanvas").transform);
+        yield return new WaitForSeconds(2f);
+        Destroy(clearUI);
+    }
     //void EndingEvent()
     //{
     //    StartCoroutine(coEndingEvent());

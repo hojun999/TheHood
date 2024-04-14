@@ -11,10 +11,10 @@ public class InventoryManager : MonoBehaviour
     public GameObject Player;
     public GameObject inventoryItemPrefab;
     public Inventory_Slot[] inventory_slots;
-    public Item[] canGetItems;
-    public Dictionary<int, Item> itemDicByID = new Dictionary<int, Item>();   // 퀘스트 아이템 ID : 1번~ / 소모성 아이템(포션) : 100번~ 
-                                                // 기타 아이템 ID : 1000번~
-    [SerializeField] private int maxStackedItems = 99;
+    public ItemData[] canGetItems;
+    public Dictionary<int, ItemData> itemDicByID = new Dictionary<int, ItemData>();   // 퀘스트 아이템 ID : 1번~ / 소모성 아이템(포션) : 100번~ / 기타 아이템 ID : 1000번~
+    [SerializeField] private int maxStackedItemsCount = 99;
+    [HideInInspector] public Inventory_Item beTradedItem;
 
     private void Start()
     {
@@ -32,13 +32,11 @@ public class InventoryManager : MonoBehaviour
     private void Update()
     {
         HandleInputUseQuickSlotItem();
-        //if (gameManager.isGetAlreadyPosionNum == 2)
-        //    gameManager.isGetAlreadyPosionNum = 0;
     }
 
     private void SetItemDic()
     {
-        foreach (Item item in canGetItems)      // Item은 scriptableobject라서 호환이 안되는것 같음.---------------------------------------------
+        foreach (ItemData item in canGetItems)
         {
             itemDicByID.Add(item.itemID, item);
         }
@@ -49,13 +47,13 @@ public class InventoryManager : MonoBehaviour
         AddItemInInventory(itemDicByID[ID]);
     }
 
-    public void AddItemInInventory(Item item)
+    public void AddItemInInventory(ItemData item)
     {
         for (int i = 0; i < inventory_slots.Length; i++)         // 빈 슬롯 찾기
         {
             Inventory_Slot slot = inventory_slots[i];
             Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
-
+             
             if (itemInSlot == null)
             {
                 Debug.Log("아이템 획득");
@@ -65,7 +63,7 @@ public class InventoryManager : MonoBehaviour
             }
             else if(itemInSlot != null &&                   // 슬롯에 아이템이 있으면
                     item.stackable &&                       // 중첩 가능한 아이템인지 확인
-                    itemInSlot.count < maxStackedItems &&   // 최대 중첩 수보다 작은지 확인
+                    itemInSlot.count < maxStackedItemsCount &&   // 최대 중첩 수보다 작은지 확인
                     itemInSlot.item == item)                // 해당 아이템 확인
             {
                 Debug.Log("아이템 중첩");
@@ -80,79 +78,126 @@ public class InventoryManager : MonoBehaviour
         //return false;
     }
 
-    void SetNewItem(Item item, Inventory_Slot slot)
+    void SetNewItem(ItemData item, Inventory_Slot slot)
     {
         GameObject newItem = Instantiate(inventoryItemPrefab, slot.transform);
         Inventory_Item inventory_Item = newItem.GetComponent<Inventory_Item>();
         inventory_Item.InitialiseItem(item);
     }
 
-    void UseItem(int index)
+    public bool CheckItem(int targetItemID, int count)      // 순차적으로 인벤토리를 검사하여 targetitem의 습득 일정 개수 습득을 확인
     {
-        // 소비 개수에 따른 카운트 차감
-        Inventory_Slot slot = inventory_slots[index];       // 해당 부분 퀵슬롯 변수 따로 선언하여 등록 및 수정-----------------------------------
-        Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
-        if(itemInSlot != null)
+        for (int i = 0; i < inventory_slots.Length; i++)
         {
-            Item item = itemInSlot.item;
-            if(item.consumable)
+            Inventory_Slot slot = inventory_slots[i];
+            Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
+
+            if (itemInSlot != null &&                           // 슬롯에 아이템이 있고
+                itemInSlot.item.itemID == targetItemID &&       // 해당 아이템이 찾으려는 아이템이고
+                itemInSlot.count >= count)                      // 일정 개수 이상을 보유 중이면 true
             {
-                itemInSlot.count--;
-                if(itemInSlot.count <= 0)
-                {
-                    Destroy(itemInSlot.gameObject);
-                }
-                else
-                {
-                    itemInSlot.RefreshCount();
-                }
+                beTradedItem = itemInSlot;                      // 찾은 아이템 변수에 저장
+                return true;
+            }
+        }
 
-                // 사용 효과
-                if (item.actionType == ActionType.Healing)        // 체력 포션
-                {
-                    Player.GetComponent<PlayerController>().curHp += 10;
-                }
-                else if (item.actionType == ActionType.enegyUp)
-                {
-                    Player.GetComponent<PlayerController>().curMp += 15;
-                }
-                //else if (item.actionType == ActionType.speedUp)
-                //{
-                //    float useTime = 0;
-                //    float endTime = 10f;
-                //    bool beingBuffed = true;
+        return false;
+    }
 
-                //    useTime += Time.deltaTime;
-                //    if(useTime >= endTime)
-                //    {
-                //        useTime = 0;
-                //        beingBuffed = false;
-                //    }
+    //public void TradeItem(int targetItemID, int substractedCount)
+    //{
+    //    for (int i = 0; i < inventory_slots.Length; i++)
+    //    {
+    //        Inventory_Slot slot = inventory_slots[i];
+    //        Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
 
-                //    if (beingBuffed)
-                //        Player.GetComponent<PlayerController>().moveSpeed = 4.5f;
-                //    else
-                //        Player.GetComponent<PlayerController>().moveSpeed = 3f;     // 10초 뒤 원래 이동속도로. (movespeed는 인스펙터창에서 조정하므로 잘 확인)
-                //}
-            }       
-            
+    //        if (itemInSlot != null &&                           // 슬롯에 아이템이 있고
+    //            itemInSlot.item.itemID == targetItemID &&       // 해당 아이템이 찾으려는 아이템이고
+    //            itemInSlot.count >= substractedCount)           // 일정 개수 이상을 보유 중이면 true
+    //        {     
+    //            itemInSlot.count -= substractedCount;           // 해당 아이템의 개수 감소
+    //            itemInSlot.RefreshCount();                      // ui에 반영
+    //        }
+    //    }
+    //}
+
+    public void TradeItem()
+    {
+
+        if (beTradedItem.item is TradedItem tradedItem)
+        {
+            Debug.Log("True");
+            beTradedItem.count -= tradedItem.subtractCountOnTrade;
+            beTradedItem.RefreshCount();
         }
     }
 
+    //void UseItem(int index)
+    //{
+    //    // 소비 개수에 따른 카운트 차감
+    //    Inventory_Slot slot = inventory_slots[index];       // 해당 부분 퀵슬롯 변수 따로 선언하여 등록 및 수정-----------------------------------
+    //    Inventory_Item itemInSlot = slot.GetComponentInChildren<Inventory_Item>();
+    //    if(itemInSlot != null)
+    //    {
+    //        Item item = itemInSlot.item;
+    //        if(item.consumable)
+    //        {
+    //            itemInSlot.count--;
+    //            if(itemInSlot.count <= 0)
+    //            {
+    //                Destroy(itemInSlot.gameObject);
+    //            }
+    //            else
+    //            {
+    //                itemInSlot.RefreshCount();
+    //            }
+
+    //            // 사용 효과
+    //            if (item.actionType == ActionType.Healing)        // 체력 포션
+    //            {
+    //                Player.GetComponent<PlayerController>().curHp += 10;
+    //            }
+    //            else if (item.actionType == ActionType.enegyUp)
+    //            {
+    //                Player.GetComponent<PlayerController>().curMp += 15;
+    //            }
+    //else if (item.actionType == ActionType.speedUp)
+    //{
+    //    float useTime = 0;
+    //    float endTime = 10f;
+    //    bool beingBuffed = true;
+
+    //    useTime += Time.deltaTime;
+    //    if(useTime >= endTime)
+    //    {
+    //        useTime = 0;
+    //        beingBuffed = false;
+    //    }
+
+    //    if (beingBuffed)
+    //        Player.GetComponent<PlayerController>().moveSpeed = 4.5f;
+    //    else
+    //        Player.GetComponent<PlayerController>().moveSpeed = 3f;     // 10초 뒤 원래 이동속도로. (movespeed는 인스펙터창에서 조정하므로 잘 확인)
+    //}
+    //        }       
+
+    //    }
+    //}
+
     private void HandleInputUseQuickSlotItem()      // 퀵슬롯 아이템 사용 입력키 관리
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            UseItem(0);
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            UseItem(1);
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-            UseItem(2);
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-            UseItem(3);
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-            UseItem(4);
-        else if (Input.GetKeyDown(KeyCode.Alpha6))
-            UseItem(5);
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //    UseItem(0);
+        //else if (Input.GetKeyDown(KeyCode.Alpha2))
+        //    UseItem(1);
+        //else if (Input.GetKeyDown(KeyCode.Alpha3))
+        //    UseItem(2);
+        //else if (Input.GetKeyDown(KeyCode.Alpha4))
+        //    UseItem(3);
+        //else if (Input.GetKeyDown(KeyCode.Alpha5))
+        //    UseItem(4);
+        //else if (Input.GetKeyDown(KeyCode.Alpha6))
+        //    UseItem(5);
     }
 
     //public void DestroyQuestItemAndTradeEtcItem()       // 거래 아이템 개수에 따른 각 상인npc의 대화 출력 및 아이템 교환

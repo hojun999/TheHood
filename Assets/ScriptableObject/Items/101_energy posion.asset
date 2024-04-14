@@ -9,8 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aea3f5d1bfa2c3a42a00375c5969fa4c, type: 3}
-  m_Name: quest1condition
+  m_Script: {fileID: 11500000, guid: 4af81b51226628948b50533ab149b823, type: 3}
+  m_Name: 101_energy posion
   m_EditorClassIdentifier: 
-  checkBigArea: 1
-  checkSmallArea: 1
+  image: {fileID: 21300024, guid: ddf8838d0a06d8d4c9dec9e3bed69260, type: 3}
+  itemID: 101
+  itemType: 1
+  actionType: 1
+  stackable: 1
+  consumable: 1

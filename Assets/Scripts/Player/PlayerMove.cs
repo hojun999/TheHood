@@ -5,73 +5,81 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public GameManager gameManager;
-    private PlayerInteract i_playerInteract;
+    private PlayerInteract _playerInteract;
     private Rigidbody2D rb;
 
-    private float h_value;
-    private float v_value;
+    private float moveX;
+    private float moveY;
+    private Vector2 moveInput;
+    private Vector2 moveVelocity;
+    [HideInInspector] public Vector2 moveDirection;     // playerinteract에서 lay의 방향을 결정하기 위한 변수
 
-    [SerializeField] private float i_moveSpeed;
-
-    [SerializeField] private float i_teleportPower;
-    [SerializeField] private float teleport_cooltime;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float teleportPower;
+    [SerializeField] private float teleportCooltime;
 
 
     private bool isWalk;
     private bool isTeleporting;
 
-    [HideInInspector] public Vector3 moveDirection;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        i_playerInteract = gameObject.GetComponent<PlayerInteract>();
+        _playerInteract = gameObject.GetComponent<PlayerInteract>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetMoveDirection();
-        SetMove();
+        HandleMoveSetting();
+    }
 
-        if (Input.GetKeyDown(KeyCode.Space) &&
-            !isTeleporting &&                           // 쿨타임 중 아니고
-            !i_playerInteract.isPlayerInteracting &&    // 상호작용 중 아니고
-            i_playerInteract.scannedObject == null)     // 상호작용 오브젝트 인식 범위 밖일 때
-        {
-            Teleport();
-        }
-
+    private void HandleMoveSetting()
+    {
+            GetMoveDirection();
+            SetMove();
+            CheckUsingTelepote();
     }
 
     private void GetMoveDirection()     // 입력된 값에 따른 이동 방향값 세팅
     {
-        h_value = i_playerInteract.isPlayerInteracting ? 0 : Input.GetAxisRaw("Horizontal");
-        v_value = i_playerInteract.isPlayerInteracting ? 0 : Input.GetAxisRaw("Vertical");
+        moveX = Input.GetAxisRaw("Horizontal");
+        moveY = Input.GetAxisRaw("Vertical");
 
-        if (h_value == 1)
-            moveDirection = Vector2.right;
-        else if (h_value == -1)
-            moveDirection = Vector2.left;
-        else if (v_value == 1)
-            moveDirection = Vector2.up;
-        else if (v_value == -1)
-            moveDirection = Vector2.down;
+        moveInput = new Vector2(moveX, moveY);
+        moveVelocity = moveInput.normalized * moveSpeed;
+
+        if (!_playerInteract.isPlayerInteracting)
+        {
+            if (moveX == 1)
+                moveDirection = Vector2.right;
+            else if (moveX == -1)
+                moveDirection = Vector2.left;
+            else if (moveY == 1)
+                moveDirection = Vector2.up;
+            else if (moveY == -1)
+                moveDirection = Vector2.down;
+        }
+
+        isWalk = moveVelocity != Vector2.zero;
     }
 
     private void SetMove()
     {
-        if (h_value != 0 || v_value != 0)       // 이동 조건 세팅
-            isWalk = true;
-        else
-        {
-            isWalk = false;
-            rb.velocity = Vector2.zero;
-        }
+        if(!_playerInteract.isPlayerInteracting)
+            rb.velocity = moveVelocity;
+    }
 
-        if (isWalk)     // 이동 세팅
+    private void CheckUsingTelepote()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) &&
+            !isTeleporting &&                           // 쿨타임 중 아니고
+            isWalk == true &&                           // 걷는 중이고
+            !_playerInteract.isPlayerInteracting &&     // 상호작용 중이지 않고
+            _playerInteract.scannedObject == null)      // 상호작용 오브젝트 인식 범위 밖일 때
         {
-            rb.velocity = new Vector2(h_value, v_value).normalized * i_moveSpeed;
+            Teleport();
         }
     }
 
@@ -83,13 +91,12 @@ public class PlayerMove : MonoBehaviour
     IEnumerator coTeleport()        // 순간이동 구현
     {
         Debug.Log("텔레포트");
-        WaitForSeconds cooltime = new WaitForSeconds(teleport_cooltime);
+        isTeleporting = true;
 
-        rb.AddForce(new Vector2(h_value, v_value).normalized * i_teleportPower, ForceMode2D.Impulse);
+        rb.AddForce(moveVelocity * teleportPower, ForceMode2D.Impulse);
 
         // 쿨타임
-        isTeleporting = true;
-        yield return cooltime;
+        yield return new WaitForSeconds(teleportCooltime);
         isTeleporting = false;
     }
 

@@ -10,12 +10,11 @@ public class NPCData : MonoBehaviour
     public enum m_type
     {
         client,
-        trador
+        trader
     }
     public m_type NPCType;
  
-    //public string[] m_contextsArray;
-    public Dictionary<int, List<string>> m_dialogueDic = new Dictionary<int, List<string>>();       // ID에 따른 대사[] 배열. 퀘스트 진행 상태에 따라 ID++, 대사 진행 상태에 따라 index++;
+    public Dictionary<int, List<string>> m_dialogueDic = new Dictionary<int, List<string>>();       // 대사
 
     private int startID;                    // 시작 대화 ID 저장 변수
     public int curID;     // 진행 중인 대화 ID 저장 변수

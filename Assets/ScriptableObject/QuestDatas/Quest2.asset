@@ -16,6 +16,9 @@ MonoBehaviour:
   relativeDialogueID: 2
   questState: 0
   questType: 1
+  conditionData: {fileID: 0}
   questName: "\uD754\uC801 \uC870\uC0AC"
-  questDescription_inprogress: []
-  questDescription_achieve: []
+  questDescription_inprogress:
+  - "\uD53C \uBB3B\uC740 \uC637 \uD68D\uB4DD"
+  - "\uC57D\uBB3C \uC8FC\uC0AC\uAE30 \uD68D\uB4DD"
+  - "\uB179\uC2A8 \uCD1D \uD68D\uB4DD"

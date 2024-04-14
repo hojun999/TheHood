@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4af81b51226628948b50533ab149b823, type: 3}
-  m_Name: Injector
+  m_Name: 1_clothes with blood
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: b6f3e7cd6dceb3d4f949e1e031937d43, type: 3}
-  itemID: 2
+  image: {fileID: 21300000, guid: e3a8513953531a14caffc107d81212d9, type: 3}
+  itemID: 1
   itemType: 0
   actionType: 2
   stackable: 0

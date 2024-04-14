@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4af81b51226628948b50533ab149b823, type: 3}
-  m_Name: RedFlower
+  m_Script: {fileID: 11500000, guid: aea3f5d1bfa2c3a42a00375c5969fa4c, type: 3}
+  m_Name: quest1_condition
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: 5988c0956c58abd44830137e370dfba0, type: 3}
-  itemID: 1000
-  itemType: 2
-  actionType: 0
-  stackable: 1
-  consumable: 0
+  checkBigArea: 0
+  checkSmallArea: 0

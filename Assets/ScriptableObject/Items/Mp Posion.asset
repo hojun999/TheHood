@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4af81b51226628948b50533ab149b823, type: 3}
-  m_Name: EnergyPosion
+  m_Script: {fileID: 11500000, guid: f820d4cffbbfa3c48ae2ae82e15d2cb1, type: 3}
+  m_Name: Mp Posion
   m_EditorClassIdentifier: 
   image: {fileID: 21300024, guid: ddf8838d0a06d8d4c9dec9e3bed69260, type: 3}
   itemID: 101
-  itemType: 1
-  actionType: 1
   stackable: 1
-  consumable: 1
+  healingPower: 10
