@@ -6,7 +6,6 @@ using UnityEngine;
 public class QuestData : ScriptableObject
 {
     public int quesitID;
-    //public int relativeDialogueID;
 
     public enum q_state
     {
@@ -30,7 +29,4 @@ public class QuestData : ScriptableObject
 
     public string questName;
     public string[] questDescription_inprogress;
-    //public string[] questDescription_achieve;
-
-    //public bool isCurQeustClear;
 }

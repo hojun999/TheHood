@@ -2,15 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
-    public PlayerInteract _playerInteract;
-    private DialogueParser _dialougeParserTest;
+    #region
+    private PlayerInteract _playerInteract;
+    private PlayerStat _playerStat;
+    private DialogueParser _dialougeParser;
     private QuestManager _questManager;
     private InventoryManager _inventoryManager;
+    private Quest2Condition quest2Condition;
 
     [SerializeField] private string _CSVFileName_dialogue;
 
@@ -24,22 +26,30 @@ public class DialogueManager : MonoBehaviour
     private int dialogueIndex;                          // 각 대사 진행 순서 저장 변수
 
     [HideInInspector] public bool canStartDialogue = true;
-
+    #endregion                   // 변수
     private void Awake()
     {
-        _dialougeParserTest = gameObject.GetComponent<DialogueParser>();
-        i_dialogueBundleByNPCName = _dialougeParserTest.Parse(_CSVFileName_dialogue);
-        _questManager = gameObject.GetComponent<QuestManager>();
-        _inventoryManager = gameObject.GetComponent<InventoryManager>();
-    }
+        _dialougeParser = gameObject.GetComponent<DialogueParser>();                
+        i_dialogueBundleByNPCName = _dialougeParser.Parse(_CSVFileName_dialogue);
+    }   // 대화 데이터 파싱
 
     private void Start()
     {
-        //PrintDialogueBundle(i_dialogueBundleByNPCName);
+        SetOnStart();
+    }
+    void SetOnStart()
+    {
+        _playerInteract = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInteract>();
+        _playerStat = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStat>();
+        _questManager = gameObject.GetComponent<QuestManager>();
+        _inventoryManager = gameObject.GetComponent<InventoryManager>();
+        quest2Condition = (Quest2Condition)_questManager.questConditionDatas[1];
+
+        PrintDialogueBundle(i_dialogueBundleByNPCName);
         SaveDataOnNPCObject(i_dialogueBundleByNPCName);
     }
-
-    void PrintDialogueBundle(Dictionary<string, Dictionary<int, List<string>>> dialogueBundleByNPCName)
+    // 콘솔창에서 대화 데이터 확인
+    void PrintDialogueBundle(Dictionary<string, Dictionary<int, List<string>>> dialogueBundleByNPCName) 
     {
         Debug.Log("추가된 대화 데이터 확인");
 
@@ -50,7 +60,7 @@ public class DialogueManager : MonoBehaviour
                 Debug.Log($"NPC Name: {npcNameEntry.Key}, Dialogue ID: {dialogueDic.Key}, Dialogue: {string.Join(" / ", dialogueDic.Value)}");
             }
         }
-    }
+    }   
 
     void SaveDataOnNPCObject(Dictionary<string, Dictionary<int, List<string>>> dialogueBundleByNPCName)
     {
@@ -61,8 +71,6 @@ public class DialogueManager : MonoBehaviour
 
             if (dialogueBundleByNPCName.ContainsKey(npcName))
             {
-                //Debug.Log("각 npc에 대화 데이터 할당");
-
                 _NPCdatas[i].m_dialogueDic = dialogueBundleByNPCName[npcName];
             }
             else
@@ -72,17 +80,16 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-
     public void StartDialogueOnInteract(GameObject scanObject)
     {
-        //Debug.Log("대화 시작");
         _playerInteract.isPlayerInteracting = true;
 
         NPCData _NPCData = scanObject.GetComponent<NPCData>();
 
-        if (canStartDialogue)       // 대화 시작때만 맞는 대사 ID 할당
+        if (canStartDialogue)           // 대화 시작때만 대사 ID 할당
         {
             SetCurDialogueIDByNPCType(_NPCData);
+            CheckSubmitQuest2Items();   // 퀘스트 2 습득 아이템 제출
 
             canStartDialogue = false;
         }
@@ -90,35 +97,31 @@ public class DialogueManager : MonoBehaviour
         SetDialogueContext(_NPCData, dialogueIDValue);
         dialogueUI.SetActive(_playerInteract.isPlayerInteracting);
 
-    }
+    }   // 대화 시작
 
-    private void SetDialogueContext(NPCData _NPCData, int ID)
+    private void SetDialogueContext(NPCData _NPCData, int ID)               // 대사 출력
     {
-
-        //Debug.Log("대화 데이터 세팅");
-
         string dialogueContext = GetCurDialogueContext(_NPCData, ID);       // 대사 얻기
         i_dialogueContext_tmp.text = dialogueContext;                       // 대사 UI 최신화
 
         MoveToNextDialogueContext();    // 대사 한 줄이 끝나면 대사[]index++
     }
+
     private string GetCurDialogueContext(NPCData _NPCData, int ID)      // 대사가 여러 줄인 경우 다음 줄로 넘기기
     {
-        //Debug.Log("대화 각 줄의 대사 불러오기");
-
         string context;
 
-        if (dialogueIndex == _NPCData.m_dialogueDic[ID].Count && _NPCData.NPCType == NPCData.m_type.client)     // 의뢰인은 대화가 끝났을 때, 퀘스트의 상태 변경 확인
+        
+        if (dialogueIndex == _NPCData.m_dialogueDic[ID].Count && _NPCData.NPCType == NPCData.m_type.client)
         {
-            //Debug.Log("해당 대화 줄 끝");
             context = null;
             EndTalkOnClient();
-        }
-        else if(dialogueIndex == _NPCData.m_dialogueDic[ID].Count && _NPCData.NPCType == NPCData.m_type.trader)     // 거래 상인은 대화 index 초기화
+        }// 의뢰인은 대화가 끝났을 때, 퀘스트의 상태 변경 확인
+        else if(dialogueIndex == _NPCData.m_dialogueDic[ID].Count && _NPCData.NPCType == NPCData.m_type.trader)
         {
             context = null;
             EndTalkOnTrader();
-        }
+        }// 거래 상인은 대화 index 초기화
         else
             context = _NPCData.m_dialogueDic[ID][dialogueIndex];
 
@@ -142,47 +145,84 @@ public class DialogueManager : MonoBehaviour
                 break;
             case NPCData.m_type.trader:
                 if (_NPCData.gameObject.name == "WeaponTrader")
-                    GetCurDialogueIDByItemCount(_NPCData, _inventoryManager.CheckItem(1002, 3), _inventoryManager.itemDicByID[1002]);           // 이후 체력 증가시키는 걸로 변경
+                {
+                    if (_inventoryManager.CheckItem(1002, 3))
+                    {
+                        GetCurDialogueIDOnWeaponTrador(_NPCData, _inventoryManager.CheckItem(1002, 3));
+                    }
+                    else
+                    {
+                        dialogueIDValue = _NPCData.curID;
+                    }
+                }
                 else if (_NPCData.gameObject.name == "PosionTrader")
-                    GetCurDialogueIDByItemCount(_NPCData, _inventoryManager.CheckItem(1000, 2), _inventoryManager.itemDicByID[100]);
-                else if (_NPCData.gameObject.name == "PosionTrader")
-                    GetCurDialogueIDByItemCount(_NPCData, _inventoryManager.CheckItem(1001, 2), _inventoryManager.itemDicByID[101]);
+                {
+                    if (_inventoryManager.CheckItem(1000, 2) && _inventoryManager.CheckItem(1001, 2))
+                    {
+                        GetCurDialogueIDOnPosionTrador(_NPCData, _inventoryManager.CheckItem(1000, 2), _inventoryManager.itemDicByID[100]);
+                        GetCurDialogueIDOnPosionTrador(_NPCData, _inventoryManager.CheckItem(1001, 2), _inventoryManager.itemDicByID[101]);
+                    }
+                    else if (_inventoryManager.CheckItem(1000, 2))
+                    {
+                        GetCurDialogueIDOnPosionTrador(_NPCData, _inventoryManager.CheckItem(1000, 2), _inventoryManager.itemDicByID[100]);
+                    }
+                    else if (_inventoryManager.CheckItem(1001, 2))
+                    {
+                        GetCurDialogueIDOnPosionTrador(_NPCData, _inventoryManager.CheckItem(1001, 2), _inventoryManager.itemDicByID[101]);
+                    }
+                    else
+                    {
+                        dialogueIDValue = _NPCData.curID;
+                    }
+                }
                 break;
         }
-
     }
 
     private void SetDatasDialougeIDByQuestState(NPCData _NPCData)    // 퀘스트 진행 상태에 따른 대화 ID 호출 규칙
     {
-        //Debug.Log("현재 대화 데이터의 ID 값 호출");
-
         int npcDataID = _NPCData.curID;
         QuestData _questData = _questManager.GetCurQuestData();
         QuestData.q_state questState = _questData.questState;
 
         switch (questState)
         {
-            case QuestData.q_state.before:              // 해당 퀘스트가 진행 전이면
-                dialogueIDValue = npcDataID;            // 대화 데이터의 ID 할당
+            case QuestData.q_state.before:              
+                dialogueIDValue = npcDataID;            
                 break;
-            case QuestData.q_state.progress:            // 해당 퀘스트가 진행 중이면
-                dialogueIDValue = npcDataID * 10 + 1;   // 진행 중일 때의 대화 데이터 ID 할당(규칙)
+            case QuestData.q_state.progress:            
+                dialogueIDValue = npcDataID * 10 + 1;
                 break;
         }
     }
 
-    private void GetCurDialogueIDByItemCount(NPCData _NPCData, bool isAchieveItemCondition, ItemData beAddedItem)  // 인벤토리에 보관하고 있는 특정 아이템 개수에 따른 대화 ID 호출
+    // 획득한 특정 아이템 개수에 따른 대화 ID 호출
+    void GetCurDialogueIDOnWeaponTrador(NPCData _NPCData, bool isAchieveItemCondition)
     {
         int npcDataID = _NPCData.curID;
 
         if (!isAchieveItemCondition)
         {
-            Debug.Log("교환에 필요한 아이템 없음");
             dialogueIDValue = npcDataID;
         }
         else
         {
-            Debug.Log("교환 성공");
+            dialogueIDValue = npcDataID + 1;
+            _playerStat.maxHp += 20;
+            _inventoryManager.TradeItem();
+        }
+    }
+
+    void GetCurDialogueIDOnPosionTrador(NPCData _NPCData, bool isAchieveItemCondition, ItemData beAddedItem)  
+    {
+        int npcDataID = _NPCData.curID;
+
+        if (!isAchieveItemCondition)
+        {
+            dialogueIDValue = npcDataID;
+        }
+        else
+        {
             dialogueIDValue = npcDataID + 1;
             _inventoryManager.AddItemInInventory(beAddedItem);
             _inventoryManager.TradeItem();
@@ -192,21 +232,49 @@ public class DialogueManager : MonoBehaviour
 
     private void EndTalkOnClient()      // 각 대화가 끝났을 때의 처리
     {
-
         QuestData data = _questManager.GetCurQuestData();
 
         if (data.questState == QuestData.q_state.before)
         {
             _questManager.StartQuest(data);
-            _questManager.questionmark.SetActive(false);
+            _questManager.questionmark.SetActive(true);
             _questManager.exclamationmark.SetActive(false);
         }
 
-        canStartDialogue = true;                        // 다시 대화 데이터의 curID를 불러오기 위함
-        dialogueIndex = -1;                             // 마지막 대화때도 interact가 되기 때문에 dialogueindex++;이 실행됨에 따른 초기화
+         _questManager.ExcuteOnQuestClear();
+
+        canStartDialogue = true;        // 다시 대화 데이터의 curID를 불러오기 위함
+        dialogueIndex = -1;             // 마지막 대화때도 interact가 되기 때문에 dialogueindex++;이 실행됨에 따른 초기화
+
 
         _playerInteract.isPlayerInteracting = false;
+    }
 
+    void SubmitQuest2Items()
+    {
+        for (int i = 0; i < _inventoryManager.inventorySlots.Length; i++)
+        {
+            if(_inventoryManager.inventorySlots[i].transform.childCount != 0)
+            {
+                Inventory_Item itemInSlot = _inventoryManager.inventorySlots[i].transform.GetChild(0).GetComponent<Inventory_Item>();
+
+                if (itemInSlot.item.itemID == 1 ||
+                    itemInSlot.item.itemID == 2 ||
+                    itemInSlot.item.itemID == 3)
+                {
+                    itemInSlot.count--;
+                    itemInSlot.RefreshCount();
+                }
+            }
+        }
+
+        quest2Condition.getItemCount++;     // 중복 호출 방지
+    }
+
+    void CheckSubmitQuest2Items()
+    {
+        if (_questManager.questIndex == 2 && quest2Condition.getItemCount == 3)
+            SubmitQuest2Items();
     }
 
     private void EndTalkOnTrader()
@@ -217,9 +285,10 @@ public class DialogueManager : MonoBehaviour
         _playerInteract.isPlayerInteracting = false;
     }
 
-    public void SetNextDatasID(NPCData _NPCData)        // 데이터의 다음 퀘스트 대사로 넘기기
+    public void SetNextDatasIDOnClient()        // 데이터의 다음 퀘스트 대사로 넘기기
     {
-            _NPCData.SetNextID();
+        //_NPCData.SetNextID();
+        _NPCdatas[1].SetNextID();
     }
 
 }

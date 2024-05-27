@@ -41,18 +41,20 @@ public class PlayerInteract : MonoBehaviour
             scannedObject = null;
             //Debug.Log("오브젝트 감지 안됨");
         }
-    }
+    }       // 플레이어 움직임 방향으로 ray 쏘기
 
-    private void HandleInputInteractWithNPC()
+    private void HandleInputInteractWithNPC()       // npc와의 대화 상호작용
     {
         if (Input.GetKeyDown(KeyCode.Space) && scannedObject != null && scannedObject.CompareTag("NPC"))
         {
+            _playerMove.rb.velocity = new Vector2(0, 0); // 대화 시작 시 잔여 움직임 방지
+
             _dialogueManager.StartDialogueOnInteract(scannedObject);
             scannedObjectHolder = scannedObject;
         }
     }
 
-    private void HandleInteracWithItem()
+    private void HandleInteracWithItem()            // 아이템 습득 상호작용
     {
         if (Input.GetKeyDown(KeyCode.E) && scannedObject != null && scannedObject.CompareTag("Item"))
         {

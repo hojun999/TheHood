@@ -88,16 +88,16 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.33333334
-    functionName: ShootBullet
+    functionName: Shoot
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 31df03a100d8d82408f5a13d5a63d3c4, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: 7b02bc2199be1fb40b463fd969d73a57, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.8333333
-    functionName: ShootBullet
+    functionName: Shoot
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 31df03a100d8d82408f5a13d5a63d3c4, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: 7b02bc2199be1fb40b463fd969d73a57, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

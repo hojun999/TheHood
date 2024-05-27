@@ -6,10 +6,11 @@ public class PlayerMove : MonoBehaviour
 {
     public GameManager gameManager;
     private PlayerInteract _playerInteract;
-    private Rigidbody2D rb;
+    [HideInInspector] public Rigidbody2D rb;
+    private Animator anim;
 
-    private float moveX;
-    private float moveY;
+    [HideInInspector] public float moveX;
+    [HideInInspector] public float moveY;
     private Vector2 moveInput;
     private Vector2 moveVelocity;
     [HideInInspector] public Vector2 moveDirection;     // playerinteract에서 lay의 방향을 결정하기 위한 변수
@@ -25,14 +26,21 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
+        SetOnStart();
+    }
+
+    void SetOnStart()
+    {
         rb = GetComponent<Rigidbody2D>();
         _playerInteract = gameObject.GetComponent<PlayerInteract>();
+        anim = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
         HandleMoveSetting();
+        SetCharacterSpriteAnimByMoveDirection();
     }
 
     private void HandleMoveSetting()
@@ -71,6 +79,23 @@ public class PlayerMove : MonoBehaviour
             rb.velocity = moveVelocity;
     }
 
+    private void SetCharacterSpriteAnimByMoveDirection()
+    {
+        if (anim.GetInteger("hAxisRaw") != moveX && Time.timeScale != 0 && !_playerInteract.isPlayerInteracting)
+        {
+            anim.SetBool("isChange", true);
+            anim.SetInteger("hAxisRaw", (int)moveX);
+        }
+        else if (anim.GetInteger("vAxisRaw") != moveY && Time.timeScale != 0 && !_playerInteract.isPlayerInteracting)
+        {
+            anim.SetBool("isChange", true);
+            anim.SetInteger("vAxisRaw", (int)moveY);
+        }
+        else
+            anim.SetBool("isChange", false);
+
+    }
+
     private void CheckUsingTelepote()
     {
         if (Input.GetKeyDown(KeyCode.Space) &&
@@ -100,8 +125,4 @@ public class PlayerMove : MonoBehaviour
         isTeleporting = false;
     }
 
-    private void SetCharacterSpriteAnimByMoveDirection()
-    {
-        // 이동 방향에 따른 캐릭터 애니메이션 설정
-    }
 }

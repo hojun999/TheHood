@@ -10,8 +10,6 @@ TagManager:
   - Item
   - NPC
   - EnemyAtk
-  - Boss
-  - Henchman
   - Wall
   - FightCamera
   - enterFightArea
@@ -28,6 +26,8 @@ TagManager:
   - SmallArea
   - QuestDescriptionLayout
   - Managers
+  - EnemyNormal
+  - EnemyBoss
   layers:
   - Default
   - TransparentFX

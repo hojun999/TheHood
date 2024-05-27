@@ -4,11 +4,12 @@ using UnityEngine;
 
 public abstract class EnemyEntity : MonoBehaviour
 {
-    private GameManager gameManager;
+    // 변수
+    #region
     [HideInInspector] public QuestManager questManager;
 
     public GameObject bulletPrefab;
-    public AudioClip shootSFX;
+    public AudioClip shotSFX;
 
     // 스탯
     public int maxHp;
@@ -16,39 +17,38 @@ public abstract class EnemyEntity : MonoBehaviour
     public float moveSpeed;
     public float shootTime = 1.2f;
     private bool isDie;
-    private bool isShoot;
-    private bool startFight;
+    private bool isShot;
 
     // 공격 관련 변수
     private Transform playerTransform;
-    private Transform leftShootTransform;
-    private Transform rightShootTransform;
+    private Transform leftShotTransform;
+    private Transform rightShotTransform;
     private float distanceOfPlayerAndEnemy;
+    [HideInInspector] public bool startFight;
     private Vector2 shootPosition;
 
     // 움직임 관련 변수
     private Vector2 movePosition;
-    [SerializeField] public float xMove;
-    [SerializeField] public float yMove;
+    public float xMove;
+    public float yMove;
 
     Rigidbody2D rb;
-    Animator anim;
+    [SerializeField] private Animator anim;
     SpriteRenderer sr;
     Coroutine coAlphaBlink;
+    #endregion
 
-    private void Start()
+    private void OnEnable()
     {
-        Set();
+        SetOnEnabled();
     }
 
     private void Update()
     {
-        if (isDie)
-            Died();
-
+        SetOnUpdate();
         distanceOfPlayerAndEnemy = playerTransform.position.x - gameObject.transform.position.x;
-        SetShootDistance();
         SetAnimationState();
+        SetShotDistance();
     }
 
     private void FixedUpdate()
@@ -56,35 +56,36 @@ public abstract class EnemyEntity : MonoBehaviour
         Move();
     }
 
-    void Set()
+    void SetOnEnabled()
     {
-        // 변수
-        gameManager = GameObject.FindGameObjectWithTag("Managers").GetComponent<GameManager>();
         questManager = GameObject.FindGameObjectWithTag("Managers").GetComponent<QuestManager>();
         rb = gameObject.GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        sr = GetComponent<SpriteRenderer>();
-
-        // 플레이어 위치
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        rightShootTransform = gameObject.transform.GetChild(0);
-        leftShootTransform = gameObject.transform.GetChild(1);
+        anim = gameObject.GetComponent<Animator>();
+        sr = gameObject.GetComponent<SpriteRenderer>();
 
         curHp = maxHp;
 
         ActionSequence();
     }
 
+    void SetOnUpdate()
+    {
+        // 플레이어 위치
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        rightShotTransform = gameObject.transform.GetChild(0);
+        leftShotTransform = gameObject.transform.GetChild(1);
+    }
+
     void ActionSequence()
     {
-        isShoot = false;
+        isShot = false;
         float moveTime = Random.Range(0.8f, 1.5f);
         float actionTime = moveTime + shootTime + 0.12f;
 
         MoveRandomDirection();
 
         Invoke("Attack", moveTime);
-        Invoke("Action", actionTime);
+        Invoke("ActionSequence", actionTime);
     }
 
     void Move()
@@ -95,16 +96,22 @@ public abstract class EnemyEntity : MonoBehaviour
 
     public abstract void MoveRandomDirection();
 
+    public void Attack()
+    {
+        isShot = true;
+    }
+
     public void Shoot()     // 캐릭터 x 좌표 값의 +- 1 사이 임의의 값으로 총알 발사
     {
         float shootAngle = Random.Range(playerTransform.position.x - 1f, playerTransform.position.x + 1f);
         Vector2 shootAngleVector = new Vector2(shootAngle, playerTransform.position.y);
         Vector2 bulletDirection = (shootAngleVector - shootPosition).normalized;
-        // 사운드 작성
-        Instantiate(bulletPrefab, shootPosition, Quaternion.LookRotation(bulletDirection));     // 오브젝트 풀링 활용
+        SoundManager.instance.SFXPlayer("EnemyShot", shotSFX);
+        Instantiate(bulletPrefab, shootPosition, Quaternion.LookRotation(bulletDirection));
     }
 
-    void SetAnimationState()
+    // 플레이어 위치에 따른 애니메이션 실행
+    public void SetAnimationState()
     {
         if (startFight && !isDie)
             anim.SetBool("isEnterFight", true);
@@ -112,30 +119,35 @@ public abstract class EnemyEntity : MonoBehaviour
         if (anim.GetFloat("enemyDir") != distanceOfPlayerAndEnemy && !isDie)
             anim.SetFloat("enemyDir", distanceOfPlayerAndEnemy);
 
-        if (isShoot && !isDie)
+        if (isShot && !isDie)
+        {
             anim.SetBool("isShoot", true);
+        }
         else
+        {
             anim.SetBool("isShoot", false);
-    }
+        }
+    }   
 
-    void SetShootDistance()
+    // 공격 방향 지정
+    public void SetShotDistance()
     {
         if (distanceOfPlayerAndEnemy <= 0)
-            shootPosition = leftShootTransform.position;
+            shootPosition = leftShotTransform.position;
         else
-            shootPosition = rightShootTransform.position;
+            shootPosition = rightShotTransform.position;
     }
 
     public void OnHit(int damage)
     {
         curHp -= damage;
-        coAlphaBlink = StartCoroutine(alphaBlinkOnHit());
+        coAlphaBlink = StartCoroutine(AlphaBlinkOnHit());
 
         if (curHp <= 0)
             Died();
-    }
+    }   // 피격 처리
 
-    IEnumerator alphaBlinkOnHit()
+    IEnumerator AlphaBlinkOnHit()
     {
         Color halfA = new Color(1, 1, 1, 0);
         Color fullA = new Color(1, 1, 1, 1);
@@ -149,7 +161,7 @@ public abstract class EnemyEntity : MonoBehaviour
     public void Died()
     {
         isDie = true;
-        isShoot = false;
+        isShot = false;
 
         RefreshQuestConditionByProgress();      // 퀘스트 조건 달성
 
@@ -157,11 +169,12 @@ public abstract class EnemyEntity : MonoBehaviour
         anim.SetBool("isDie", true);
         moveSpeed = 0;
         StopCoroutine(coAlphaBlink);
+        sr.color = new Color(1, 1, 1, 1);
 
         CancelInvoke("Attack");
         CancelInvoke("ActionSequence");
+    }       // 사망 처리
 
-    }
-
+    // 퀘스트 조건, UI 등 최신화
     public abstract void RefreshQuestConditionByProgress();
 }

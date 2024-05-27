@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Quest3
   m_EditorClassIdentifier: 
   quesitID: 3
-  relativeDialogueID: 3
   questState: 0
   questType: 2
-  conditionData: {fileID: 0}
+  conditionData: {fileID: 11400000, guid: 157de25be00c20546888e855d16ad5aa, type: 2}
   questName: "\uBD80\uD558\uB4E4 \uC81C\uAC70"
   questDescription_inprogress:
   - "\uC232\uC5D0 \uD769\uC5B4\uC838\uC788\uB294 \uBD80\uD558 0 / 5"

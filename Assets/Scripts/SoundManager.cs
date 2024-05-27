@@ -14,9 +14,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource bgSound;
     public AudioClip[] bglist;
     public GameObject soundControlPanelInMainMenu;
-
     public int getStartNum;
-
 
     private void Awake()
     {
@@ -47,7 +45,7 @@ public class SoundManager : MonoBehaviour
     {
         for (int i = 0; i < bglist.Length; i++)
         {
-            if (bglist[i].name == "Woods")
+            if (bglist[i].name == "woodsBGM")
                 BgSoundPlay(bglist[i]);
         }
     }
@@ -56,7 +54,7 @@ public class SoundManager : MonoBehaviour
     {
         for (int i = 0; i < bglist.Length; i++)
         {
-            if (bglist[i].name == "Camp")
+            if (bglist[i].name == "campBGM")
                 BgSoundPlay(bglist[i]);
         }
     }
@@ -65,7 +63,7 @@ public class SoundManager : MonoBehaviour
     {
         for (int i = 0; i < bglist.Length; i++)
         {
-            if (bglist[i].name == "MainMenu")
+            if (bglist[i].name == "mainMenuBGM")
                 BgSoundPlay(bglist[i]);
         }
     }
@@ -74,7 +72,7 @@ public class SoundManager : MonoBehaviour
     {
         for (int i = 0; i < bglist.Length; i++)
         {
-            if (bglist[i].name == "FightSound")
+            if (bglist[i].name == "fightBGM")
                 BgSoundPlay(bglist[i]);
         }
     }

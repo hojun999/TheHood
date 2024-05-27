@@ -56,6 +56,5 @@ public class NPCData : MonoBehaviour
     public void SetNextID()
     {
         curID++;
-        Debug.Log("다음 id 호출");
     }
 }

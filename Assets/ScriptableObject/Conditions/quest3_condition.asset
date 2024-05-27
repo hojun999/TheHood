@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfde74fada255614b92db6fde7d8994f, type: 3}
   m_Name: quest3_condition
   m_EditorClassIdentifier: 
-  getNormalEnemyCount: 0
+  getNormalEnemyCount: 5

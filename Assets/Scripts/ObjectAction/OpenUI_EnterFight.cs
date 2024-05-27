@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OpenUI_EnterFight : MonoBehaviour
 {
-    public GameManager gameManager;
+    GameManager gameManager;
     public GameObject enter_fight_UI;
 
     private void Start()

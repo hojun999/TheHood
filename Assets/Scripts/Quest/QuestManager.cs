@@ -6,6 +6,9 @@ using System;
 
 public class QuestManager : MonoBehaviour
 {
+    // 변수
+    #region
+    private GameManager _gamaManager;
     private DialogueManager _dialogueManager;
     private PlayerInteract _playerInteract;
 
@@ -25,29 +28,32 @@ public class QuestManager : MonoBehaviour
     public GameObject questionmark;
     public GameObject exclamationmark;
 
-    [SerializeField] private GameObject[] activeObjects;
-    [SerializeField] private GameObject[] unactiveObjects;
+    public GameObject[] activeObjects;
+    public GameObject[] unactiveObjects;
 
     public Dictionary<int, GameObject> activeObjectsDic = new Dictionary<int, GameObject>();
     public Dictionary<int, GameObject> unactiveObjectsDic = new Dictionary<int, GameObject>();
 
-    [HideInInspector] public int questIndex;
-    //private int i_relativeDialogueID;
-
-    
-
+    public int questIndex;
     [HideInInspector] public bool canStartQuest;
+    #endregion
 
     private void Start()
     {
+        SetOnStart();
+    }
+
+    void SetOnStart()
+    {
+        _gamaManager = gameObject.GetComponent<GameManager>();
         _dialogueManager = gameObject.GetComponent<DialogueManager>();
         _playerInteract = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInteract>();
 
         SetQuestConditionsOnData();     // 퀘스트 조건 정보 각 데이터에 할당
         InitializeQuestDataState();     // 퀘스트 데이터 진행 상태 초기화
         InitializeQuestConditionData(); // 퀘스트 조건 정보 초기화
-
     }
+
 
     private void SetQuestConditionsOnData()     // 퀘스트 조건을 각 퀘스트 데이터에 할당
     {
@@ -63,7 +69,7 @@ public class QuestManager : MonoBehaviour
             questData.questState = QuestData.q_state.before;
     }
 
-    private void InitializeQuestConditionData() // 각 퀘스트 조건의 데이터 초기화 관리
+    private void InitializeQuestConditionData() // 시작 시, 각 퀘스트 조건의 데이터 초기화
     {
         if(questConditionDatas[0] is Quest1Condition)
         {
@@ -99,11 +105,18 @@ public class QuestManager : MonoBehaviour
         return questDatas[questIndex];
     }
 
+    public QuestData GetBeforeQuestData()
+    {
+        if (questIndex > 0)
+            return questDatas[questIndex - 1];
+        else
+            return null;
+    }
+
     public QuestConditionData GetCurQuestCondition()    // 현재 퀘스트 데이터의 조건 정보 얻기
     {
         return questConditionDatas[questIndex];
     }
-
 
     public void StartQuest(QuestData data)      // 퀘스트 시작 처리, 대화가 끝날 때 판단하여 호출
     {
@@ -115,12 +128,9 @@ public class QuestManager : MonoBehaviour
         SetQuestDiscriptionText(data);
 
         ExcuteOnQuestStart();
-        //quest_description_tmp.text = data.questDescription_inprogress;
-
-        // 이후에 퀘스트 스크립터블 오브젝터에서 UI 최신화도 구현하는 것으로..
     }
 
-    void SetQuestDiscriptionText(QuestData data)
+    void SetQuestDiscriptionText(QuestData data)    // 각 퀘스트의 조건을 달성했을 때, 달성한 조건에 대한 퀘스트 진행 정보 UI 전환
     {
         InitializeDescriptionText();       // 퀘스트 UI 텍스트 색깔 하얀색으로 초기화
 
@@ -162,7 +172,7 @@ public class QuestManager : MonoBehaviour
                 quest_description_line3.gameObject.SetActive(false);
                 break;
         }
-    }   // 각 퀘스트의 조건을 달성했을 때, 달성한 조건에 대한 퀘스트 진행 정보 UI 전환
+    }   
 
     void InitializeDescriptionText()
     {
@@ -193,17 +203,18 @@ public class QuestManager : MonoBehaviour
     public void ExcuteOnQuestStart()        // 퀘스트 시작 시 실행 함수들, startquest에서 실행
     {
         ActiveObjects();
+        UnActiveObjects();
     }
 
     public void ExcuteOnQuestClear()        // 퀘스트 클리어 시 실행 함수들, endtalk에서 실행
     {
-        UnActiveObjects();
-        MoveToNextQuest();
+        if (CheckEnding() && !_gamaManager.isEnding)
+            _gamaManager.EndingSequence();
     }
 
-    public void SetNextDialogueIDOnQuestClear()
+    public void SetNextDialogueIDOnQuestClear()     // 퀘스트 조건 달성 시 다음 대화를 불러오기 위함
     {
-        _dialogueManager.SetNextDatasID(_playerInteract.scannedObjectHolder.GetComponent<NPCData>());
+        _dialogueManager.SetNextDatasIDOnClient();
     }
 
     void ActiveObjects()     // 각 퀘스트마다 필요한 활성화 오브젝트 처리
@@ -213,7 +224,8 @@ public class QuestManager : MonoBehaviour
 
     void UnActiveObjects()   // 각 퀘스트마다 필요 없는 비활성화 오브젝트 처리
     {
-        activeObjects[questIndex].SetActive(false);
+        if(questIndex > 0)
+            activeObjects[questIndex - 1].SetActive(false);
     }
 
     public void MoveToNextQuest()   // 다음 퀘스트로 진행
@@ -232,13 +244,12 @@ public class QuestManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         Destroy(clearUI);
     }
-    //void EndingEvent()
-    //{
-    //    StartCoroutine(coEndingEvent());
-    //}
 
-    //IEnumerator coEndingEvent()
-    //{
-    //    yield return new WaitForSeconds(0.1f);
-    //}
+    bool CheckEnding()
+    {
+        if (questDatas[4].questState == QuestData.q_state.progress)
+            return true;
+        else
+            return false;
+    }
 }

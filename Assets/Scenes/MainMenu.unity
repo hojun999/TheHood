@@ -1499,8 +1499,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 7701299649116079937, guid: e7eb5e418c94dae44b711c7536caaa8e, type: 2}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_audioClip: {fileID: 8300000, guid: 4287842f1516b4ddf820dc918ed208ad, type: 3}
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -1807,6 +1807,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 1
@@ -2183,43 +2184,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28727311d41343942a686aed2c6354a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  playerLight: {fileID: 0}
-  talkPanel: {fileID: 0}
-  talkText: {fileID: 0}
-  scanObject: {fileID: 0}
-  inventoryPanel: {fileID: 0}
-  moveWoodsUIPanel: {fileID: 0}
-  moveCampUIPanel: {fileID: 0}
-  subMenuUIPanel: {fileID: 0}
-  helpMenuPanel: {fileID: 0}
-  QuestClearText: {fileID: 0}
-  enterFightUIPanel: {fileID: 0}
-  talkManager: {fileID: 0}
-  questManager: {fileID: 0}
-  inventoryManager: {fileID: 0}
-  MainCamera: {fileID: 0}
-  FightCamera: {fileID: 0}
-  CampSpawnArea: {fileID: 0}
-  WestSpawnArea: {fileID: 0}
-  EastSpawnArea: {fileID: 0}
-  NorthSpawnArea: {fileID: 0}
-  talkIndex: 0
   unlitMaterial: {fileID: 0}
   litMaterial: {fileID: 0}
   enterFightPos: {fileID: 0}
-  isEnterFight: 0
-  fightWall_Quest3: {fileID: 0}
-  enemyGroup_Quest3: {fileID: 0}
-  fightWall_Quest4: {fileID: 0}
-  enemyGroup_Quest4: {fileID: 0}
-  fadeOutImage: {fileID: 0}
-  fadeOutMaxTime: 0
-  isAction: 0
+  player: {fileID: 0}
+  magicSquareHolder: {fileID: 0}
+  playerLight: {fileID: 0}
+  inventoryUI: {fileID: 0}
+  enterWoodsUI: {fileID: 0}
+  enterCampUI: {fileID: 0}
+  subMenuUI: {fileID: 0}
+  helpMenuUI: {fileID: 0}
+  questClearText: {fileID: 0}
+  enterFightUI: {fileID: 0}
+  playerDieUI: {fileID: 0}
+  fadeImage: {fileID: 0}
+  woods_spawn_areas: []
+  CampSpawnArea: {fileID: 0}
+  enemy_boss: {fileID: 0}
+  enemys_normal: []
   activeInventory: 0
-  getWeaponTradeTalkIndex: 0
-  getPosionTradeTalkIndex: 0
-  isGetAlreadyPosionNum: 0
+  isUIInteract: 0
 --- !u!1 &1467985678
 GameObject:
   m_ObjectHideFlags: 0
@@ -2460,7 +2445,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1460767558}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: TurnOffGame
+        m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2631,7 +2616,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1460767558}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: LoadIntro
+        m_MethodName: LoadIntroScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2823,6 +2808,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
